@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Owner Reviews — DriveMatch</title>
+  <meta name="description" content="Real owner reviews from verified buyers. Unfiltered opinions after months of real-world ownership." />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<section class="page-header">
+  <div class="container">
+    <h1>Owner Reviews</h1>
+    <p>Real owners. Real experiences. Unfiltered opinions after months of ownership.</p>
+    <p style="margin-top:12px;font-size:13px;color:var(--slate-500);font-family:var(--font-mono);" id="review-count">Loading...</p>
+  </div>
+</section>
+
+<!-- MAIN -->
+<main class="section">
+  <div class="container">
+
+    <!-- Filter bar -->
+    <div class="filter-bar">
+      <div class="filter-chips">
+        <button class="filter-chip active" data-rating="all" onclick="setFilter(this)">All Reviews</button>
+        <button class="filter-chip" data-rating="5" onclick="setFilter(this)">★ 5 Stars</button>
+        <button class="filter-chip" data-rating="4" onclick="setFilter(this)">★ 4 Stars</button>
+        <button class="filter-chip" data-rating="3" onclick="setFilter(this)">★ 3 Stars</button>
+        <button class="filter-chip" data-rating="1-2" onclick="setFilter(this)">★ 1–2 Stars</button>
+      </div>
+      <a href="#write-review" class="btn btn-secondary btn-sm">
+        <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg>
+        Write a review
+      </a>
+    </div>
+
+    <!-- Reviews grid -->
+    <div class="reviews-grid" id="reviews-grid">
+      <!-- Skeletons -->
+      ${[1,2,3,4,5,6].map(() => `
+        <div class="review-card">
+          <div style="display:flex;gap:12px;margin-bottom:16px;align-items:center;">
+            <div class="skeleton" style="width:40px;height:40px;border-radius:50%;"></div>
+            <div style="flex:1;">
+              <div class="skeleton" style="height:12px;width:120px;margin-bottom:6px;"></div>
+              <div class="skeleton" style="height:10px;width:160px;"></div>
+            </div>
+          </div>
+          <div class="skeleton" style="height:10px;margin-bottom:6px;"></div>
+          <div class="skeleton" style="height:10px;width:85%;margin-bottom:6px;"></div>
+          <div class="skeleton" style="height:10px;width:70%;"></div>
+        </div>`).join('')}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination" id="reviews-pagination"></div>
+
+    <!-- Write a Review -->
+    <div id="write-review" style="margin-top:72px;max-width:640px;margin-inline:auto;">
+      <div class="card" style="overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#059669,#10b981);padding:24px 28px;">
+          <h3 style="color:#fff;font-size:1.2rem;">Share Your Experience</h3>
+          <p style="color:rgba(255,255,255,.75);font-size:13px;margin-top:4px;">Help other drivers make better decisions</p>
+        </div>
+        <div class="card-section">
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px;">
+            <div>
+              <label class="form-label">Your Name *</label>
+              <input class="form-input" id="rv-name" type="text" placeholder="e.g. James T." />
+            </div>
+            <div>
+              <label class="form-label">Vehicle *</label>
+              <input class="form-input" id="rv-vehicle" type="text" placeholder="e.g. VW Golf GTI" />
+            </div>
+            <div>
+              <label class="form-label">Owned / Owns</label>
+              <input class="form-input" id="rv-year" type="text" placeholder="e.g. 2022–present" />
+            </div>
+          </div>
+          <div style="margin-bottom:18px;">
+            <label class="form-label">Rating *</label>
+            <div class="stars-interactive" id="rv-stars">
+              <button class="star-btn" data-star="1" onclick="setRating(1)">★</button>
+              <button class="star-btn" data-star="2" onclick="setRating(2)">★</button>
+              <button class="star-btn" data-star="3" onclick="setRating(3)">★</button>
+              <button class="star-btn" data-star="4" onclick="setRating(4)">★</button>
+              <button class="star-btn" data-star="5" onclick="setRating(5)">★</button>
+            </div>
+          </div>
+          <div style="margin-bottom:18px;">
+            <label class="form-label">Your Review *</label>
+            <textarea class="form-input" id="rv-text" rows="4" placeholder="Reliability, running costs, what you love, what you'd change after real-world ownership..."></textarea>
+          </div>
+          <button class="btn btn-primary btn-md" id="rv-submit" onclick="submitReview()">Submit Review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script src="../js/app.js"></script>
+<script>
+let currentRating = 0;
+let currentFilter = 'all';
+let currentPage = 1;
+const PAGE_SIZE = 6;
+
+async function loadReviews() {
+  const grid = document.getElementById('reviews-grid');
+
+  try {
+    const { data, total, pages } = await API.getReviews(currentFilter, currentPage, PAGE_SIZE);
+
+    document.getElementById('review-count').textContent = `${total} review${total !== 1 ? 's' : ''} · All unmoderated`;
+
+    if (!data.length) {
+      grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><div class="empty-state-icon">📝</div><p>No reviews yet${currentFilter !== 'all' ? ' for this rating' : ''}. Be the first below.</p></div>`;
+      document.getElementById('reviews-pagination').innerHTML = '';
+      return;
+    }
+
+    grid.innerHTML = data.map(r => `
+      <div class="review-card">
+        <div class="review-header">
+          <div class="review-meta">
+            <div class="review-avatar" style="background:${getAvatarColor(r.name)}">${r.name.charAt(0).toUpperCase()}</div>
+            <div>
+              <div class="review-name">${r.name}</div>
+              <div class="review-vehicle">🚗 ${r.vehicle}${r.year ? ` · ${r.year}` : ''}</div>
+            </div>
+          </div>
+          <div style="text-align:right;">
+            <div class="review-stars">${[1,2,3,4,5].map(i => `<span style="color:${i <= r.rating ? '#fbbf24' : '#e2e8f0'}">★</span>`).join('')}</div>
+            ${r.verified ? `<div class="review-verified">✓ Verified Owner</div>` : ''}
+          </div>
+        </div>
+        <div class="review-text">${r.text}</div>
+        <div class="review-footer">
+          <span class="review-date">${formatDate(r.createdAt)}</span>
+          <button class="helpful-btn" id="helpful-${r.id}" onclick="markHelpful('${r.id}', this)">
+            👍 Helpful (${r.helpful})
+          </button>
+        </div>
+      </div>`).join('');
+
+    renderPagination(pages);
+  } catch (err) {
+    grid.innerHTML = `<div class="empty-state" style="grid-column:1/-1;"><p>Failed to load reviews.</p></div>`;
+  }
+}
+
+function renderPagination(pages) {
+  const el = document.getElementById('reviews-pagination');
+  if (pages <= 1) { el.innerHTML = ''; return; }
+  let html = '';
+  if (currentPage > 1) html += `<button class="page-btn" onclick="goPage(${currentPage-1})">‹</button>`;
+  for (let i = 1; i <= pages; i++) {
+    html += `<button class="page-btn${i === currentPage ? ' active' : ''}" onclick="goPage(${i})">${i}</button>`;
+  }
+  if (currentPage < pages) html += `<button class="page-btn" onclick="goPage(${currentPage+1})">›</button>`;
+  el.innerHTML = html;
+}
+
+function goPage(p) { currentPage = p; loadReviews(); window.scrollTo({ top:0, behavior:'smooth' }); }
+
+function setFilter(btn) {
+  document.querySelectorAll('.filter-chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentFilter = btn.dataset.rating;
+  currentPage = 1;
+  loadReviews();
+}
+
+async function markHelpful(id, btn) {
+  if (btn.classList.contains('voted')) return;
+  btn.classList.add('voted');
+  const match = btn.textContent.match(/\((\d+)\)/);
+  const count = match ? parseInt(match[1]) + 1 : 1;
+  btn.textContent = `👍 Helpful (${count})`;
+  await API.helpful(id);
+}
+
+function setRating(n) {
+  currentRating = n;
+  document.querySelectorAll('#rv-stars .star-btn').forEach((b, i) => {
+    b.classList.toggle('active', i < n);
+  });
+}
+
+async function submitReview() {
+  const name    = document.getElementById('rv-name')?.value?.trim();
+  const vehicle = document.getElementById('rv-vehicle')?.value?.trim();
+  const year    = document.getElementById('rv-year')?.value?.trim();
+  const text    = document.getElementById('rv-text')?.value?.trim();
+
+  if (!name || !vehicle || !text || !currentRating) {
+    toast('Please fill in all required fields and select a rating', 'error'); return;
+  }
+
+  const btn = document.getElementById('rv-submit');
+  btn.disabled = true; btn.textContent = 'Submitting...';
+
+  try {
+    const review = await API.postReview({ name, vehicle, year, rating:currentRating, text });
+    toast('Review submitted — thank you!');
+    // Reset form
+    ['rv-name','rv-vehicle','rv-year','rv-text'].forEach(id => { const e = document.getElementById(id); if(e) e.value=''; });
+    setRating(0);
+    btn.disabled = false; btn.textContent = 'Submit Review';
+    // Prepend to grid
+    const grid = document.getElementById('reviews-grid');
+    const card = document.createElement('div');
+    card.className = 'review-card anim-fade-up';
+    card.innerHTML = `
+      <div class="review-header">
+        <div class="review-meta">
+          <div class="review-avatar" style="background:${getAvatarColor(name)}">${name.charAt(0).toUpperCase()}</div>
+          <div><div class="review-name">${name}</div><div class="review-vehicle">🚗 ${vehicle}${year ? ` · ${year}` : ''}</div></div>
+        </div>
+        <div class="review-stars">${[1,2,3,4,5].map(i => `<span style="color:${i <= currentRating ? '#fbbf24' : '#e2e8f0'}">★</span>`).join('')}</div>
+      </div>
+      <div class="review-text">${text}</div>
+      <div class="review-footer"><span class="review-date">Just now</span></div>`;
+    grid.insertBefore(card, grid.firstChild);
+    currentRating = 0;
+  } catch (err) {
+    toast(err.message || 'Failed to submit. Try again.', 'error');
+    btn.disabled = false; btn.textContent = 'Submit Review';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', loadReviews);
+</script>
+</body>
+</html>

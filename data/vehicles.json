@@ -1,0 +1,5003 @@
+{
+  "_readme": "DriveMatch Vehicle Database — vehicles.json",
+  "_version": "1.0",
+  "_instructions": {
+    "how_to_add": "Copy any existing vehicle object, paste it before the final closing bracket of the 'vehicles' array, add a comma after the previous entry, and update the values. Run the file through jsonlint.com to validate before testing.",
+    "valid_values": {
+      "body_style": [
+        "hatchback",
+        "saloon",
+        "estate",
+        "suv",
+        "coupe",
+        "convertible",
+        "mpv",
+        "van",
+        "pickup"
+      ],
+      "fuel_type": [
+        "petrol",
+        "diesel",
+        "electric",
+        "hybrid",
+        "phev",
+        "mild_hybrid"
+      ],
+      "running_cost": [
+        "very_low",
+        "low",
+        "medium",
+        "high",
+        "very_high"
+      ],
+      "reliability": [
+        "excellent",
+        "good",
+        "average",
+        "below_average"
+      ],
+      "parking_size": [
+        "small",
+        "medium",
+        "large",
+        "very_large"
+      ],
+      "best_for_and_avoid_for": [
+        "daily_commute",
+        "family",
+        "long_distance",
+        "city_only",
+        "off_road",
+        "towing",
+        "driving_enjoyment",
+        "low_running_costs",
+        "practicality",
+        "prestige",
+        "first_car",
+        "business",
+        "weekend_leisure"
+      ],
+      "new_or_used": [
+        "new",
+        "used",
+        "nearly_new"
+      ]
+    }
+  },
+  "vehicles": [
+    {
+      "make": "Volkswagen",
+      "model": "Golf",
+      "variant": "1.5 TSI Life",
+      "body_style": "hatchback",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 381,
+      "price_new_min": 24000,
+      "price_new_max": 28000,
+      "price_used_min": 14000,
+      "price_used_max": 20000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "long_distance",
+        "low_running_costs",
+        "business"
+      ],
+      "avoid_for": [
+        "off_road",
+        "large_family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 16,
+      "real_mpg": 44,
+      "notes": "The benchmark all-rounder. Refined, well-built, strong resale values. Smaller boot than some rivals."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "Golf GTI",
+      "variant": "2.0 TSI GTI",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 381,
+      "price_new_min": 38000,
+      "price_new_max": 44000,
+      "price_used_min": 22000,
+      "price_used_max": 32000,
+      "running_cost": "medium",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "medium",
+      "best_for": [
+        "driving_enjoyment",
+        "daily_commute",
+        "weekend_leisure",
+        "business"
+      ],
+      "avoid_for": [
+        "off_road",
+        "towing",
+        "low_running_costs"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 33,
+      "real_mpg": 36,
+      "notes": "The definitive hot hatch. Practical enough for daily use with genuine performance credentials."
+    },
+    {
+      "make": "Skoda",
+      "model": "Octavia",
+      "variant": "1.5 TSI SE",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 600,
+      "price_new_min": 22000,
+      "price_new_max": 27000,
+      "price_used_min": 12000,
+      "price_used_max": 18000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1300,
+      "parking_size": "medium",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "long_distance",
+        "practicality",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "prestige",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 14,
+      "real_mpg": 42,
+      "notes": "Exceptional value. Huge boot, same platform as Golf, significantly cheaper. Underrated and practical."
+    },
+    {
+      "make": "Skoda",
+      "model": "Octavia",
+      "variant": "2.0 TDI SE Estate",
+      "body_style": "estate",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 640,
+      "price_new_min": 28000,
+      "price_new_max": 34000,
+      "price_used_min": 14000,
+      "price_used_max": 22000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 1800,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "practicality",
+        "low_running_costs",
+        "business"
+      ],
+      "avoid_for": [
+        "city_only",
+        "driving_enjoyment",
+        "prestige"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 18,
+      "real_mpg": 52,
+      "notes": "One of the most practical cars on sale. 640L boot, excellent long-distance economy, very comfortable."
+    },
+    {
+      "make": "Toyota",
+      "model": "RAV4",
+      "variant": "2.5 Hybrid Design",
+      "body_style": "suv",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 580,
+      "price_new_min": 36000,
+      "price_new_max": 42000,
+      "price_used_min": 24000,
+      "price_used_max": 30000,
+      "running_cost": "low",
+      "reliability": "excellent",
+      "towing_kg": 1650,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "reliability",
+        "practicality",
+        "towing"
+      ],
+      "avoid_for": [
+        "city_only",
+        "driving_enjoyment",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 23,
+      "real_mpg": 47,
+      "notes": "Self-charging hybrid, no plugging in required. Class-leading reliability. High driving position."
+    },
+    {
+      "make": "Toyota",
+      "model": "Corolla",
+      "variant": "1.8 Hybrid Icon",
+      "body_style": "hatchback",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 361,
+      "price_new_min": 28000,
+      "price_new_max": 33000,
+      "price_used_min": 16000,
+      "price_used_max": 22000,
+      "running_cost": "very_low",
+      "reliability": "excellent",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "low_running_costs",
+        "reliability",
+        "city_only"
+      ],
+      "avoid_for": [
+        "towing",
+        "off_road",
+        "driving_enjoyment",
+        "large_family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 15,
+      "real_mpg": 55,
+      "notes": "Exceptional fuel economy and reliability. No towing capacity. Self-charging hybrid."
+    },
+    {
+      "make": "Toyota",
+      "model": "Yaris",
+      "variant": "1.5 Hybrid Icon",
+      "body_style": "hatchback",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 286,
+      "price_new_min": 22000,
+      "price_new_max": 26000,
+      "price_used_min": 13000,
+      "price_used_max": 18000,
+      "running_cost": "very_low",
+      "reliability": "excellent",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "first_car",
+        "reliability"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 10,
+      "real_mpg": 58,
+      "notes": "Outstanding city car. Tiny and easy to park. Not for families or long runs."
+    },
+    {
+      "make": "Toyota",
+      "model": "C-HR",
+      "variant": "2.0 Hybrid GR Sport",
+      "body_style": "suv",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 388,
+      "price_new_min": 33000,
+      "price_new_max": 40000,
+      "price_used_min": 20000,
+      "price_used_max": 28000,
+      "running_cost": "low",
+      "reliability": "excellent",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "low_running_costs",
+        "reliability",
+        "prestige",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "towing",
+        "off_road",
+        "large_family",
+        "practicality"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 21,
+      "real_mpg": 50,
+      "notes": "Striking design, excellent reliability, but reduced rear visibility and boot space."
+    },
+    {
+      "make": "Kia",
+      "model": "EV6",
+      "variant": "77.4kWh GT-Line",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 490,
+      "price_new_min": 42000,
+      "price_new_max": 48000,
+      "price_used_min": 28000,
+      "price_used_max": 36000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 1600,
+      "parking_size": "large",
+      "best_for": [
+        "long_distance",
+        "low_running_costs",
+        "driving_enjoyment",
+        "daily_commute",
+        "prestige"
+      ],
+      "avoid_for": [
+        "city_only",
+        "towing_heavy",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 35,
+      "real_mpg": 0,
+      "real_range_miles": 310,
+      "notes": "800V ultra-rapid charging — 10 to 80% in ~18 mins. Exceptional value for an EV. Needs home charger ideally."
+    },
+    {
+      "make": "Kia",
+      "model": "Sportage",
+      "variant": "1.6T-GDi GT-Line",
+      "body_style": "suv",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 543,
+      "price_new_min": 30000,
+      "price_new_max": 38000,
+      "price_used_min": 18000,
+      "price_used_max": 26000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "practicality",
+        "reliability"
+      ],
+      "avoid_for": [
+        "off_road",
+        "driving_enjoyment",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 40,
+      "notes": "7-year warranty. Strong interior quality for the price. One of the best value family SUVs available."
+    },
+    {
+      "make": "Kia",
+      "model": "Niro",
+      "variant": "1.6 GDi Hybrid 2",
+      "body_style": "suv",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 451,
+      "price_new_min": 28000,
+      "price_new_max": 34000,
+      "price_used_min": 16000,
+      "price_used_max": 23000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 1300,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "low_running_costs",
+        "city_only",
+        "reliability",
+        "family"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "off_road",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 16,
+      "real_mpg": 52,
+      "notes": "Efficient hybrid crossover. Practical, reliable, low running costs. Suits urban and suburban use well."
+    },
+    {
+      "make": "Hyundai",
+      "model": "Tucson",
+      "variant": "1.6T Hybrid Premium",
+      "body_style": "suv",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 558,
+      "price_new_min": 33000,
+      "price_new_max": 40000,
+      "price_used_min": 20000,
+      "price_used_max": 28000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1650,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "practicality",
+        "reliability"
+      ],
+      "avoid_for": [
+        "city_only",
+        "driving_enjoyment",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 24,
+      "real_mpg": 42,
+      "notes": "Distinctive interior design, generous standard spec. Strong rival to RAV4 and Sportage."
+    },
+    {
+      "make": "Hyundai",
+      "model": "Ioniq 6",
+      "variant": "77.4kWh Premium RWD",
+      "body_style": "saloon",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 401,
+      "price_new_min": 42000,
+      "price_new_max": 50000,
+      "price_used_min": 28000,
+      "price_used_max": 38000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "long_distance",
+        "low_running_costs",
+        "daily_commute",
+        "prestige"
+      ],
+      "avoid_for": [
+        "city_only",
+        "no_home_charger",
+        "large_family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 36,
+      "real_mpg": 0,
+      "real_range_miles": 330,
+      "notes": "Best real-world range of any mainstream EV. Sleek aerodynamic design. Shares EV6 rapid charging platform."
+    },
+    {
+      "make": "Hyundai",
+      "model": "i10",
+      "variant": "1.2 SE Connect",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 252,
+      "price_new_min": 15000,
+      "price_new_max": 18000,
+      "price_used_min": 8000,
+      "price_used_max": 13000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "first_car",
+        "low_running_costs",
+        "daily_commute"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 8,
+      "real_mpg": 46,
+      "notes": "Excellent city car. Very low insurance and running costs. Ideal first car or second household car."
+    },
+    {
+      "make": "Nissan",
+      "model": "Qashqai",
+      "variant": "1.3 DIG-T Mild Hybrid Acenta",
+      "body_style": "suv",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 504,
+      "price_new_min": 28000,
+      "price_new_max": 35000,
+      "price_used_min": 16000,
+      "price_used_max": 24000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "medium",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "practicality"
+      ],
+      "avoid_for": [
+        "off_road",
+        "driving_enjoyment",
+        "towing_heavy"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 19,
+      "real_mpg": 40,
+      "notes": "The original family SUV. Comfortable, practical, easy to live with. Not exciting but deeply competent."
+    },
+    {
+      "make": "Nissan",
+      "model": "Leaf",
+      "variant": "40kWh Acenta",
+      "body_style": "hatchback",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 420,
+      "price_new_min": 28000,
+      "price_new_max": 33000,
+      "price_used_min": 9000,
+      "price_used_max": 18000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "first_car"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "towing",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 21,
+      "real_mpg": 0,
+      "real_range_miles": 140,
+      "notes": "Used Leafs are excellent value EVs for short-range daily use. Check battery health carefully. No rapid charging on 40kWh."
+    },
+    {
+      "make": "Ford",
+      "model": "Puma",
+      "variant": "1.0 EcoBoost Hybrid ST-Line",
+      "body_style": "suv",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 456,
+      "price_new_min": 25000,
+      "price_new_max": 31000,
+      "price_used_min": 14000,
+      "price_used_max": 21000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 900,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "city_only",
+        "driving_enjoyment",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "large_family",
+        "towing",
+        "long_distance",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 17,
+      "real_mpg": 42,
+      "notes": "Fun to drive compact crossover with clever MegaBox underfloor boot storage. Sporty styling."
+    },
+    {
+      "make": "Ford",
+      "model": "Kuga",
+      "variant": "2.5 Duratec PHEV ST-Line",
+      "body_style": "suv",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 536,
+      "price_new_min": 37000,
+      "price_new_max": 44000,
+      "price_used_min": 22000,
+      "price_used_max": 30000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "long_distance",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "off_road",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 27,
+      "real_mpg": 35,
+      "notes": "PHEV suits those who can charge at home. Electric-only range around 35 miles. Good family SUV overall."
+    },
+    {
+      "make": "Ford",
+      "model": "Focus",
+      "variant": "1.0 EcoBoost Hybrid ST-Line",
+      "body_style": "hatchback",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 375,
+      "price_new_min": 24000,
+      "price_new_max": 29000,
+      "price_used_min": 12000,
+      "price_used_max": 19000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1100,
+      "parking_size": "medium",
+      "best_for": [
+        "driving_enjoyment",
+        "daily_commute",
+        "long_distance"
+      ],
+      "avoid_for": [
+        "large_family",
+        "off_road",
+        "prestige"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 16,
+      "real_mpg": 43,
+      "notes": "One of the best handling family hatchbacks. Ford reliability is average — budget for maintenance."
+    },
+    {
+      "make": "Ford",
+      "model": "Transit Custom",
+      "variant": "2.0 EcoBlue 130 Leader",
+      "body_style": "van",
+      "fuel_type": "diesel",
+      "seats": 3,
+      "boot_litres": 6000,
+      "price_new_min": 32000,
+      "price_new_max": 40000,
+      "price_used_min": 16000,
+      "price_used_max": 26000,
+      "running_cost": "medium",
+      "reliability": "good",
+      "towing_kg": 2800,
+      "parking_size": "very_large",
+      "best_for": [
+        "business",
+        "towing",
+        "practicality"
+      ],
+      "avoid_for": [
+        "family",
+        "city_only",
+        "driving_enjoyment",
+        "prestige"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 30,
+      "real_mpg": 38,
+      "notes": "The benchmark medium van. Highly capable, durable, massive payload. Not for personal use."
+    },
+    {
+      "make": "BMW",
+      "model": "3 Series",
+      "variant": "320i M Sport",
+      "body_style": "saloon",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 480,
+      "price_new_min": 42000,
+      "price_new_max": 52000,
+      "price_used_min": 22000,
+      "price_used_max": 35000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "driving_enjoyment",
+        "business",
+        "prestige",
+        "long_distance"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 36,
+      "real_mpg": 35,
+      "notes": "Benchmark executive saloon. Exceptional driving dynamics. Servicing and repair costs are high."
+    },
+    {
+      "make": "BMW",
+      "model": "i4",
+      "variant": "eDrive40 M Sport",
+      "body_style": "saloon",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 470,
+      "price_new_min": 58000,
+      "price_new_max": 68000,
+      "price_used_min": 38000,
+      "price_used_max": 50000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1600,
+      "parking_size": "large",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "long_distance",
+        "business",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "city_only",
+        "low_budget",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 45,
+      "real_mpg": 0,
+      "real_range_miles": 280,
+      "notes": "Electric BMW with genuine driver appeal. Premium interior, strong performance. Expensive but compelling."
+    },
+    {
+      "make": "BMW",
+      "model": "X5",
+      "variant": "xDrive40i M Sport",
+      "body_style": "suv",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 650,
+      "price_new_min": 72000,
+      "price_new_max": 90000,
+      "price_used_min": 38000,
+      "price_used_max": 58000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 3500,
+      "parking_size": "very_large",
+      "best_for": [
+        "prestige",
+        "towing",
+        "family",
+        "long_distance",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 28,
+      "notes": "Large luxury SUV with serious towing capability. Running costs are very high. Impressive but expensive."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "A-Class",
+      "variant": "A180 AMG Line",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 370,
+      "price_new_min": 33000,
+      "price_new_max": 40000,
+      "price_used_min": 18000,
+      "price_used_max": 27000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "prestige",
+        "daily_commute",
+        "business"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "large_family",
+        "off_road",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 28,
+      "real_mpg": 38,
+      "notes": "Premium interior tech, impressive MBUX system. Reliability below class leaders. Strong prestige appeal."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "EQA",
+      "variant": "250+ AMG Line",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 340,
+      "price_new_min": 48000,
+      "price_new_max": 56000,
+      "price_used_min": 30000,
+      "price_used_max": 40000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 1800,
+      "parking_size": "medium",
+      "best_for": [
+        "prestige",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "large_family",
+        "towing_heavy"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 38,
+      "real_mpg": 0,
+      "real_range_miles": 280,
+      "notes": "Premium electric compact SUV. Strong brand appeal. Boot is smaller than non-premium rivals."
+    },
+    {
+      "make": "Audi",
+      "model": "A3",
+      "variant": "35 TFSI S Line",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 325,
+      "price_new_min": 32000,
+      "price_new_max": 38000,
+      "price_used_min": 18000,
+      "price_used_max": 26000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "prestige",
+        "daily_commute",
+        "business",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "large_family",
+        "practicality"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 25,
+      "real_mpg": 37,
+      "notes": "Premium feel throughout. Smaller boot than Golf despite being based on the same platform."
+    },
+    {
+      "make": "Audi",
+      "model": "Q5",
+      "variant": "45 TFSI quattro S Line",
+      "body_style": "suv",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 620,
+      "price_new_min": 55000,
+      "price_new_max": 68000,
+      "price_used_min": 28000,
+      "price_used_max": 45000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 2400,
+      "parking_size": "large",
+      "best_for": [
+        "prestige",
+        "family",
+        "long_distance",
+        "business",
+        "towing"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 40,
+      "real_mpg": 32,
+      "notes": "Well-rounded premium SUV. Quattro AWD is genuinely capable. Servicing costs are significant."
+    },
+    {
+      "make": "Tesla",
+      "model": "Model 3",
+      "variant": "Long Range RWD",
+      "body_style": "saloon",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 594,
+      "price_new_min": 42000,
+      "price_new_max": 52000,
+      "price_used_min": 22000,
+      "price_used_max": 35000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 1000,
+      "parking_size": "large",
+      "best_for": [
+        "long_distance",
+        "low_running_costs",
+        "driving_enjoyment",
+        "tech_focused",
+        "daily_commute"
+      ],
+      "avoid_for": [
+        "no_home_charger",
+        "prestige_traditional",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 40,
+      "real_mpg": 0,
+      "real_range_miles": 350,
+      "notes": "Best Supercharger network in the UK. Over-the-air updates. Build quality inconsistent. Strong performance."
+    },
+    {
+      "make": "Tesla",
+      "model": "Model Y",
+      "variant": "Long Range AWD",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 854,
+      "price_new_min": 50000,
+      "price_new_max": 58000,
+      "price_used_min": 30000,
+      "price_used_max": 42000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 1600,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "low_running_costs",
+        "practicality",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "no_home_charger",
+        "prestige_traditional",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 42,
+      "real_mpg": 0,
+      "real_range_miles": 310,
+      "notes": "Best-selling EV in the UK. Huge interior space, strong performance, excellent Supercharger access."
+    },
+    {
+      "make": "SEAT",
+      "model": "Leon",
+      "variant": "1.5 TSI FR",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 380,
+      "price_new_min": 22000,
+      "price_new_max": 27000,
+      "price_used_min": 11000,
+      "price_used_max": 17000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "driving_enjoyment",
+        "first_car",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "large_family",
+        "off_road",
+        "prestige"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 15,
+      "real_mpg": 41,
+      "notes": "Golf platform at a lower price. Sporty FR trim is good value. Underrated in its segment."
+    },
+    {
+      "make": "SEAT",
+      "model": "Ateca",
+      "variant": "1.5 TSI FR",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 510,
+      "price_new_min": 28000,
+      "price_new_max": 35000,
+      "price_used_min": 15000,
+      "price_used_max": 23000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1800,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "practicality",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "off_road",
+        "prestige",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 20,
+      "real_mpg": 38,
+      "notes": "Sharper driving experience than Tiguan siblings. Good value family SUV. Solid build quality."
+    },
+    {
+      "make": "Mazda",
+      "model": "3",
+      "variant": "2.0 e-Skyactiv-X Premium",
+      "body_style": "hatchback",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 351,
+      "price_new_min": 28000,
+      "price_new_max": 33000,
+      "price_used_min": 15000,
+      "price_used_max": 22000,
+      "running_cost": "low",
+      "reliability": "excellent",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "daily_commute",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "large_family",
+        "off_road",
+        "low_running_costs"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 42,
+      "notes": "Premium interior that competes with German rivals. Excellent reliability. Small boot is the main compromise."
+    },
+    {
+      "make": "Mazda",
+      "model": "CX-5",
+      "variant": "2.0 Skyactiv-G SE-L",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 522,
+      "price_new_min": 30000,
+      "price_new_max": 38000,
+      "price_used_min": 17000,
+      "price_used_max": 26000,
+      "running_cost": "low",
+      "reliability": "excellent",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "reliability",
+        "driving_enjoyment",
+        "towing"
+      ],
+      "avoid_for": [
+        "city_only",
+        "low_running_costs",
+        "prestige"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 24,
+      "real_mpg": 36,
+      "notes": "Exceptionally well built with premium feel above its price. Outstanding reliability record."
+    },
+    {
+      "make": "Honda",
+      "model": "Jazz",
+      "variant": "1.5 i-MMD Hybrid Elegance",
+      "body_style": "hatchback",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 304,
+      "price_new_min": 24000,
+      "price_new_max": 27000,
+      "price_used_min": 14000,
+      "price_used_max": 20000,
+      "running_cost": "very_low",
+      "reliability": "excellent",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "reliability",
+        "first_car"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "towing",
+        "driving_enjoyment",
+        "large_family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 14,
+      "real_mpg": 56,
+      "notes": "Magic Seat system gives exceptional flexibility. Outstanding fuel economy. Very reliable."
+    },
+    {
+      "make": "Honda",
+      "model": "CR-V",
+      "variant": "2.0 i-MMD Hybrid Sport",
+      "body_style": "suv",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 497,
+      "price_new_min": 38000,
+      "price_new_max": 46000,
+      "price_used_min": 24000,
+      "price_used_max": 33000,
+      "running_cost": "low",
+      "reliability": "excellent",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "reliability",
+        "practicality"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "city_only",
+        "prestige"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 27,
+      "real_mpg": 44,
+      "notes": "Excellent reliability, smooth hybrid system, spacious interior. Less desirable brand image than rivals."
+    },
+    {
+      "make": "Volvo",
+      "model": "XC40",
+      "variant": "Recharge Pure Electric",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 419,
+      "price_new_min": 48000,
+      "price_new_max": 58000,
+      "price_used_min": 30000,
+      "price_used_max": 40000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "medium",
+      "best_for": [
+        "prestige",
+        "family",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "city_only",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 38,
+      "real_mpg": 0,
+      "real_range_miles": 260,
+      "notes": "Scandinavian design, strong safety credentials. Range slightly below class leaders."
+    },
+    {
+      "make": "Volvo",
+      "model": "XC60",
+      "variant": "B4 Mild Hybrid R-Design",
+      "body_style": "suv",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 529,
+      "price_new_min": 52000,
+      "price_new_max": 64000,
+      "price_used_min": 28000,
+      "price_used_max": 42000,
+      "running_cost": "high",
+      "reliability": "good",
+      "towing_kg": 2400,
+      "parking_size": "large",
+      "best_for": [
+        "prestige",
+        "family",
+        "long_distance",
+        "safety",
+        "towing"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 42,
+      "real_mpg": 34,
+      "notes": "Outstanding safety technology as standard. Premium Scandinavian interior. Strong towing capacity."
+    },
+    {
+      "make": "Land Rover",
+      "model": "Defender",
+      "variant": "110 D250 SE",
+      "body_style": "suv",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 786,
+      "price_new_min": 65000,
+      "price_new_max": 85000,
+      "price_used_min": 42000,
+      "price_used_max": 62000,
+      "running_cost": "very_high",
+      "reliability": "below_average",
+      "towing_kg": 3500,
+      "parking_size": "very_large",
+      "best_for": [
+        "off_road",
+        "towing",
+        "prestige",
+        "family"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "reliability"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 28,
+      "notes": "Iconic off-roader with genuine capability. Reliability record is poor. High running costs."
+    },
+    {
+      "make": "Land Rover",
+      "model": "Range Rover Evoque",
+      "variant": "D165 S",
+      "body_style": "suv",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 411,
+      "price_new_min": 45000,
+      "price_new_max": 58000,
+      "price_used_min": 22000,
+      "price_used_max": 36000,
+      "running_cost": "high",
+      "reliability": "below_average",
+      "towing_kg": 1800,
+      "parking_size": "medium",
+      "best_for": [
+        "prestige",
+        "daily_commute",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "reliability",
+        "large_family",
+        "practicality"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 40,
+      "real_mpg": 35,
+      "notes": "Strong kerb appeal and premium interior. Poor reliability record. Buy with a good warranty."
+    },
+    {
+      "make": "MINI",
+      "model": "Cooper",
+      "variant": "Classic",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 4,
+      "boot_litres": 211,
+      "price_new_min": 24000,
+      "price_new_max": 30000,
+      "price_used_min": 12000,
+      "price_used_max": 20000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "prestige",
+        "driving_enjoyment",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "practicality",
+        "low_running_costs",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 20,
+      "real_mpg": 38,
+      "notes": "Iconic design and fun driving experience. Tiny boot, limited rear space, not practical."
+    },
+    {
+      "make": "MINI",
+      "model": "Countryman",
+      "variant": "Cooper S E Hybrid",
+      "body_style": "suv",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 450,
+      "price_new_min": 36000,
+      "price_new_max": 44000,
+      "price_used_min": 20000,
+      "price_used_max": 30000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "prestige",
+        "daily_commute",
+        "driving_enjoyment",
+        "city_only"
+      ],
+      "avoid_for": [
+        "large_family",
+        "towing_heavy",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 28,
+      "real_mpg": 42,
+      "notes": "Most practical MINI by far. PHEV suits those with home charging. Premium price for the segment."
+    },
+    {
+      "make": "Peugeot",
+      "model": "e-208",
+      "variant": "50kWh Allure",
+      "body_style": "hatchback",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 311,
+      "price_new_min": 29000,
+      "price_new_max": 34000,
+      "price_used_min": 16000,
+      "price_used_max": 22000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "first_car"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "towing",
+        "family",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 0,
+      "real_range_miles": 220,
+      "notes": "Stylish city EV. Good real-world range for urban use. Charging speed is modest compared to rivals."
+    },
+    {
+      "make": "Vauxhall",
+      "model": "Astra",
+      "variant": "1.2 Turbo GS",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 422,
+      "price_new_min": 24000,
+      "price_new_max": 30000,
+      "price_used_min": 12000,
+      "price_used_max": 18000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1100,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "family",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "prestige",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 16,
+      "real_mpg": 42,
+      "notes": "Sharply styled new generation. Competent all-rounder at a competitive price. Average reliability."
+    },
+    {
+      "make": "Vauxhall",
+      "model": "Mokka-e",
+      "variant": "50kWh Ultimate",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 350,
+      "price_new_min": 32000,
+      "price_new_max": 38000,
+      "price_used_min": 18000,
+      "price_used_max": 25000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 26,
+      "real_mpg": 0,
+      "real_range_miles": 200,
+      "notes": "Bold design, good urban range. Smaller boot limits practicality. Not for long journeys."
+    },
+    {
+      "make": "Renault",
+      "model": "Zoe",
+      "variant": "R135 GT Line",
+      "body_style": "hatchback",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 338,
+      "price_new_min": 28000,
+      "price_new_max": 33000,
+      "price_used_min": 8000,
+      "price_used_max": 18000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "first_car"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 20,
+      "real_mpg": 0,
+      "real_range_miles": 200,
+      "notes": "Used Zoes represent exceptional EV value. Check whether battery is owned or leased on older models."
+    },
+    {
+      "make": "MG",
+      "model": "MG4",
+      "variant": "64kWh Trophy",
+      "body_style": "hatchback",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 363,
+      "price_new_min": 27000,
+      "price_new_max": 32000,
+      "price_used_min": 17000,
+      "price_used_max": 23000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 500,
+      "parking_size": "medium",
+      "best_for": [
+        "low_running_costs",
+        "daily_commute",
+        "city_only",
+        "first_car"
+      ],
+      "avoid_for": [
+        "prestige",
+        "long_distance",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 23,
+      "real_mpg": 0,
+      "real_range_miles": 250,
+      "notes": "Best value EV on sale. Strong range for the money. Brand lacks prestige but the product is genuinely competitive."
+    },
+    {
+      "make": "MG",
+      "model": "ZS EV",
+      "variant": "72kWh Trophy Long Range",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 448,
+      "price_new_min": 30000,
+      "price_new_max": 36000,
+      "price_used_min": 18000,
+      "price_used_max": 25000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 500,
+      "parking_size": "medium",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "low_running_costs",
+        "city_only"
+      ],
+      "avoid_for": [
+        "prestige",
+        "long_distance",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 25,
+      "real_mpg": 0,
+      "real_range_miles": 270,
+      "notes": "Affordable EV SUV with decent range. Good value family option. Long-term reliability unproven."
+    },
+    {
+      "make": "Dacia",
+      "model": "Sandero",
+      "variant": "1.0 TCe Stepway Expression",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 328,
+      "price_new_min": 14000,
+      "price_new_max": 18000,
+      "price_used_min": 8000,
+      "price_used_max": 12000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 900,
+      "parking_size": "small",
+      "best_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "daily_commute"
+      ],
+      "avoid_for": [
+        "prestige",
+        "driving_enjoyment",
+        "long_distance",
+        "large_family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 9,
+      "real_mpg": 44,
+      "notes": "Cheapest new car in the UK. No frills but reliable, low cost to run and insure. Ideal first car."
+    },
+    {
+      "make": "Dacia",
+      "model": "Duster",
+      "variant": "1.3 TCe Journey 4x4",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 467,
+      "price_new_min": 22000,
+      "price_new_max": 28000,
+      "price_used_min": 12000,
+      "price_used_max": 18000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "off_road",
+        "towing",
+        "low_running_costs",
+        "practicality"
+      ],
+      "avoid_for": [
+        "prestige",
+        "driving_enjoyment",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 16,
+      "real_mpg": 38,
+      "notes": "Outstanding value SUV with genuine 4WD capability. Basic but durable and practical."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "Tiguan",
+      "variant": "1.5 TSI Life",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 615,
+      "price_new_min": 33000,
+      "price_new_max": 42000,
+      "price_used_min": 18000,
+      "price_used_max": 28000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "practicality",
+        "towing"
+      ],
+      "avoid_for": [
+        "city_only",
+        "driving_enjoyment",
+        "low_running_costs"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 24,
+      "real_mpg": 36,
+      "notes": "Benchmark mid-size family SUV. Refined, well built, large boot, strong towing capability."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "ID.3",
+      "variant": "58kWh Pro Performance",
+      "body_style": "hatchback",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 385,
+      "price_new_min": 35000,
+      "price_new_max": 42000,
+      "price_used_min": 20000,
+      "price_used_max": 28000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "low_running_costs",
+        "city_only",
+        "long_distance"
+      ],
+      "avoid_for": [
+        "towing",
+        "no_home_charger",
+        "large_family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 30,
+      "real_mpg": 0,
+      "real_range_miles": 250,
+      "notes": "VW's mainstream EV hatchback. Software issues in early models — newer examples much improved."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "ID.4",
+      "variant": "77kWh Pro Performance",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 543,
+      "price_new_min": 44000,
+      "price_new_max": 52000,
+      "price_used_min": 28000,
+      "price_used_max": 38000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 1200,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "long_distance",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "towing_heavy",
+        "no_home_charger",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 34,
+      "real_mpg": 0,
+      "real_range_miles": 280,
+      "notes": "Practical family EV SUV. Comfortable and refined. Not as quick-charging as Korean rivals."
+    },
+    {
+      "make": "BMW",
+      "model": "1 Series",
+      "variant": "118i M Sport",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 380,
+      "price_new_min": 30000,
+      "price_new_max": 38000,
+      "price_used_min": 16000,
+      "price_used_max": 25000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "prestige",
+        "driving_enjoyment",
+        "daily_commute",
+        "business"
+      ],
+      "avoid_for": [
+        "large_family",
+        "low_running_costs",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 28,
+      "real_mpg": 38,
+      "notes": "Premium small hatchback with rear-seat compromise. Strong brand appeal and good tech."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "C-Class",
+      "variant": "C300 AMG Line",
+      "body_style": "saloon",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 455,
+      "price_new_min": 50000,
+      "price_new_max": 62000,
+      "price_used_min": 28000,
+      "price_used_max": 42000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 1800,
+      "parking_size": "large",
+      "best_for": [
+        "prestige",
+        "business",
+        "long_distance",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "large_family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 42,
+      "real_mpg": 34,
+      "notes": "Exceptional interior quality and technology. High running costs. Strong prestige appeal."
+    },
+    {
+      "make": "Peugeot",
+      "model": "3008",
+      "variant": "1.2 PureTech Allure",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 520,
+      "price_new_min": 30000,
+      "price_new_max": 38000,
+      "price_used_min": 15000,
+      "price_used_max": 24000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1250,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "prestige",
+        "practicality"
+      ],
+      "avoid_for": [
+        "off_road",
+        "driving_enjoyment",
+        "towing_heavy"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 40,
+      "notes": "Distinctive interior design with i-Cockpit. Comfortable and practical family SUV."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "Polo",
+      "variant": "1.0 TSI Life",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 351,
+      "price_new_min": 19000,
+      "price_new_max": 23000,
+      "price_used_min": 10000,
+      "price_used_max": 16000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 900,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "first_car",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "large_family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 11,
+      "real_mpg": 45,
+      "notes": "Premium feel for a small car. Well built and refined. Sensible step up from a supermini."
+    },
+    {
+      "make": "Ford",
+      "model": "Fiesta",
+      "variant": "1.0 EcoBoost ST-Line",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 311,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 8000,
+      "price_used_max": 16000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 900,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "driving_enjoyment",
+        "first_car",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "large_family",
+        "towing",
+        "off_road",
+        "long_distance"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 13,
+      "real_mpg": 43,
+      "notes": "Production ended 2023 — used only. One of the best driving small cars ever made. Strong used value."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "Transporter",
+      "variant": "T6.1 2.0 TDI Startline",
+      "body_style": "van",
+      "fuel_type": "diesel",
+      "seats": 3,
+      "boot_litres": 5800,
+      "price_new_min": 36000,
+      "price_new_max": 46000,
+      "price_used_min": 18000,
+      "price_used_max": 30000,
+      "running_cost": "medium",
+      "reliability": "good",
+      "towing_kg": 2500,
+      "parking_size": "very_large",
+      "best_for": [
+        "business",
+        "towing",
+        "practicality"
+      ],
+      "avoid_for": [
+        "city_only",
+        "family",
+        "prestige",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 32,
+      "real_mpg": 36,
+      "notes": "Premium van. Excellent build quality and refinement compared to rivals. Strong resale values."
+    },
+    {
+      "make": "Mitsubishi",
+      "model": "Outlander PHEV",
+      "variant": "4h",
+      "body_style": "suv",
+      "fuel_type": "phev",
+      "seats": 7,
+      "boot_litres": 463,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 18000,
+      "price_used_max": 32000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "off_road",
+        "low_running_costs",
+        "towing"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "prestige",
+        "city_only"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 28,
+      "real_mpg": 35,
+      "notes": "Discontinued but excellent used buy. 7 seats, PHEV, AWD. Electric range around 28 miles. Proven reliability."
+    },
+    {
+      "make": "Subaru",
+      "model": "Forester",
+      "variant": "2.0i e-Boxer XE",
+      "body_style": "suv",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 520,
+      "price_new_min": 36000,
+      "price_new_max": 42000,
+      "price_used_min": 22000,
+      "price_used_max": 30000,
+      "running_cost": "low",
+      "reliability": "excellent",
+      "towing_kg": 1800,
+      "parking_size": "large",
+      "best_for": [
+        "off_road",
+        "family",
+        "reliability",
+        "towing",
+        "long_distance"
+      ],
+      "avoid_for": [
+        "city_only",
+        "prestige",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 26,
+      "real_mpg": 36,
+      "notes": "Symmetrical AWD is excellent in all conditions. Outstanding reliability. Niche brand but very capable."
+    },
+    {
+      "make": "Toyota",
+      "model": "Land Cruiser",
+      "variant": "2.8 D-4D Active",
+      "body_style": "suv",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 700,
+      "price_new_min": 62000,
+      "price_new_max": 75000,
+      "price_used_min": 35000,
+      "price_used_max": 55000,
+      "running_cost": "high",
+      "reliability": "excellent",
+      "towing_kg": 3500,
+      "parking_size": "very_large",
+      "best_for": [
+        "off_road",
+        "towing",
+        "reliability",
+        "family"
+      ],
+      "avoid_for": [
+        "city_only",
+        "low_running_costs",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 44,
+      "real_mpg": 30,
+      "notes": "Legendary off-road capability and reliability. Exceptional towing. Huge but unstoppable."
+    },
+    {
+      "make": "Jeep",
+      "model": "Wrangler",
+      "variant": "2.0 GME Sahara 4xe PHEV",
+      "body_style": "suv",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 142,
+      "price_new_min": 52000,
+      "price_new_max": 62000,
+      "price_used_min": 32000,
+      "price_used_max": 44000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 2495,
+      "parking_size": "very_large",
+      "best_for": [
+        "off_road",
+        "weekend_leisure",
+        "towing",
+        "prestige"
+      ],
+      "avoid_for": [
+        "city_only",
+        "family",
+        "practicality",
+        "long_distance",
+        "low_running_costs"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 42,
+      "real_mpg": 28,
+      "notes": "Iconic off-roader. Exceptional capability off road. Tiny boot, poor fuel economy, not a daily driver."
+    },
+    {
+      "make": "Porsche",
+      "model": "Cayenne",
+      "variant": "3.0 V6",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 770,
+      "price_new_min": 80000,
+      "price_new_max": 110000,
+      "price_used_min": 35000,
+      "price_used_max": 70000,
+      "running_cost": "very_high",
+      "reliability": "good",
+      "towing_kg": 3500,
+      "parking_size": "very_large",
+      "best_for": [
+        "prestige",
+        "driving_enjoyment",
+        "family",
+        "towing",
+        "long_distance"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 26,
+      "notes": "Best driving large SUV on sale. Exceptional performance and refinement. Very high running costs."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "Caddy",
+      "variant": "2.0 TDI Life",
+      "body_style": "mpv",
+      "fuel_type": "diesel",
+      "seats": 7,
+      "boot_litres": 1113,
+      "price_new_min": 30000,
+      "price_new_max": 37000,
+      "price_used_min": 16000,
+      "price_used_max": 24000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "practicality",
+        "towing",
+        "business"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "prestige",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 24,
+      "real_mpg": 44,
+      "notes": "Van-based MPV with outstanding practicality. Huge boot, 7 seats, efficient diesel. Underrated family vehicle."
+    },
+    {
+      "make": "Citroen",
+      "model": "Berlingo",
+      "variant": "1.5 BlueHDi 130 Flair XTR",
+      "body_style": "mpv",
+      "fuel_type": "diesel",
+      "seats": 7,
+      "boot_litres": 775,
+      "price_new_min": 28000,
+      "price_new_max": 34000,
+      "price_used_min": 14000,
+      "price_used_max": 22000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "practicality",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "prestige",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 20,
+      "real_mpg": 48,
+      "notes": "Exceptional family practicality at lower cost than VW Caddy. Boxy but hugely practical."
+    },
+    {
+      "make": "Toyota",
+      "model": "Proace City Verso",
+      "variant": "1.5D Family",
+      "body_style": "mpv",
+      "fuel_type": "diesel",
+      "seats": 7,
+      "boot_litres": 775,
+      "price_new_min": 28000,
+      "price_new_max": 35000,
+      "price_used_min": 15000,
+      "price_used_max": 22000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "practicality",
+        "long_distance",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "prestige",
+        "city_only"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 46,
+      "notes": "Toyota reliability in a practical van-based MPV. Same platform as Berlingo but better reliability rep."
+    },
+    {
+      "make": "Audi",
+      "model": "e-tron GT",
+      "variant": "quattro",
+      "body_style": "saloon",
+      "fuel_type": "electric",
+      "seats": 4,
+      "boot_litres": 405,
+      "price_new_min": 96000,
+      "price_new_max": 130000,
+      "price_used_min": 58000,
+      "price_used_max": 85000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "large",
+      "best_for": [
+        "prestige",
+        "driving_enjoyment",
+        "long_distance",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "city_only",
+        "family",
+        "practicality",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 0,
+      "real_range_miles": 300,
+      "notes": "Stunning electric gran tourer. Limited rear headroom for taller passengers. Exceptional performance."
+    },
+    {
+      "make": "Lexus",
+      "model": "UX",
+      "variant": "250h F Sport",
+      "body_style": "suv",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 320,
+      "price_new_min": 38000,
+      "price_new_max": 46000,
+      "price_used_min": 22000,
+      "price_used_max": 32000,
+      "running_cost": "low",
+      "reliability": "excellent",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "prestige",
+        "reliability",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "towing",
+        "large_family",
+        "off_road",
+        "practicality"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 30,
+      "real_mpg": 48,
+      "notes": "Exceptional build quality and reliability. Tiny boot is the main compromise. Class-leading ownership experience."
+    },
+    {
+      "make": "Lexus",
+      "model": "RX",
+      "variant": "500h F Sport",
+      "body_style": "suv",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 460,
+      "price_new_min": 68000,
+      "price_new_max": 80000,
+      "price_used_min": 40000,
+      "price_used_max": 58000,
+      "running_cost": "low",
+      "reliability": "excellent",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "prestige",
+        "reliability",
+        "family",
+        "long_distance",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "city_only",
+        "driving_enjoyment",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 44,
+      "real_mpg": 40,
+      "notes": "Premium SUV with outstanding reliability. PHEV suits home chargers well. Understated luxury."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "Polo",
+      "variant": "1.0 MPI S",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 351,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 3500,
+      "price_used_max": 7000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 8,
+      "real_mpg": 44,
+      "notes": "Older Polo generations are among the best first cars available. Low insurance, cheap to run, VW build quality, widely available under £5,000."
+    },
+    {
+      "make": "Ford",
+      "model": "Fiesta",
+      "variant": "1.25 Studio",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 311,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 2500,
+      "price_used_max": 6000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 7,
+      "real_mpg": 42,
+      "notes": "Production ended 2023. One of the best driving small cars ever made. Extremely affordable used, very low insurance groups, cheap parts. Ideal first car."
+    },
+    {
+      "make": "Vauxhall",
+      "model": "Corsa",
+      "variant": "1.2 SE",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 285,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 2000,
+      "price_used_max": 7000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 8,
+      "real_mpg": 42,
+      "notes": "The most commonly bought first car in the UK. Abundant used supply keeps prices low. Basic but reliable enough for early driving years."
+    },
+    {
+      "make": "Nissan",
+      "model": "Micra",
+      "variant": "1.2 Acenta",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 300,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 2000,
+      "price_used_max": 6500,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "reliability"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 7,
+      "real_mpg": 46,
+      "notes": "Extremely reliable, low insurance, very easy to park. The K12 generation especially is near-indestructible. Perfect low-stress first car."
+    },
+    {
+      "make": "Toyota",
+      "model": "Aygo",
+      "variant": "1.0 VVT-i x-play",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 168,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 3000,
+      "price_used_max": 10000,
+      "running_cost": "very_low",
+      "reliability": "excellent",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "low_running_costs",
+        "reliability"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "motorway"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 6,
+      "real_mpg": 50,
+      "notes": "Toyota reliability in the cheapest possible package. Insurance group 6 is exceptional. Tiny boot but the running costs are among the lowest of any car sold."
+    },
+    {
+      "make": "Citroen",
+      "model": "C1",
+      "variant": "1.0 VTi Feel",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 196,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 2500,
+      "price_used_max": 8000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "motorway"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 6,
+      "real_mpg": 51,
+      "notes": "Shares its platform with the Aygo and Peugeot 107. Exceptionally cheap to run and insure. The ideal city runabout for a new driver."
+    },
+    {
+      "make": "Peugeot",
+      "model": "107",
+      "variant": "1.0 Access",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 139,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 1500,
+      "price_used_max": 5000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "motorway"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 5,
+      "real_mpg": 52,
+      "notes": "One of the cheapest cars to buy, insure and run in the UK. Insurance group 5. Shares Aygo/C1 platform. Production ended 2014 — older but extremely proven."
+    },
+    {
+      "make": "Hyundai",
+      "model": "i20",
+      "variant": "1.2 SE",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 326,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 4000,
+      "price_used_max": 11000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 900,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "daily_commute",
+        "city_only",
+        "low_running_costs",
+        "reliability"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "off_road",
+        "towing"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 10,
+      "real_mpg": 45,
+      "notes": "Slightly more grown-up than a Fiesta or Corsa. Good reliability, well equipped, sensible insurance. A step up from the cheapest options for new drivers with a bit more budget."
+    },
+    {
+      "make": "Kia",
+      "model": "Picanto",
+      "variant": "1.0 SE",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 255,
+      "price_new_min": 14500,
+      "price_new_max": 18000,
+      "price_used_min": 3500,
+      "price_used_max": 11000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "motorway"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 8,
+      "real_mpg": 50,
+      "notes": "Kia's 7-year warranty applies to new examples — outstanding peace of mind for a first car purchase. Very cheap to run and insure. Good quality interior."
+    },
+    {
+      "make": "Suzuki",
+      "model": "Alto",
+      "variant": "1.0 SZ",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 177,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 1500,
+      "price_used_max": 5000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "motorway"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 4,
+      "real_mpg": 54,
+      "notes": "Insurance group 4 — among the lowest in the UK. Extremely cheap to buy used. Japanese reliability record. Very basic spec but essentially unbeatable on total ownership cost for a first car."
+    },
+    {
+      "make": "Suzuki",
+      "model": "Swift",
+      "variant": "1.2 SZ3",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 264,
+      "price_new_min": 18000,
+      "price_new_max": 22000,
+      "price_used_min": 4000,
+      "price_used_max": 13000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "driving_enjoyment",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 11,
+      "real_mpg": 52,
+      "notes": "One of the most fun-to-drive small cars. Great handling, very reliable, low running costs. New driver who wants a rewarding car as well as a cheap one."
+    },
+    {
+      "make": "SEAT",
+      "model": "Ibiza",
+      "variant": "1.0 MPI SE",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 355,
+      "price_new_min": 19500,
+      "price_new_max": 24000,
+      "price_used_min": 5000,
+      "price_used_max": 14000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "driving_enjoyment",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 11,
+      "real_mpg": 47,
+      "notes": "VW Group quality with a sporty feel at a lower price than a Polo. Good boot for a small car. Popular among younger drivers for good reason."
+    },
+    {
+      "make": "Skoda",
+      "model": "Fabia",
+      "variant": "1.0 MPI SE",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 380,
+      "price_new_min": 18500,
+      "price_new_max": 23000,
+      "price_used_min": 5000,
+      "price_used_max": 14000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "practicality"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 10,
+      "real_mpg": 46,
+      "notes": "The most practical supermini — 380L boot is genuinely impressive. VW Group reliability at a lower cost. Excellent value first or second car."
+    },
+    {
+      "make": "Fiat",
+      "model": "500",
+      "variant": "1.2 Pop",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 4,
+      "boot_litres": 185,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 3000,
+      "price_used_max": 11000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "prestige",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "practicality"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 10,
+      "real_mpg": 43,
+      "notes": "Iconic styling and fun city car. Reliability is below average compared to Japanese rivals. Strong appeal for style-conscious new drivers. Very limited boot space."
+    },
+    {
+      "make": "Renault",
+      "model": "Clio",
+      "variant": "1.2 16v Dynamique",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 300,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 2500,
+      "price_used_max": 8000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 9,
+      "real_mpg": 42,
+      "notes": "Very popular first car. Good on the road and practical enough for most new driver needs. Older examples offer strong value under £5,000."
+    },
+    {
+      "make": "Mazda",
+      "model": "2",
+      "variant": "1.5 Skyactiv-G SE-L",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 280,
+      "price_new_min": 0,
+      "price_new_max": 0,
+      "price_used_min": 5000,
+      "price_used_max": 14000,
+      "running_cost": "very_low",
+      "reliability": "excellent",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "first_car",
+        "city_only",
+        "daily_commute",
+        "driving_enjoyment",
+        "reliability"
+      ],
+      "avoid_for": [
+        "family",
+        "long_distance",
+        "towing",
+        "off_road"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 11,
+      "real_mpg": 50,
+      "notes": "Underrated first car choice. Mazda reliability is outstanding, it drives brilliantly for a small car, and interior quality is well above the Fiesta and Corsa. Highly recommended."
+    },
+    {
+      "make": "Geely",
+      "model": "EX5",
+      "variant": "Long Range AWD",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 495,
+      "price_new_min": 36000,
+      "price_new_max": 44000,
+      "price_used_min": 24000,
+      "price_used_max": 32000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "daily_commute",
+        "low_running_costs",
+        "family",
+        "long_distance"
+      ],
+      "avoid_for": [
+        "prestige_traditional",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 28,
+      "real_mpg": 0,
+      "real_range_miles": 310,
+      "notes": "Geely's flagship UK EV SUV. Strong range, solid spec at a competitive price. Geely owns Volvo and Lotus — engineering credentials are genuine. Long-term UK reliability data still emerging."
+    },
+    {
+      "make": "Geely",
+      "model": "EX5",
+      "variant": "Standard Range RWD",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 495,
+      "price_new_min": 30000,
+      "price_new_max": 37000,
+      "price_used_min": 20000,
+      "price_used_max": 28000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 1000,
+      "parking_size": "large",
+      "best_for": [
+        "daily_commute",
+        "low_running_costs",
+        "city_only"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "no_home_charger",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 26,
+      "real_mpg": 0,
+      "real_range_miles": 250,
+      "notes": "More accessible entry to the Geely EX5. Good value urban EV with a premium feel above its price point. Part of a brand backed by serious automotive engineering."
+    },
+    {
+      "make": "Jaecoo",
+      "model": "J7",
+      "variant": "1.6T PHEV",
+      "body_style": "suv",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 540,
+      "price_new_min": 28000,
+      "price_new_max": 36000,
+      "price_used_min": 18000,
+      "price_used_max": 26000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "daily_commute",
+        "family",
+        "low_running_costs",
+        "practicality"
+      ],
+      "avoid_for": [
+        "prestige_traditional",
+        "off_road",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 24,
+      "real_mpg": 45,
+      "notes": "Jaecoo is Chery's premium sub-brand. The J7 offers strong value PHEV SUV territory. Well equipped at the price. Part of Chery group — China's largest independent automaker. UK after-sales network still developing."
+    },
+    {
+      "make": "Jaecoo",
+      "model": "J7",
+      "variant": "1.6T Petrol",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 540,
+      "price_new_min": 22000,
+      "price_new_max": 28000,
+      "price_used_min": 14000,
+      "price_used_max": 20000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "practicality"
+      ],
+      "avoid_for": [
+        "prestige_traditional",
+        "low_running_costs"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 36,
+      "notes": "Strong value SUV with generous standard specification. Premium-feeling interior at a price that undercuts European rivals significantly. Service network coverage is the main consideration."
+    },
+    {
+      "make": "Omoda",
+      "model": "5",
+      "variant": "1.6T EV",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 380,
+      "price_new_min": 28000,
+      "price_new_max": 35000,
+      "price_used_min": 18000,
+      "price_used_max": 25000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "towing",
+        "no_home_charger",
+        "prestige_traditional"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 24,
+      "real_mpg": 0,
+      "real_range_miles": 260,
+      "notes": "Omoda is Chery's style-focused sub-brand. The 5 EV is a competitive entry-level electric SUV. Bold styling, decent range for the price. UK service network coverage still growing."
+    },
+    {
+      "make": "Omoda",
+      "model": "5",
+      "variant": "1.6T Petrol",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 380,
+      "price_new_min": 22000,
+      "price_new_max": 28000,
+      "price_used_min": 13000,
+      "price_used_max": 19000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "city_only",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "prestige_traditional",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 20,
+      "real_mpg": 38,
+      "notes": "Affordable compact SUV with striking design and strong standard equipment. Well-priced against European alternatives. Long-term reliability record still to be established in the UK."
+    },
+    {
+      "make": "Leapmotor",
+      "model": "T03",
+      "variant": "Standard Range",
+      "body_style": "hatchback",
+      "fuel_type": "electric",
+      "seats": 4,
+      "boot_litres": 210,
+      "price_new_min": 16000,
+      "price_new_max": 20000,
+      "price_used_min": 10000,
+      "price_used_max": 15000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "first_car"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 16,
+      "real_mpg": 0,
+      "real_range_miles": 150,
+      "notes": "Leapmotor is sold in Europe through Stellantis. The T03 is one of the most affordable new EVs available. Limited range suits city-only use. Brand new to the UK market — reliability data minimal."
+    },
+    {
+      "make": "Leapmotor",
+      "model": "C10",
+      "variant": "Extended Range",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 435,
+      "price_new_min": 32000,
+      "price_new_max": 40000,
+      "price_used_min": 22000,
+      "price_used_max": 30000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 750,
+      "parking_size": "large",
+      "best_for": [
+        "daily_commute",
+        "family",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "prestige_traditional",
+        "towing",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 26,
+      "real_mpg": 0,
+      "real_range_miles": 265,
+      "notes": "Leapmotor's family SUV distributed by Stellantis (Peugeot/Citroen network). Competitive pricing, solid range. Stellantis distribution gives it better UK support than most Chinese newcomers."
+    },
+    {
+      "make": "BYD",
+      "model": "Atto 3",
+      "variant": "Extended Range",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 440,
+      "price_new_min": 36000,
+      "price_new_max": 42000,
+      "price_used_min": 22000,
+      "price_used_max": 30000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 750,
+      "parking_size": "large",
+      "best_for": [
+        "daily_commute",
+        "family",
+        "low_running_costs",
+        "long_distance"
+      ],
+      "avoid_for": [
+        "prestige_traditional",
+        "towing_heavy",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 28,
+      "real_mpg": 0,
+      "real_range_miles": 260,
+      "notes": "BYD is the world's largest EV manufacturer. The Atto 3 has built a reasonable reliability record in the UK. Competitive pricing, strong tech, and improving dealer network. Blade battery technology is genuinely innovative."
+    },
+    {
+      "make": "BYD",
+      "model": "Seal",
+      "variant": "RWD Design",
+      "body_style": "saloon",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 400,
+      "price_new_min": 40000,
+      "price_new_max": 48000,
+      "price_used_min": 26000,
+      "price_used_max": 34000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 750,
+      "parking_size": "large",
+      "best_for": [
+        "daily_commute",
+        "long_distance",
+        "driving_enjoyment",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "no_home_charger",
+        "towing_heavy",
+        "prestige_traditional"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 32,
+      "real_mpg": 0,
+      "real_range_miles": 320,
+      "notes": "BYD's Tesla Model 3 rival. Strong real-world range, sharp styling, competitive pricing. Increasingly credible alternative to European and Korean EVs. Blade battery platform is proven."
+    },
+    {
+      "make": "BYD",
+      "model": "Dolphin",
+      "variant": "Comfort",
+      "body_style": "hatchback",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 345,
+      "price_new_min": 26000,
+      "price_new_max": 32000,
+      "price_used_min": 16000,
+      "price_used_max": 22000,
+      "running_cost": "very_low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "first_car"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "towing",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 0,
+      "real_range_miles": 215,
+      "notes": "Affordable EV hatchback from the world's largest EV manufacturer. Good build quality, fun to drive, competitive pricing. A strong choice for urban drivers looking to move to electric."
+    },
+    {
+      "make": "GWM",
+      "model": "Ora 03",
+      "variant": "Extended Range",
+      "body_style": "hatchback",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 228,
+      "price_new_min": 26000,
+      "price_new_max": 32000,
+      "price_used_min": 14000,
+      "price_used_max": 20000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "prestige"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "family",
+        "towing",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 20,
+      "real_mpg": 0,
+      "real_range_miles": 230,
+      "notes": "Retro-styled EV hatchback from Great Wall Motors. Distinctive design appeals strongly to style-conscious buyers. Small boot limits practicality. UK service network developing."
+    },
+    {
+      "make": "Chery",
+      "model": "Tiggo 4 Pro",
+      "variant": "1.5T PHEV",
+      "body_style": "suv",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 390,
+      "price_new_min": 24000,
+      "price_new_max": 30000,
+      "price_used_min": 14000,
+      "price_used_max": 20000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1000,
+      "parking_size": "medium",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "low_running_costs",
+        "family"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "prestige_traditional",
+        "towing_heavy"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 47,
+      "notes": "Chery is China's largest independent automaker. The Tiggo 4 Pro PHEV is a value-oriented compact SUV. Good standard spec for the money. UK market presence and after-sales developing rapidly."
+    },
+    {
+      "make": "XPENG",
+      "model": "G6",
+      "variant": "Long Range RWD",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 560,
+      "price_new_min": 42000,
+      "price_new_max": 50000,
+      "price_used_min": 28000,
+      "price_used_max": 36000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 1500,
+      "parking_size": "large",
+      "best_for": [
+        "daily_commute",
+        "long_distance",
+        "low_running_costs",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "no_home_charger",
+        "prestige_traditional",
+        "towing_heavy"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 32,
+      "real_mpg": 0,
+      "real_range_miles": 305,
+      "notes": "XPENG is a technology-focused Chinese EV brand. The G6 features advanced driver assistance tech and 800V architecture for rapid charging. Direct Tesla rival in tech ambition. UK infrastructure and support still building."
+    },
+    {
+      "make": "Nio",
+      "model": "ET5",
+      "variant": "Standard Range",
+      "body_style": "saloon",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 386,
+      "price_new_min": 45000,
+      "price_new_max": 55000,
+      "price_used_min": 30000,
+      "price_used_max": 40000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "large",
+      "best_for": [
+        "prestige",
+        "daily_commute",
+        "long_distance",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "no_home_charger",
+        "towing",
+        "practicality"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new"
+      ],
+      "insurance_group": 36,
+      "real_mpg": 0,
+      "real_range_miles": 280,
+      "notes": "Nio offers a unique battery swap service alongside conventional charging — full battery in 5 minutes at swap stations. Premium positioning, strong tech. UK swap station network is very limited currently."
+    },
+    {
+      "make": "Aiways",
+      "model": "U5",
+      "variant": "Premium",
+      "body_style": "suv",
+      "fuel_type": "electric",
+      "seats": 5,
+      "boot_litres": 432,
+      "price_new_min": 32000,
+      "price_new_max": 38000,
+      "price_used_min": 16000,
+      "price_used_max": 24000,
+      "running_cost": "very_low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "large",
+      "best_for": [
+        "daily_commute",
+        "low_running_costs",
+        "city_only"
+      ],
+      "avoid_for": [
+        "long_distance",
+        "towing",
+        "no_home_charger",
+        "prestige_traditional"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 26,
+      "real_mpg": 0,
+      "real_range_miles": 220,
+      "notes": "Early Chinese EV entrant to the UK market. Used examples represent reasonable value but the brand has limited UK presence. Charging speed is modest. Suited to short-range urban use only."
+    },
+    {
+      "make": "BMW",
+      "model": "5 Series",
+      "variant": "520i M Sport",
+      "body_style": "saloon",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 520,
+      "price_new_min": 52000,
+      "price_new_max": 64000,
+      "price_used_min": 28000,
+      "price_used_max": 44000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "business",
+        "long_distance",
+        "prestige",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 40,
+      "real_mpg": 36,
+      "notes": "The benchmark large executive saloon. Superb long-distance refinement, excellent driving dynamics, strong technology. Servicing costs are significant — budget carefully."
+    },
+    {
+      "make": "BMW",
+      "model": "5 Series",
+      "variant": "530e M Sport PHEV",
+      "body_style": "saloon",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 410,
+      "price_new_min": 58000,
+      "price_new_max": 70000,
+      "price_used_min": 32000,
+      "price_used_max": 48000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "business",
+        "long_distance",
+        "prestige",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "city_only",
+        "first_car",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 42,
+      "real_mpg": 40,
+      "notes": "PHEV version of the 5 Series suits company car drivers well due to low BIK tax. Reduced boot due to battery. Excellent real-world economy if charged regularly."
+    },
+    {
+      "make": "BMW",
+      "model": "6 Series Gran Turismo",
+      "variant": "630i M Sport",
+      "body_style": "estate",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 610,
+      "price_new_min": 62000,
+      "price_new_max": 76000,
+      "price_used_min": 30000,
+      "price_used_max": 48000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 2000,
+      "parking_size": "very_large",
+      "best_for": [
+        "business",
+        "long_distance",
+        "prestige",
+        "family",
+        "practicality"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 44,
+      "real_mpg": 34,
+      "notes": "Grand Tourer with a large boot and elevated ride height. Combines saloon elegance with estate practicality. Niche choice but deeply impressive on long journeys."
+    },
+    {
+      "make": "BMW",
+      "model": "8 Series",
+      "variant": "840i Gran Coupe M Sport",
+      "body_style": "coupe",
+      "fuel_type": "mild_hybrid",
+      "seats": 4,
+      "boot_litres": 440,
+      "price_new_min": 90000,
+      "price_new_max": 115000,
+      "price_used_min": 52000,
+      "price_used_max": 78000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 1900,
+      "parking_size": "very_large",
+      "best_for": [
+        "prestige",
+        "driving_enjoyment",
+        "long_distance",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "family",
+        "low_running_costs",
+        "city_only",
+        "practicality",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 30,
+      "notes": "BMW's flagship grand tourer. Stunning design, effortless performance, opulent interior. Limited to 4 seats. Very high running costs. A serious statement car."
+    },
+    {
+      "make": "BMW",
+      "model": "M4",
+      "variant": "Competition xDrive",
+      "body_style": "coupe",
+      "fuel_type": "petrol",
+      "seats": 4,
+      "boot_litres": 440,
+      "price_new_min": 86000,
+      "price_new_max": 100000,
+      "price_used_min": 55000,
+      "price_used_max": 78000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "large",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "family",
+        "low_running_costs",
+        "city_only",
+        "practicality",
+        "first_car",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 26,
+      "notes": "One of the finest driving cars on sale. 503hp, exceptional chassis, raw performance. Controversial front grille divides opinion. Daily usability is compromised. Insurance and fuel costs are very high."
+    },
+    {
+      "make": "BMW",
+      "model": "M5",
+      "variant": "Competition",
+      "body_style": "saloon",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 500,
+      "price_new_min": 130000,
+      "price_new_max": 155000,
+      "price_used_min": 70000,
+      "price_used_max": 105000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "long_distance",
+        "business"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "practicality"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 28,
+      "notes": "The super saloon benchmark. New G90 generation is now a PHEV with 727hp. Devastatingly fast yet genuinely usable daily. Running costs are extreme but it does everything."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "B-Class",
+      "variant": "B180 Sport",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 488,
+      "price_new_min": 32000,
+      "price_new_max": 40000,
+      "price_used_min": 14000,
+      "price_used_max": 24000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 1200,
+      "parking_size": "medium",
+      "best_for": [
+        "family",
+        "daily_commute",
+        "prestige",
+        "practicality"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "low_running_costs",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 26,
+      "real_mpg": 38,
+      "notes": "Tall, practical MPV-hatchback hybrid. More boot space than the A-Class, easier to get in and out of. Popular with families who want Mercedes quality without SUV bulk."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "E-Class",
+      "variant": "E300 AMG Line",
+      "body_style": "saloon",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 540,
+      "price_new_min": 58000,
+      "price_new_max": 72000,
+      "price_used_min": 28000,
+      "price_used_max": 46000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 2100,
+      "parking_size": "large",
+      "best_for": [
+        "business",
+        "long_distance",
+        "prestige",
+        "family",
+        "comfort"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 44,
+      "real_mpg": 34,
+      "notes": "Mercedes' mid-large executive saloon. New generation has an exceptional interior with the enormous MBUX Superscreen. Comfort-focused over driver engagement. Strong prestige appeal."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "E-Class",
+      "variant": "E300 Estate AMG Line",
+      "body_style": "estate",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 615,
+      "price_new_min": 62000,
+      "price_new_max": 76000,
+      "price_used_min": 30000,
+      "price_used_max": 48000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 2100,
+      "parking_size": "very_large",
+      "best_for": [
+        "family",
+        "business",
+        "long_distance",
+        "prestige",
+        "practicality",
+        "towing"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 45,
+      "real_mpg": 33,
+      "notes": "Premium large estate with a 615L boot. Outstanding long-distance comfort, strong towing capability, excellent technology. The default choice for business users wanting premium estate practicality."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "GLE",
+      "variant": "GLE 300d AMG Line",
+      "body_style": "suv",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 630,
+      "price_new_min": 68000,
+      "price_new_max": 84000,
+      "price_used_min": 36000,
+      "price_used_max": 56000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 3500,
+      "parking_size": "very_large",
+      "best_for": [
+        "prestige",
+        "family",
+        "towing",
+        "long_distance",
+        "business"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 48,
+      "real_mpg": 32,
+      "notes": "Large premium SUV with class-leading 3,500kg towing capacity. Imposing road presence, luxurious interior, strong diesel range. Running costs are very significant."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "GLE",
+      "variant": "GLE 350 de PHEV AMG Line",
+      "body_style": "suv",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 460,
+      "price_new_min": 76000,
+      "price_new_max": 92000,
+      "price_used_min": 42000,
+      "price_used_max": 62000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 3500,
+      "parking_size": "very_large",
+      "best_for": [
+        "prestige",
+        "family",
+        "towing",
+        "long_distance",
+        "low_running_costs"
+      ],
+      "avoid_for": [
+        "city_only",
+        "first_car",
+        "no_home_charger"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 49,
+      "real_mpg": 35,
+      "notes": "PHEV GLE suits company car buyers well — low BIK tax. Reduced boot versus diesel. Strong towing capacity retained. Best when charged regularly for urban running."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "AMG C63",
+      "variant": "S E Performance PHEV",
+      "body_style": "saloon",
+      "fuel_type": "phev",
+      "seats": 5,
+      "boot_litres": 455,
+      "price_new_min": 94000,
+      "price_new_max": 110000,
+      "price_used_min": 62000,
+      "price_used_max": 80000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 1800,
+      "parking_size": "large",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "long_distance",
+        "business"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "practicality"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 30,
+      "notes": "New C63 controversially dropped the V8 for a 4-cylinder PHEV making 680hp total. Divides AMG purists but performance is exceptional. Complex drivetrain raises long-term reliability questions."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "AMG GT",
+      "variant": "63 S 4Matic+",
+      "body_style": "coupe",
+      "fuel_type": "mild_hybrid",
+      "seats": 4,
+      "boot_litres": 390,
+      "price_new_min": 160000,
+      "price_new_max": 195000,
+      "price_used_min": 95000,
+      "price_used_max": 140000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "large",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "family",
+        "low_running_costs",
+        "practicality",
+        "city_only",
+        "first_car",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 22,
+      "notes": "Mercedes-AMG's flagship sports GT. 585hp V8, stunning styling, track-capable. Extremely expensive to buy and run. A pure performance machine with limited practicality."
+    },
+    {
+      "make": "Mercedes-Benz",
+      "model": "AMG E53",
+      "variant": "Estate 4Matic+",
+      "body_style": "estate",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 615,
+      "price_new_min": 88000,
+      "price_new_max": 105000,
+      "price_used_min": 48000,
+      "price_used_max": 68000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 1800,
+      "parking_size": "very_large",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "family",
+        "long_distance",
+        "practicality"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 28,
+      "notes": "The performance estate sweet spot — 435hp, a 615L boot, and the ability to cover ground very quickly. Rare combination of outright performance and genuine family practicality."
+    },
+    {
+      "make": "Audi",
+      "model": "A4",
+      "variant": "35 TDI S Line",
+      "body_style": "saloon",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 480,
+      "price_new_min": 40000,
+      "price_new_max": 50000,
+      "price_used_min": 18000,
+      "price_used_max": 32000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1900,
+      "parking_size": "large",
+      "best_for": [
+        "business",
+        "long_distance",
+        "prestige",
+        "daily_commute"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 32,
+      "real_mpg": 48,
+      "notes": "The default company car choice for a generation. Refined, well built, excellent on motorways. Slightly clinical to drive. Strong diesel efficiency makes it good value over high mileage."
+    },
+    {
+      "make": "Audi",
+      "model": "A4",
+      "variant": "40 TFSI S Line Avant",
+      "body_style": "estate",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 495,
+      "price_new_min": 44000,
+      "price_new_max": 55000,
+      "price_used_min": 20000,
+      "price_used_max": 35000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 1800,
+      "parking_size": "large",
+      "best_for": [
+        "business",
+        "family",
+        "long_distance",
+        "prestige",
+        "practicality"
+      ],
+      "avoid_for": [
+        "city_only",
+        "first_car",
+        "low_running_costs",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 33,
+      "real_mpg": 38,
+      "notes": "A4 Avant is the smarter choice over the saloon for most buyers — more boot, equally refined, same premium feel. Popular company car and family choice."
+    },
+    {
+      "make": "Audi",
+      "model": "A5",
+      "variant": "40 TFSI S Line Sportback",
+      "body_style": "saloon",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 480,
+      "price_new_min": 46000,
+      "price_new_max": 57000,
+      "price_used_min": 22000,
+      "price_used_max": 36000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 1800,
+      "parking_size": "large",
+      "best_for": [
+        "prestige",
+        "business",
+        "driving_enjoyment",
+        "long_distance",
+        "daily_commute"
+      ],
+      "avoid_for": [
+        "city_only",
+        "first_car",
+        "low_running_costs",
+        "large_family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 34,
+      "real_mpg": 38,
+      "notes": "More stylish than the A4 with a sleeker roofline. Four doors make it practical but the coupe styling compromises rear headroom slightly. Strong kerb appeal for the segment."
+    },
+    {
+      "make": "Audi",
+      "model": "A5",
+      "variant": "40 TFSI S Line Coupe",
+      "body_style": "coupe",
+      "fuel_type": "mild_hybrid",
+      "seats": 4,
+      "boot_litres": 450,
+      "price_new_min": 48000,
+      "price_new_max": 60000,
+      "price_used_min": 22000,
+      "price_used_max": 38000,
+      "running_cost": "medium",
+      "reliability": "average",
+      "towing_kg": 1800,
+      "parking_size": "large",
+      "best_for": [
+        "prestige",
+        "driving_enjoyment",
+        "weekend_leisure",
+        "business"
+      ],
+      "avoid_for": [
+        "family",
+        "city_only",
+        "first_car",
+        "low_running_costs",
+        "practicality"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 36,
+      "real_mpg": 37,
+      "notes": "One of the best looking cars in its class. Two-door coupe limits rear access. Strong presence, premium interior. Suits those who prioritise style over practicality."
+    },
+    {
+      "make": "Audi",
+      "model": "A7",
+      "variant": "50 TDI quattro S Line",
+      "body_style": "saloon",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 535,
+      "price_new_min": 68000,
+      "price_new_max": 84000,
+      "price_used_min": 32000,
+      "price_used_max": 52000,
+      "running_cost": "high",
+      "reliability": "average",
+      "towing_kg": 2400,
+      "parking_size": "very_large",
+      "best_for": [
+        "prestige",
+        "business",
+        "long_distance",
+        "driving_enjoyment"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 46,
+      "real_mpg": 36,
+      "notes": "Fastback gran tourer combining coupe looks with hatchback practicality. Large tailgate opening gives access to a 535L boot. Striking design, impressive motorway ability. Significant running costs."
+    },
+    {
+      "make": "Audi",
+      "model": "A8",
+      "variant": "55 TFSI quattro S Line",
+      "body_style": "saloon",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 505,
+      "price_new_min": 90000,
+      "price_new_max": 115000,
+      "price_used_min": 40000,
+      "price_used_max": 72000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 3500,
+      "parking_size": "very_large",
+      "best_for": [
+        "prestige",
+        "business",
+        "long_distance",
+        "comfort"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 30,
+      "notes": "Audi's flagship saloon. Air suspension, massaging seats, near-silent cabin. Competes with S-Class and 7 Series. Outstanding refinement but driving enjoyment is secondary to comfort."
+    },
+    {
+      "make": "Audi",
+      "model": "RS3",
+      "variant": "Saloon",
+      "body_style": "saloon",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 321,
+      "price_new_min": 58000,
+      "price_new_max": 68000,
+      "price_used_min": 38000,
+      "price_used_max": 54000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 1600,
+      "parking_size": "medium",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "daily_commute",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "family",
+        "city_only",
+        "first_car",
+        "towing"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 49,
+      "real_mpg": 28,
+      "notes": "400hp 5-cylinder engine with an iconic sound. Torque vectoring rear differential is brilliant. Small boot for the class. One of the most exciting everyday performance cars available."
+    },
+    {
+      "make": "Audi",
+      "model": "RS6",
+      "variant": "Avant Performance",
+      "body_style": "estate",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 565,
+      "price_new_min": 115000,
+      "price_new_max": 140000,
+      "price_used_min": 68000,
+      "price_used_max": 95000,
+      "running_cost": "very_high",
+      "reliability": "average",
+      "towing_kg": 3500,
+      "parking_size": "very_large",
+      "best_for": [
+        "driving_enjoyment",
+        "prestige",
+        "family",
+        "long_distance",
+        "towing",
+        "practicality"
+      ],
+      "avoid_for": [
+        "low_running_costs",
+        "city_only",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 50,
+      "real_mpg": 24,
+      "notes": "The definitive performance estate. 630hp, 565L boot, 3,500kg towing, and a 0-60 of 3.4 seconds. Does everything at an extreme level. Running costs are substantial — fuel economy in the mid-20s."
+    },
+    {
+      "make": "Toyota",
+      "model": "Prius",
+      "variant": "1.8 VVTi Business Edition Plus",
+      "body_style": "hatchback",
+      "fuel_type": "hybrid",
+      "seats": 5,
+      "boot_litres": 457,
+      "price_new_min": 27000,
+      "price_new_max": 32000,
+      "price_used_min": 10000,
+      "price_used_max": 20000,
+      "running_cost": "very_low",
+      "reliability": "excellent",
+      "towing_kg": 725,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "low_running_costs",
+        "reliability",
+        "long_distance",
+        "business"
+      ],
+      "avoid_for": [
+        "driving_enjoyment",
+        "off_road",
+        "weekend_leisure"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 20,
+      "real_mpg": 52,
+      "real_range_miles": 0,
+      "notes": "The iconic self-charging hybrid — no plugging in required. Famously reliable and cheap to run. A favourite with taxi drivers for good reason. Widely available used at very reasonable prices."
+    },
+    {
+      "make": "Honda",
+      "model": "Civic",
+      "variant": "1.5 VTEC Turbo Sport",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 410,
+      "price_new_min": 27000,
+      "price_new_max": 33000,
+      "price_used_min": 16000,
+      "price_used_max": 24000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "driving_enjoyment",
+        "long_distance",
+        "reliability"
+      ],
+      "avoid_for": [
+        "towing",
+        "off_road",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 23,
+      "real_mpg": 42,
+      "real_range_miles": 0,
+      "notes": "The 11th-gen Civic is sharp and well-finished with an impressive interior. The 1.5 turbo is punchy and refined. Honda build quality shows in long-term ownership."
+    },
+    {
+      "make": "Nissan",
+      "model": "Juke",
+      "variant": "1.0 DIG-T Tekna",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 422,
+      "price_new_min": 23000,
+      "price_new_max": 27000,
+      "price_used_min": 10000,
+      "price_used_max": 18000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "daily_commute",
+        "weekend_leisure",
+        "first_car"
+      ],
+      "avoid_for": [
+        "towing",
+        "off_road",
+        "family",
+        "long_distance"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 18,
+      "real_mpg": 38,
+      "real_range_miles": 0,
+      "notes": "One of the UK's best-selling small SUVs. Distinctive styling and easy to park. Rear seat and boot space are modest — better suited to couples or small families than large ones."
+    },
+    {
+      "make": "Hyundai",
+      "model": "i30",
+      "variant": "1.5 T-GDi 48V MHD SE Connect",
+      "body_style": "hatchback",
+      "fuel_type": "mild_hybrid",
+      "seats": 5,
+      "boot_litres": 395,
+      "price_new_min": 22000,
+      "price_new_max": 27000,
+      "price_used_min": 10000,
+      "price_used_max": 18000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 1300,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "family",
+        "practicality",
+        "first_car",
+        "reliability"
+      ],
+      "avoid_for": [
+        "prestige",
+        "driving_enjoyment",
+        "off_road"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 15,
+      "real_mpg": 44,
+      "real_range_miles": 0,
+      "notes": "Practical, reliable, and well-priced. Comes with Hyundai's 5-year unlimited-mileage warranty. A no-nonsense everyday car with a comfortable ride and sensible tech."
+    },
+    {
+      "make": "Peugeot",
+      "model": "208",
+      "variant": "1.2 PureTech 100 Allure",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 311,
+      "price_new_min": 19000,
+      "price_new_max": 24000,
+      "price_used_min": 8000,
+      "price_used_max": 14000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "first_car",
+        "daily_commute"
+      ],
+      "avoid_for": [
+        "towing",
+        "off_road",
+        "family",
+        "long_distance"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 13,
+      "real_mpg": 42,
+      "real_range_miles": 0,
+      "notes": "Sharp styling and a premium-feeling interior for the price. The 1.2 PureTech engine had oil-consumption issues in earlier builds — check service history carefully on any used example."
+    },
+    {
+      "make": "Skoda",
+      "model": "Superb",
+      "variant": "2.0 TDI 150 SE Technology Estate",
+      "body_style": "estate",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 660,
+      "price_new_min": 33000,
+      "price_new_max": 42000,
+      "price_used_min": 16000,
+      "price_used_max": 28000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "practicality",
+        "business",
+        "towing"
+      ],
+      "avoid_for": [
+        "city_only",
+        "driving_enjoyment",
+        "prestige"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 22,
+      "real_mpg": 52,
+      "real_range_miles": 0,
+      "notes": "Near-premium space at mainstream money. The estate boot is genuinely vast at 660L. Widely considered the best-value large family car available. Quiet, comfortable, and effortless on the motorway."
+    },
+    {
+      "make": "Renault",
+      "model": "Megane",
+      "variant": "1.3 TCe 140 Iconic",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 434,
+      "price_new_min": 22000,
+      "price_new_max": 26000,
+      "price_used_min": 8000,
+      "price_used_max": 15000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 1100,
+      "parking_size": "medium",
+      "best_for": [
+        "daily_commute",
+        "family",
+        "practicality"
+      ],
+      "avoid_for": [
+        "towing",
+        "prestige",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 17,
+      "real_mpg": 40,
+      "real_range_miles": 0,
+      "notes": "Often overlooked but offers a spacious cabin and comfortable ride. Depreciates quickly, making used examples strong value. The 1.3 TCe engine is co-developed with Mercedes and is a solid unit."
+    },
+    {
+      "make": "SEAT",
+      "model": "Arona",
+      "variant": "1.0 TSI 110 FR",
+      "body_style": "suv",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 400,
+      "price_new_min": 22000,
+      "price_new_max": 26000,
+      "price_used_min": 10000,
+      "price_used_max": 17000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "first_car",
+        "daily_commute",
+        "weekend_leisure"
+      ],
+      "avoid_for": [
+        "towing",
+        "family",
+        "off_road",
+        "long_distance"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 16,
+      "real_mpg": 40,
+      "real_range_miles": 0,
+      "notes": "Sporty small SUV on the same VW Group platform as the Ibiza. Confident handling and sharp FR styling. Good pick for drivers who want an SUV look without the bulk or running costs."
+    },
+    {
+      "make": "Citroen",
+      "model": "C3",
+      "variant": "1.2 PureTech 110 Shine",
+      "body_style": "hatchback",
+      "fuel_type": "petrol",
+      "seats": 5,
+      "boot_litres": 300,
+      "price_new_min": 18000,
+      "price_new_max": 22000,
+      "price_used_min": 7000,
+      "price_used_max": 13000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 0,
+      "parking_size": "small",
+      "best_for": [
+        "city_only",
+        "first_car",
+        "daily_commute"
+      ],
+      "avoid_for": [
+        "towing",
+        "off_road",
+        "long_distance",
+        "family"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 12,
+      "real_mpg": 42,
+      "real_range_miles": 0,
+      "notes": "Characterful styling with one of the softest, most comfortable rides in the small car class. Good city runabout. The 1.2 PureTech engine requires diligent servicing — check the maintenance record."
+    },
+    {
+      "make": "Volkswagen",
+      "model": "Passat",
+      "variant": "2.0 TDI 150 SE Business Estate",
+      "body_style": "estate",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 650,
+      "price_new_min": 30000,
+      "price_new_max": 40000,
+      "price_used_min": 13000,
+      "price_used_max": 24000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "business",
+        "practicality",
+        "towing"
+      ],
+      "avoid_for": [
+        "city_only",
+        "driving_enjoyment",
+        "first_car"
+      ],
+      "new_or_used": [
+        "new",
+        "nearly_new",
+        "used"
+      ],
+      "insurance_group": 20,
+      "real_mpg": 52,
+      "real_range_miles": 0,
+      "notes": "The definitive company-car estate. Refined, practical, and discreet. The 2.0 TDI is an excellent motorway engine. Enormous numbers of well-maintained fleet examples on the used market."
+    },
+    {
+      "make": "Ford",
+      "model": "Mondeo",
+      "variant": "2.0 EcoBlue 150 Titanium Edition Estate",
+      "body_style": "estate",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 525,
+      "price_new_min": 26000,
+      "price_new_max": 33000,
+      "price_used_min": 5000,
+      "price_used_max": 14000,
+      "running_cost": "low",
+      "reliability": "good",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "family",
+        "long_distance",
+        "business",
+        "towing",
+        "practicality"
+      ],
+      "avoid_for": [
+        "city_only",
+        "first_car",
+        "prestige"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 19,
+      "real_mpg": 50,
+      "real_range_miles": 0,
+      "notes": "Discontinued in 2022 but available in huge numbers used, often at bargain prices. A brilliant motorway car — spacious, comfortable, and cheap to run on diesel. Outstanding value for money."
+    },
+    {
+      "make": "Vauxhall",
+      "model": "Insignia",
+      "variant": "2.0 Turbo D 170 SRi VX-Line Nav Estate",
+      "body_style": "estate",
+      "fuel_type": "diesel",
+      "seats": 5,
+      "boot_litres": 540,
+      "price_new_min": 24000,
+      "price_new_max": 33000,
+      "price_used_min": 5000,
+      "price_used_max": 14000,
+      "running_cost": "low",
+      "reliability": "average",
+      "towing_kg": 2000,
+      "parking_size": "large",
+      "best_for": [
+        "business",
+        "long_distance",
+        "daily_commute",
+        "family",
+        "towing"
+      ],
+      "avoid_for": [
+        "city_only",
+        "prestige",
+        "driving_enjoyment"
+      ],
+      "new_or_used": [
+        "used"
+      ],
+      "insurance_group": 19,
+      "real_mpg": 48,
+      "real_range_miles": 0,
+      "notes": "Discontinued in 2022 and widely available used at very low prices. Strong value for a large estate on a budget. Comfortable motorway cruiser — go for a well-serviced example."
+    }
+  ]
+}

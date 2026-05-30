@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Loading... — DriveMatch</title>
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<main>
+  <!-- Loading state -->
+  <div id="post-loading">
+    <div style="height:380px;background:var(--slate-100);animation:shimmer 1.4s infinite;background:linear-gradient(90deg,var(--slate-100) 25%,var(--slate-50) 50%,var(--slate-100) 75%);background-size:200%;"></div>
+    <div class="post-content">
+      <div class="skeleton" style="height:14px;width:200px;margin-bottom:24px;"></div>
+      <div class="skeleton" style="height:40px;width:80%;margin-bottom:16px;"></div>
+      <div class="skeleton" style="height:14px;width:50%;margin-bottom:40px;"></div>
+      ${[1,2,3,4,5].map(i => `<div class="skeleton" style="height:14px;width:${70+Math.floor(i*7)%30}%;margin-bottom:10px;"></div>`).join('')}
+    </div>
+  </div>
+
+  <!-- 404 state (hidden) -->
+  <div id="post-notfound" class="hidden" style="text-align:center;padding:120px 24px;">
+    <div style="font-size:48px;margin-bottom:16px;">🔍</div>
+    <h2 style="margin-bottom:12px;">Post not found</h2>
+    <a href="blog.html" class="btn btn-primary btn-md">Back to Blog</a>
+  </div>
+
+  <!-- Actual post (hidden until loaded) -->
+  <div id="post-content" class="hidden"></div>
+</main>
+
+<script src="../js/app.js"></script>
+<script>
+function getSlug() {
+  return new URLSearchParams(window.location.search).get('slug') || '';
+}
+
+function renderContent(text) {
+  if (!text) return '';
+  const lines = text.split('\n');
+  let html = '';
+  lines.forEach(line => {
+    if (line.startsWith('## '))      html += `<h2>${line.slice(3)}</h2>`;
+    else if (line.startsWith('### ')) html += `<h3>${line.slice(4)}</h3>`;
+    else if (line.startsWith('- '))   html += `<ul><li>${line.slice(2).replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</li></ul>`;
+    else if (line.trim() === '')      html += '<br/>';
+    else html += `<p>${line.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')}</p>`;
+  });
+  // Merge consecutive <ul> items
+  return html.replace(/<\/ul>\n?<ul>/g, '');
+}
+
+async function loadPost() {
+  const slug = getSlug();
+  if (!slug) { showNotFound(); return; }
+
+  try {
+    const post = await API.getBlogPost(slug);
+    document.title = `${post.title} — DriveMatch`;
+
+    const el = document.getElementById('post-content');
+    el.innerHTML = `
+      ${post.coverImage ? `<img class="post-cover" src="${post.coverImage}" alt="${post.title}" loading="eager" />` : ''}
+      <div class="post-content">
+        <div class="post-breadcrumb">
+          <a href="blog.html">Blog</a>
+          <span>/</span>
+          <span class="badge cat-${post.category} badge-gray">${getCatLabel(post.category)}</span>
+        </div>
+        <h1 class="post-title">${post.title}</h1>
+        <div class="post-meta-row">
+          <div class="post-author-chip">
+            <div class="avatar">J</div>
+            <span style="font-weight:600;color:var(--slate-700);">${post.author}</span>
+          </div>
+          <span>·</span>
+          <span>${post.readTime} min read</span>
+          ${post.publishedAt ? `<span>·</span><span>${formatDate(post.publishedAt)}</span>` : ''}
+        </div>
+        <div class="post-body">
+          ${renderContent(post.content)}
+        </div>
+        <div class="post-cta-box">
+          <h3>Not sure which car is right for you?</h3>
+          <p>Use DriveMatch — it's free, takes 90 seconds, and gives you an honest recommendation backed by AI.</p>
+          <a href="../index.html#quiz" class="btn btn-primary btn-lg">
+            <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6z"/></svg>
+            Find My Match — Free
+          </a>
+        </div>
+        <div style="margin-top:32px;">
+          <a href="blog.html" class="btn btn-ghost btn-sm">
+            <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+            Back to Blog
+          </a>
+        </div>
+      </div>`;
+
+    document.getElementById('post-loading').classList.add('hidden');
+    el.classList.remove('hidden');
+  } catch {
+    showNotFound();
+  }
+}
+
+function showNotFound() {
+  document.getElementById('post-loading').classList.add('hidden');
+  document.getElementById('post-notfound').classList.remove('hidden');
+}
+
+document.addEventListener('DOMContentLoaded', loadPost);
+</script>
+</body>
+</html>
