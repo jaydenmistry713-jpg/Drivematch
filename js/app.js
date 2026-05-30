@@ -537,10 +537,47 @@ function injectShell() {
         <div class="navbar-cta">
           <div class="ai-badge"><span class="dot"></span>AI Powered</div>
           <a href="${root}index.html#quiz" class="btn btn-primary btn-sm">Get Matched</a>
+          <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
         </div>
       </div>
-    </nav>`;
+    </nav>
+    <div class="nav-mobile-overlay" id="nav-mobile-overlay"></div>
+    <div class="nav-mobile" id="nav-mobile">
+      <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Close menu">&times;</button>
+      <ul class="nav-mobile-links">
+        <li><a href="${root}index.html">Find a Vehicle</a></li>
+        <li><a href="${pages}reviews.html">Reviews</a></li>
+        <li><a href="${pages}blog.html">Blog</a></li>
+        <li><a href="${pages}about.html">About</a></li>
+        <li><a href="${pages}how-it-works.html">How It Works</a></li>
+      </ul>
+      <div class="nav-mobile-cta">
+        <a href="${root}index.html" class="btn btn-primary" style="width:100%;justify-content:center;">Get Matched — Free</a>
+      </div>
+    </div>`;
   document.body.insertBefore(nav, TEST_MODE ? document.body.children[1] : document.body.firstChild);
+
+  // Hamburger toggle
+  const hamburger = document.getElementById('nav-hamburger');
+  const mobileNav = document.getElementById('nav-mobile');
+  const mobileOverlay = document.getElementById('nav-mobile-overlay');
+  const mobileClose = document.getElementById('nav-mobile-close');
+  function openMobileNav() {
+    mobileNav.classList.add('open');
+    mobileOverlay.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMobileNav() {
+    mobileNav.classList.remove('open');
+    mobileOverlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  hamburger.addEventListener('click', openMobileNav);
+  mobileClose.addEventListener('click', closeMobileNav);
+  mobileOverlay.addEventListener('click', closeMobileNav);
+  mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
 
   // Footer
   const footer = document.createElement('footer');
@@ -1290,6 +1327,7 @@ function showResult(r) {
     '</div>';
 
   showSection('result');
+  scheduleFindPrompt(r.vehicle);
 }
 
 
@@ -1522,6 +1560,7 @@ function shareResult() {
 /* ── MODALS ─────────────────────────────────────────────────────── */
 function openLeadModal() {
   if (!currentMatch) return;
+  dismissFindPrompt();
 
   // Re-populate fields in case modal was previously submitted and replaced
   var body = document.getElementById('modal-lead-body');
@@ -1579,6 +1618,48 @@ function openNotifyModal() {
 function closeModal(id) {
   var el = document.getElementById(id);
   if (el) el.classList.remove('open');
+}
+
+/* ── FIND CAR PROMPT ────────────────────────────────────────────── */
+var _findPromptTimer = null;
+
+function scheduleFindPrompt(vehicle) {
+  // Clear any previous timer and remove any existing banner
+  if (_findPromptTimer) { clearTimeout(_findPromptTimer); _findPromptTimer = null; }
+  var old = document.getElementById('find-prompt');
+  if (old) old.remove();
+
+  _findPromptTimer = setTimeout(function() {
+    var el = document.createElement('div');
+    el.id = 'find-prompt';
+    el.className = 'find-prompt';
+    el.innerHTML =
+      '<div class="find-prompt-emoji">🚗</div>' +
+      '<div class="find-prompt-text">' +
+        '<div class="find-prompt-title">Should I find your ' + vehicle + ' for you?</div>' +
+        '<div class="find-prompt-sub">Jayden personally sources &amp; checks every vehicle. Free to enquire.</div>' +
+      '</div>' +
+      '<button class="find-prompt-cta" onclick="findPromptAccept()">Yes, find it for me &rarr;</button>' +
+      '<button class="find-prompt-dismiss" onclick="dismissFindPrompt()" aria-label="Dismiss">&#x2715;</button>';
+    document.body.appendChild(el);
+    requestAnimationFrame(function() {
+      requestAnimationFrame(function() { el.classList.add('fp-visible'); });
+    });
+  }, 4000);
+}
+
+function findPromptAccept() {
+  dismissFindPrompt();
+  openLeadModal();
+}
+
+function dismissFindPrompt() {
+  if (_findPromptTimer) { clearTimeout(_findPromptTimer); _findPromptTimer = null; }
+  var el = document.getElementById('find-prompt');
+  if (el) {
+    el.classList.remove('fp-visible');
+    setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 450);
+  }
 }
 
 document.addEventListener('click', function(e) {

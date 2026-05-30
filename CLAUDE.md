@@ -273,7 +273,9 @@ This is critical — without it, navigation breaks from `pages/` subdirectory.
 
 **Conversational Onboarding** — `OB_STEPS` array defines all 10 questions with icons, sub-hints, and option lists. `startOnboarding()`, `closeOnboarding()`, `renderObStep()`, `obAdvance()`, `obBack()`, `obSkip()`, `obTextContinue()`, `obFinish()`, `runMatchFromOnboarding()`.
 
-**Match Result Rendering (`showResult`)** — Builds the full result card HTML including: hero image with score ring, quick stats bar (insurance group, boot, seats, MPG/range, reliability, towing), pros/cons, summary, alternatives (clickable), low match panel (if score < 70%), CTAs.
+**Match Result Rendering (`showResult`)** — Builds the full result card HTML including: hero image with score ring, quick stats bar (insurance group, boot, seats, MPG/range, reliability, towing), pros/cons, summary, alternatives (clickable), low match panel (if score < 70%), CTAs. After rendering, calls `scheduleFindPrompt()` to show the find-car pop-up after 4 seconds.
+
+**Find Car Prompt** — `scheduleFindPrompt(vehicle)`, `findPromptAccept()`, `dismissFindPrompt()`. A fixed bottom banner that slides up 4 seconds after the result renders. Copy: "Should I find your [Vehicle] for you?" with a "Yes, find it for me" CTA that opens the lead modal. Dismissed by × button, by opening the lead modal, or when a new result loads. State managed by `_findPromptTimer`. Styled via `.find-prompt` / `.fp-visible` in `style.css`.
 
 **Low Match Suggestions** — `buildLowMatchSuggestions()` analyses quiz answers vs result and generates 2-3 specific actionable suggestions. Triggers at score < 70%. `tryLowMatchSuggestion()` patches one field and re-runs the match. Scores < 50% show a red "very difficult" panel.
 

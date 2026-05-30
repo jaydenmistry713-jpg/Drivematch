@@ -172,6 +172,71 @@ main { flex: 1; }
   animation: pulse 2s infinite;
 }
 
+/* ── HAMBURGER + MOBILE NAV ───────────────────────────────────── */
+.nav-hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: var(--radius-md);
+}
+.nav-hamburger span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background: var(--navy);
+  border-radius: 2px;
+  transition: transform .2s, opacity .2s;
+}
+.nav-mobile-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,.5);
+  z-index: 95;
+}
+.nav-mobile-overlay.open { display: block; }
+.nav-mobile {
+  display: none;
+  position: fixed;
+  top: 0; right: 0; bottom: 0;
+  width: 280px;
+  background: #fff;
+  z-index: 96;
+  padding: 24px;
+  box-shadow: -4px 0 32px rgba(0,0,0,.15);
+  flex-direction: column;
+  overflow-y: auto;
+}
+.nav-mobile.open { display: flex; }
+.nav-mobile-close {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--slate-500);
+  padding: 4px;
+  margin-bottom: 20px;
+}
+.nav-mobile-links { list-style: none; flex: 1; }
+.nav-mobile-links li { border-bottom: 1px solid var(--slate-100); }
+.nav-mobile-links a {
+  display: block;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  padding: 14px 0;
+  text-decoration: none;
+  transition: color .15s;
+}
+.nav-mobile-links a:hover { color: var(--brand-700); }
+.nav-mobile-cta { margin-top: 24px; }
+
 /* ── BUTTONS ──────────────────────────────────────────────────── */
 .btn {
   display: inline-flex;
@@ -1055,7 +1120,17 @@ footer {
   .container, .container-narrow { padding: 0 16px; }
   .navbar-links { display: none; }
   .ai-badge { display: none; }
-  .hero-content { padding: 56px 0; }
+  .navbar-cta .btn-sm { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .hero-content { padding: 56px 0; text-align: center; }
+  .hero-pill { margin-left: auto; margin-right: auto; }
+  .hero-actions { justify-content: center; }
+  .hero-title { font-size: 3rem; }
+  .hero-stats { flex-wrap: nowrap; justify-content: space-between; gap: 4px; }
+  .stat-num { font-size: 1.35rem; }
+  .stat-label { font-size: 10px; }
+
   .footer-grid { grid-template-columns: 1fr; }
   .quiz-grid { grid-template-columns: 1fr 1fr; }
   .result-ctas { grid-template-columns: 1fr; }
@@ -1403,6 +1478,70 @@ footer {
     padding: 12px 14px;
     min-width: unset;
   }
+}
+
+/* ── FIND CAR PROMPT ──────────────────────────────────────────── */
+.find-prompt {
+  position: fixed;
+  bottom: -140px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: calc(100% - 32px);
+  max-width: 580px;
+  background: var(--navy);
+  border: 1px solid rgba(96,165,250,.2);
+  border-radius: 18px;
+  box-shadow: 0 8px 40px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.04);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  z-index: 85;
+  transition: bottom .45s cubic-bezier(.34,1.4,.64,1);
+}
+.find-prompt.fp-visible { bottom: 24px; }
+.find-prompt-emoji { font-size: 2rem; flex-shrink: 0; line-height: 1; }
+.find-prompt-text { flex: 1; min-width: 0; }
+.find-prompt-title {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #fff;
+  margin-bottom: 3px;
+  line-height: 1.3;
+}
+.find-prompt-sub { font-size: 12px; color: var(--slate-400); line-height: 1.5; }
+.find-prompt-cta {
+  background: var(--brand-600);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 11px 18px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background .15s, transform .1s;
+}
+.find-prompt-cta:hover { background: var(--brand-700); transform: translateY(-1px); }
+.find-prompt-dismiss {
+  background: none;
+  border: none;
+  color: var(--slate-500);
+  cursor: pointer;
+  padding: 6px;
+  flex-shrink: 0;
+  font-size: 1rem;
+  line-height: 1;
+  transition: color .15s;
+}
+.find-prompt-dismiss:hover { color: var(--slate-300); }
+@media (max-width: 640px) {
+  .find-prompt { flex-wrap: wrap; gap: 10px; padding: 16px; bottom: -180px; }
+  .find-prompt.fp-visible { bottom: 16px; }
+  .find-prompt-cta { width: 100%; text-align: center; padding: 12px; }
 }
 
 /* ── CONVERSATIONAL ONBOARDING ────────────────────────────────── */

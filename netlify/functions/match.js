@@ -1,11 +1,8 @@
 const Anthropic = require('@anthropic-ai/sdk');
-const path = require('path');
-const fs = require('fs');
 
 // ── LOAD VEHICLE DATABASE ────────────────────────────────────────
-// Resolved relative to the project root at runtime
-const DB_PATH = path.join(__dirname, '../../data/vehicles.json');
-const vehicleDB = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
+// require() lets esbuild bundle the JSON at build time — no runtime fs dependency
+const vehicleDB = require('../../data/vehicles.json');
 const ALL_VEHICLES = vehicleDB.vehicles;
 
 // ── PRE-FILTER LOGIC ─────────────────────────────────────────────
