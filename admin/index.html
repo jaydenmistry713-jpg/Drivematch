@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DriveMatch Admin</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0f172a;
+      --navy-light: #1e293b;
+      --brand: #2563eb;
+      --brand-dark: #1d4ed8;
+      --green: #059669;
+      --green-bg: #ecfdf5;
+      --amber: #d97706;
+      --amber-bg: #fffbeb;
+      --red: #dc2626;
+      --red-bg: #fef2f2;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-400: #94a3b8;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --slate-700: #334155;
+      --text: #1e293b;
+      --font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --radius: 8px;
+      --shadow: 0 1px 3px rgba(0,0,0,.1), 0 1px 2px rgba(0,0,0,.06);
+      --shadow-md: 0 4px 6px rgba(0,0,0,.07), 0 2px 4px rgba(0,0,0,.06);
+      --shadow-lg: 0 10px 15px rgba(0,0,0,.1), 0 4px 6px rgba(0,0,0,.05);
+    }
+
+    body { font-family: var(--font); color: var(--text); background: var(--slate-50); font-size: 14px; }
+
+    /* ── LOGIN ── */
+    #login-screen {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--navy);
+    }
+    .login-card {
+      background: var(--navy-light);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .login-logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 32px;
+    }
+    .login-logo-icon { font-size: 22px; }
+    .login-title { color: #fff; font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
+    .login-sub { color: var(--slate-400); font-size: 13px; margin-bottom: 28px; }
+    .login-input {
+      width: 100%;
+      padding: 12px 16px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: var(--radius);
+      color: #fff;
+      font-size: 15px;
+      outline: none;
+      margin-bottom: 14px;
+      font-family: var(--font);
+    }
+    .login-input::placeholder { color: var(--slate-500); }
+    .login-input:focus { border-color: var(--brand); }
+    .login-btn {
+      width: 100%;
+      padding: 12px;
+      background: var(--brand);
+      color: #fff;
+      font-size: 15px;
+      font-weight: 600;
+      border: none;
+      border-radius: var(--radius);
+      cursor: pointer;
+      transition: background .15s;
+    }
+    .login-btn:hover { background: var(--brand-dark); }
+    .login-error { color: #fca5a5; font-size: 13px; margin-top: 12px; display: none; }
+
+    /* ── APP SHELL ── */
+    #app { display: none; }
+
+    .admin-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: var(--navy);
+      color: #fff;
+      padding: 0 24px;
+      height: 56px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      box-shadow: 0 1px 0 rgba(255,255,255,.06);
+    }
+    .topbar-logo {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 700;
+      font-size: 15px;
+      margin-right: 8px;
+    }
+    .topbar-badge {
+      font-size: 10px;
+      font-weight: 700;
+      background: var(--brand);
+      color: #fff;
+      padding: 2px 7px;
+      border-radius: 999px;
+      letter-spacing: .05em;
+    }
+    .topbar-stats { display: flex; gap: 16px; margin-left: auto; }
+    .topbar-stat { text-align: center; }
+    .topbar-stat-num { font-size: 18px; font-weight: 700; line-height: 1; }
+    .topbar-stat-label { font-size: 10px; color: var(--slate-400); margin-top: 1px; }
+    .topbar-logout {
+      background: rgba(255,255,255,.08);
+      border: none;
+      color: var(--slate-300);
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-family: var(--font);
+      transition: background .15s;
+      margin-left: 16px;
+    }
+    .topbar-logout:hover { background: rgba(255,255,255,.15); color: #fff; }
+
+    /* ── MAIN ── */
+    .admin-main { padding: 28px 24px; max-width: 1400px; margin: 0 auto; }
+
+    .toolbar {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .toolbar-search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 200px;
+      max-width: 420px;
+    }
+    .toolbar-search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--slate-400);
+      pointer-events: none;
+    }
+    .toolbar-search {
+      width: 100%;
+      padding: 9px 12px 9px 36px;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius);
+      font-size: 14px;
+      outline: none;
+      background: #fff;
+      font-family: var(--font);
+    }
+    .toolbar-search:focus { border-color: var(--brand); box-shadow: 0 0 0 3px rgba(37,99,235,.12); }
+    .toolbar-right { display: flex; gap: 10px; margin-left: auto; }
+
+    .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border-radius: var(--radius); font-size: 13px; font-weight: 600; cursor: pointer; border: none; font-family: var(--font); transition: all .15s; }
+    .btn-primary { background: var(--brand); color: #fff; }
+    .btn-primary:hover { background: var(--brand-dark); }
+    .btn-secondary { background: #fff; color: var(--slate-700); border: 1px solid var(--slate-200); }
+    .btn-secondary:hover { background: var(--slate-50); border-color: var(--slate-300); }
+    .btn-danger { background: var(--red-bg); color: var(--red); border: 1px solid #fecaca; }
+    .btn-danger:hover { background: #fee2e2; }
+    .btn-sm { padding: 5px 12px; font-size: 12px; }
+    .btn-icon { padding: 6px 8px; }
+
+    /* ── TABLE ── */
+    .table-wrap {
+      background: #fff;
+      border: 1px solid var(--slate-200);
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+    }
+    table { width: 100%; border-collapse: collapse; }
+    thead { background: var(--slate-50); border-bottom: 1px solid var(--slate-200); }
+    th {
+      padding: 11px 14px;
+      text-align: left;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--slate-500);
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+    td { padding: 12px 14px; border-bottom: 1px solid var(--slate-100); vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--slate-50); }
+
+    .td-thumb { width: 56px; height: 40px; object-fit: cover; border-radius: 6px; background: var(--slate-100); display: block; }
+    .td-thumb-placeholder { width: 56px; height: 40px; border-radius: 6px; background: var(--slate-100); display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    .vehicle-name { font-weight: 600; color: var(--text); font-size: 13px; }
+    .vehicle-variant { font-size: 12px; color: var(--slate-400); margin-top: 1px; }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.6;
+    }
+    .badge-body { background: #f1f5f9; color: var(--slate-600); }
+    .badge-fuel { background: #dbeafe; color: #1d4ed8; }
+    .badge-reliability-excellent { background: var(--green-bg); color: var(--green); }
+    .badge-reliability-good { background: #f0fdf4; color: #16a34a; }
+    .badge-reliability-average { background: var(--amber-bg); color: var(--amber); }
+    .badge-reliability-below_average { background: var(--red-bg); color: var(--red); }
+
+    .td-price { font-size: 12px; color: var(--slate-500); white-space: nowrap; }
+    .td-actions { display: flex; gap: 6px; white-space: nowrap; }
+
+    .empty-state { text-align: center; padding: 60px 20px; color: var(--slate-400); }
+    .empty-state-icon { font-size: 36px; margin-bottom: 12px; }
+    .empty-state-title { font-size: 16px; font-weight: 600; color: var(--slate-600); margin-bottom: 6px; }
+
+    /* ── MODAL ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(15,23,42,.6);
+      backdrop-filter: blur(4px);
+      z-index: 200;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 24px 16px;
+      overflow-y: auto;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: auto; }
+    .modal {
+      background: #fff;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 720px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--slate-100);
+    }
+    .modal-title { font-size: 1.05rem; font-weight: 700; }
+    .modal-close {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--slate-400);
+      padding: 4px;
+      border-radius: 6px;
+      transition: color .15s;
+      line-height: 1;
+    }
+    .modal-close:hover { color: var(--slate-700); }
+    .modal-body { padding: 24px; max-height: calc(100vh - 180px); overflow-y: auto; }
+    .modal-footer { padding: 16px 24px; border-top: 1px solid var(--slate-100); display: flex; gap: 10px; justify-content: flex-end; }
+
+    /* ── FORM ── */
+    .form-section { margin-bottom: 28px; }
+    .form-section-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      color: var(--slate-400);
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--slate-100);
+    }
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .form-grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .form-group { display: flex; flex-direction: column; gap: 5px; }
+    .form-group.span-2 { grid-column: span 2; }
+    .form-group.span-3 { grid-column: span 3; }
+    .form-label { font-size: 12px; font-weight: 600; color: var(--slate-600); }
+    .form-label .opt { font-weight: 400; color: var(--slate-400); }
+    .form-input, .form-select, .form-textarea {
+      padding: 9px 12px;
+      border: 1px solid var(--slate-200);
+      border-radius: var(--radius);
+      font-size: 14px;
+      font-family: var(--font);
+      color: var(--text);
+      outline: none;
+      background: #fff;
+      transition: border .15s, box-shadow .15s;
+    }
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(37,99,235,.12);
+    }
+    .form-textarea { resize: vertical; min-height: 72px; }
+    .form-hint { font-size: 11px; color: var(--slate-400); }
+
+    .img-preview-wrap { margin-top: 8px; }
+    .img-preview {
+      width: 100%;
+      max-height: 160px;
+      object-fit: cover;
+      border-radius: var(--radius);
+      background: var(--slate-100);
+      display: none;
+    }
+    .img-preview.visible { display: block; }
+
+    /* Checkboxes */
+    .checkbox-grid { display: flex; flex-wrap: wrap; gap: 8px; }
+    .checkbox-item { display: flex; align-items: center; gap: 6px; }
+    .checkbox-item input[type="checkbox"] { width: 15px; height: 15px; accent-color: var(--brand); cursor: pointer; }
+    .checkbox-item label { font-size: 13px; color: var(--slate-600); cursor: pointer; user-select: none; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 500;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .toast-item {
+      background: var(--navy);
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: var(--shadow-md);
+      animation: slideIn .2s ease;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .toast-item.error { background: var(--red); }
+    .toast-item.success { background: var(--green); }
+    @keyframes slideIn { from { transform: translateY(16px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+    /* ── SPINNER ── */
+    .spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── LOADING STATE ── */
+    .table-loading { text-align: center; padding: 60px; color: var(--slate-400); }
+    .table-loading-spinner { width: 36px; height: 36px; border: 3px solid var(--slate-200); border-top-color: var(--brand); border-radius: 50%; animation: spin .7s linear infinite; margin: 0 auto 14px; }
+
+    @media (max-width: 768px) {
+      .admin-main { padding: 16px 12px; }
+      .form-grid { grid-template-columns: 1fr; }
+      .form-grid-3 { grid-template-columns: 1fr 1fr; }
+      .form-group.span-2, .form-group.span-3 { grid-column: span 1; }
+      .topbar-stats { display: none; }
+      .td-thumb, .td-thumb-placeholder { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <span class="login-logo-icon">🚗</span>
+      DriveMatch
+    </div>
+    <h2 class="login-title">Admin Dashboard</h2>
+    <p class="login-sub">Enter your password to continue</p>
+    <input class="login-input" id="login-password" type="password" placeholder="Password" autocomplete="current-password" />
+    <button class="login-btn" id="login-btn" onclick="doLogin()">Sign In</button>
+    <p class="login-error" id="login-error">Incorrect password. Try again.</p>
+  </div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="admin-topbar">
+    <div class="topbar-logo">
+      <span>🚗</span>
+      DriveMatch
+      <span class="topbar-badge">ADMIN</span>
+    </div>
+    <div class="topbar-stats">
+      <div class="topbar-stat">
+        <div class="topbar-stat-num" id="stat-total">—</div>
+        <div class="topbar-stat-label">Vehicles</div>
+      </div>
+      <div class="topbar-stat">
+        <div class="topbar-stat-num" id="stat-ev">—</div>
+        <div class="topbar-stat-label">Electric</div>
+      </div>
+      <div class="topbar-stat">
+        <div class="topbar-stat-num" id="stat-suv">—</div>
+        <div class="topbar-stat-label">SUVs</div>
+      </div>
+    </div>
+    <button class="topbar-logout" onclick="doLogout()">Sign out</button>
+  </div>
+
+  <div class="admin-main">
+    <div class="toolbar">
+      <div class="toolbar-search-wrap">
+        <svg class="toolbar-search-icon" width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 105 11a6 6 0 0012 0z"/>
+        </svg>
+        <input class="toolbar-search" id="table-search" type="text" placeholder="Search make, model, or fuel…" oninput="filterTable()" />
+      </div>
+      <div class="toolbar-right">
+        <button class="btn btn-secondary" onclick="exportVehicles()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+          Export vehicles.json
+        </button>
+        <button class="btn btn-primary" onclick="openAddModal()">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"/></svg>
+          Add Vehicle
+        </button>
+      </div>
+    </div>
+
+    <div class="table-wrap" id="table-wrap">
+      <div class="table-loading">
+        <div class="table-loading-spinner"></div>
+        Loading vehicles…
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- VEHICLE MODAL -->
+<div class="modal-overlay" id="vehicle-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 class="modal-title" id="modal-title">Add Vehicle</h3>
+      <button class="modal-close" onclick="closeModal()">
+        <svg width="20" height="20" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+        </svg>
+      </button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="edit-id" />
+
+      <!-- Image -->
+      <div class="form-section">
+        <div class="form-section-title">Image</div>
+        <div class="form-group">
+          <label class="form-label">Image URL <span class="opt">(optional)</span></label>
+          <input class="form-input" id="f-image_url" type="url" placeholder="https://…" oninput="previewImage()" />
+          <span class="form-hint">Paste any direct image URL. Leave blank to auto-generate from Unsplash.</span>
+        </div>
+        <div class="img-preview-wrap">
+          <img class="img-preview" id="img-preview" alt="Preview" />
+        </div>
+      </div>
+
+      <!-- Identity -->
+      <div class="form-section">
+        <div class="form-section-title">Identity</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Make *</label>
+            <input class="form-input" id="f-make" type="text" placeholder="e.g. Toyota" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Model *</label>
+            <input class="form-input" id="f-model" type="text" placeholder="e.g. RAV4" />
+          </div>
+          <div class="form-group span-2">
+            <label class="form-label">Variant <span class="opt">(optional)</span></label>
+            <input class="form-input" id="f-variant" type="text" placeholder="e.g. 2.5 Hybrid Design" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Type -->
+      <div class="form-section">
+        <div class="form-section-title">Type</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Body Style *</label>
+            <select class="form-select" id="f-body_style">
+              <option value="">Select…</option>
+              <option value="hatchback">Hatchback</option>
+              <option value="saloon">Saloon</option>
+              <option value="estate">Estate</option>
+              <option value="suv">SUV</option>
+              <option value="coupe">Coupé</option>
+              <option value="convertible">Convertible</option>
+              <option value="mpv">MPV</option>
+              <option value="van">Van</option>
+              <option value="pickup">Pickup</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Fuel Type *</label>
+            <select class="form-select" id="f-fuel_type">
+              <option value="">Select…</option>
+              <option value="petrol">Petrol</option>
+              <option value="diesel">Diesel</option>
+              <option value="electric">Electric</option>
+              <option value="hybrid">Hybrid</option>
+              <option value="phev">PHEV</option>
+              <option value="mild_hybrid">Mild Hybrid</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Seats</label>
+            <input class="form-input" id="f-seats" type="number" min="1" max="9" placeholder="5" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Parking Size</label>
+            <select class="form-select" id="f-parking_size">
+              <option value="">Select…</option>
+              <option value="small">Small</option>
+              <option value="medium">Medium</option>
+              <option value="large">Large</option>
+              <option value="very_large">Very Large</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pricing -->
+      <div class="form-section">
+        <div class="form-section-title">Pricing (£)</div>
+        <div class="form-grid form-grid-3">
+          <div class="form-group">
+            <label class="form-label">New Min</label>
+            <input class="form-input" id="f-price_new_min" type="number" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">New Max</label>
+            <input class="form-input" id="f-price_new_max" type="number" placeholder="0" />
+          </div>
+          <div class="form-group" style="opacity:0;pointer-events:none;"></div>
+          <div class="form-group">
+            <label class="form-label">Used Min</label>
+            <input class="form-input" id="f-price_used_min" type="number" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Used Max</label>
+            <input class="form-input" id="f-price_used_max" type="number" placeholder="0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Performance & Running -->
+      <div class="form-section">
+        <div class="form-section-title">Performance &amp; Running</div>
+        <div class="form-grid form-grid-3">
+          <div class="form-group">
+            <label class="form-label">Boot (litres)</label>
+            <input class="form-input" id="f-boot_litres" type="number" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Insurance Group</label>
+            <input class="form-input" id="f-insurance_group" type="number" min="1" max="50" placeholder="1–50" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Real MPG</label>
+            <input class="form-input" id="f-real_mpg" type="number" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Real Range (miles)</label>
+            <input class="form-input" id="f-real_range_miles" type="number" placeholder="0" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Towing (kg)</label>
+            <input class="form-input" id="f-towing_kg" type="number" placeholder="0" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Attributes -->
+      <div class="form-section">
+        <div class="form-section-title">Attributes</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label class="form-label">Reliability</label>
+            <select class="form-select" id="f-reliability">
+              <option value="">Select…</option>
+              <option value="excellent">Excellent</option>
+              <option value="good">Good</option>
+              <option value="average">Average</option>
+              <option value="below_average">Below Average</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Running Cost</label>
+            <select class="form-select" id="f-running_cost">
+              <option value="">Select…</option>
+              <option value="very_low">Very Low</option>
+              <option value="low">Low</option>
+              <option value="medium">Medium</option>
+              <option value="high">High</option>
+              <option value="very_high">Very High</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- New or Used -->
+      <div class="form-section">
+        <div class="form-section-title">Available As</div>
+        <div class="checkbox-grid" id="cb-new_or_used"></div>
+      </div>
+
+      <!-- Best For -->
+      <div class="form-section">
+        <div class="form-section-title">Best For</div>
+        <div class="checkbox-grid" id="cb-best_for"></div>
+      </div>
+
+      <!-- Avoid For -->
+      <div class="form-section">
+        <div class="form-section-title">Avoid For</div>
+        <div class="checkbox-grid" id="cb-avoid_for"></div>
+      </div>
+
+      <!-- Notes -->
+      <div class="form-section">
+        <div class="form-section-title">Notes</div>
+        <div class="form-group">
+          <label class="form-label">About this car <span class="opt">(optional)</span></label>
+          <textarea class="form-textarea" id="f-notes" placeholder="Key facts, quirks, or buyer tips…" rows="3"></textarea>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" id="modal-save-btn" onclick="saveVehicle()">
+        <span id="modal-save-label">Save Vehicle</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div id="toast"></div>
+
+<script>
+var adminPassword = '';
+var allVehicles   = [];
+var filteredVehicles = [];
+
+var TAG_OPTIONS = [
+  { value: 'business',         label: 'Business use' },
+  { value: 'city_only',        label: 'City driving' },
+  { value: 'daily_commute',    label: 'Daily commuting' },
+  { value: 'driving_enjoyment',label: 'Driving enjoyment' },
+  { value: 'family',           label: 'Family use' },
+  { value: 'first_car',        label: 'First car' },
+  { value: 'long_distance',    label: 'Long distance' },
+  { value: 'low_running_costs',label: 'Low running costs' },
+  { value: 'off_road',         label: 'Off-road capability' },
+  { value: 'practicality',     label: 'Practicality' },
+  { value: 'prestige',         label: 'Prestige & image' },
+  { value: 'reliability',      label: 'Reliability' },
+  { value: 'towing',           label: 'Towing' },
+  { value: 'weekend_leisure',  label: 'Weekend leisure' },
+];
+
+var NEW_USED_OPTIONS = [
+  { value: 'new',         label: 'New' },
+  { value: 'nearly_new',  label: 'Nearly new' },
+  { value: 'used',        label: 'Used' },
+];
+
+var BODY_LABELS = {
+  hatchback:'Hatchback', saloon:'Saloon', estate:'Estate', suv:'SUV',
+  coupe:'Coupé', convertible:'Convertible', mpv:'MPV', van:'Van', pickup:'Pickup'
+};
+var FUEL_LABELS = {
+  petrol:'Petrol', diesel:'Diesel', electric:'Electric',
+  hybrid:'Hybrid', phev:'PHEV', mild_hybrid:'Mild Hybrid'
+};
+
+/* ── AUTH ── */
+function doLogin() {
+  var pw = document.getElementById('login-password').value;
+  if (!pw) return;
+  var btn = document.getElementById('login-btn');
+  btn.innerHTML = '<span class="spinner"></span>';
+  btn.disabled = true;
+
+  fetch('/api/admin?action=list', { headers: { 'X-Admin-Password': pw } })
+    .then(function(r) {
+      if (!r.ok) throw new Error('bad');
+      return r.json();
+    })
+    .then(function(data) {
+      adminPassword = pw;
+      document.getElementById('login-screen').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+      document.getElementById('login-error').style.display = 'none';
+      loadVehicles(data);
+    })
+    .catch(function() {
+      document.getElementById('login-error').style.display = 'block';
+      btn.innerHTML = 'Sign In';
+      btn.disabled = false;
+    });
+}
+
+document.getElementById('login-password').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') doLogin();
+});
+
+function doLogout() {
+  adminPassword = '';
+  allVehicles = [];
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('login-password').value = '';
+}
+
+/* ── API ── */
+function api(method, params, body) {
+  var url = '/api/admin' + (params ? '?' + new URLSearchParams(params).toString() : '');
+  var opts = {
+    method: method,
+    headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
+  };
+  if (body) opts.body = JSON.stringify(body);
+  return fetch(url, opts).then(function(r) {
+    return r.json().then(function(d) {
+      if (!r.ok) throw new Error(d.error || 'Request failed');
+      return d;
+    });
+  });
+}
+
+/* ── LOAD & RENDER ── */
+function loadVehicles(preloaded) {
+  if (preloaded) {
+    allVehicles = preloaded.vehicles;
+    renderTable(allVehicles);
+    updateStats();
+    return;
+  }
+  document.getElementById('table-wrap').innerHTML =
+    '<div class="table-loading"><div class="table-loading-spinner"></div>Loading vehicles…</div>';
+
+  api('GET', { action: 'list' })
+    .then(function(d) {
+      allVehicles = d.vehicles;
+      filterTable();
+      updateStats();
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+function updateStats() {
+  document.getElementById('stat-total').textContent = allVehicles.length;
+  document.getElementById('stat-ev').textContent = allVehicles.filter(function(v) { return v.fuel_type === 'electric'; }).length;
+  document.getElementById('stat-suv').textContent = allVehicles.filter(function(v) { return v.body_style === 'suv'; }).length;
+}
+
+function filterTable() {
+  var q = document.getElementById('table-search').value.trim().toLowerCase();
+  filteredVehicles = q
+    ? allVehicles.filter(function(v) {
+        return [v.make, v.model, v.variant || '', v.body_style, v.fuel_type]
+          .join(' ').toLowerCase().includes(q);
+      })
+    : allVehicles.slice();
+  renderTable(filteredVehicles);
+}
+
+function renderTable(vehicles) {
+  var wrap = document.getElementById('table-wrap');
+
+  if (!vehicles.length) {
+    wrap.innerHTML = '<div class="empty-state"><div class="empty-state-icon">🔍</div><div class="empty-state-title">No vehicles found</div><p style="font-size:13px;color:var(--slate-400)">Try a different search or add a new vehicle.</p></div>';
+    return;
+  }
+
+  var rows = vehicles.map(function(v) {
+    var name = v.make + ' ' + v.model;
+    var imgHTML = v.image_url
+      ? '<img class="td-thumb" src="' + escHtml(v.image_url) + '" alt="" onerror="this.style.display=\'none\'" />'
+      : '<div class="td-thumb-placeholder">🚗</div>';
+    var relBadge = v.reliability
+      ? '<span class="badge badge-reliability-' + v.reliability + '">' + v.reliability.replace('_',' ') + '</span>'
+      : '';
+    var priceStr = v.price_used_min ? '£' + Math.round(v.price_used_min/1000) + 'k–£' + Math.round(v.price_used_max/1000) + 'k' : '—';
+
+    return '<tr>' +
+      '<td>' + imgHTML + '</td>' +
+      '<td><div class="vehicle-name">' + escHtml(name) + '</div>' +
+           (v.variant ? '<div class="vehicle-variant">' + escHtml(v.variant) + '</div>' : '') + '</td>' +
+      '<td><span class="badge badge-body">' + (BODY_LABELS[v.body_style] || v.body_style || '—') + '</span></td>' +
+      '<td><span class="badge badge-fuel">' + (FUEL_LABELS[v.fuel_type] || v.fuel_type || '—') + '</span></td>' +
+      '<td class="td-price">' + priceStr + '</td>' +
+      '<td>' + relBadge + '</td>' +
+      '<td class="td-actions">' +
+        '<button class="btn btn-secondary btn-sm" onclick="openEditModal(' + JSON.stringify(JSON.stringify(v)) + ')">Edit</button>' +
+        '<button class="btn btn-danger btn-sm" onclick="deleteVehicle(' + JSON.stringify(v._id) + ', ' + JSON.stringify(name) + ')">Delete</button>' +
+      '</td>' +
+    '</tr>';
+  }).join('');
+
+  wrap.innerHTML = '<table>' +
+    '<thead><tr>' +
+      '<th style="width:70px;"></th>' +
+      '<th>Vehicle</th>' +
+      '<th>Body</th>' +
+      '<th>Fuel</th>' +
+      '<th>Used Price</th>' +
+      '<th>Reliability</th>' +
+      '<th style="width:130px;">Actions</th>' +
+    '</tr></thead>' +
+    '<tbody>' + rows + '</tbody>' +
+  '</table>';
+}
+
+function escHtml(str) {
+  return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/* ── MODAL ── */
+function buildCheckboxGroup(containerId, options, selectedValues) {
+  var el = document.getElementById(containerId);
+  el.innerHTML = options.map(function(opt) {
+    var checked = (selectedValues || []).includes(opt.value) ? 'checked' : '';
+    return '<div class="checkbox-item">' +
+      '<input type="checkbox" id="cb-' + containerId + '-' + opt.value + '" value="' + opt.value + '" ' + checked + ' />' +
+      '<label for="cb-' + containerId + '-' + opt.value + '">' + opt.label + '</label>' +
+    '</div>';
+  }).join('');
+}
+
+function getCheckedValues(containerId) {
+  var el = document.getElementById(containerId);
+  return Array.from(el.querySelectorAll('input[type="checkbox"]:checked')).map(function(cb) { return cb.value; });
+}
+
+function resetForm() {
+  var fields = ['make','model','variant','body_style','fuel_type','seats','parking_size',
+    'price_new_min','price_new_max','price_used_min','price_used_max',
+    'boot_litres','insurance_group','real_mpg','real_range_miles','towing_kg',
+    'reliability','running_cost','notes','image_url'];
+  fields.forEach(function(f) {
+    var el = document.getElementById('f-' + f);
+    if (el) el.value = '';
+  });
+  document.getElementById('edit-id').value = '';
+  document.getElementById('img-preview').classList.remove('visible');
+  document.getElementById('img-preview').src = '';
+  buildCheckboxGroup('cb-new_or_used', NEW_USED_OPTIONS, []);
+  buildCheckboxGroup('cb-best_for', TAG_OPTIONS, []);
+  buildCheckboxGroup('cb-avoid_for', TAG_OPTIONS, []);
+}
+
+function openAddModal() {
+  resetForm();
+  document.getElementById('modal-title').textContent = 'Add Vehicle';
+  document.getElementById('modal-save-label').textContent = 'Add Vehicle';
+  document.getElementById('vehicle-modal').classList.add('open');
+}
+
+function openEditModal(jsonStr) {
+  var v = JSON.parse(jsonStr);
+  resetForm();
+  document.getElementById('modal-title').textContent = 'Edit Vehicle';
+  document.getElementById('modal-save-label').textContent = 'Save Changes';
+  document.getElementById('edit-id').value = v._id || '';
+
+  var fields = ['make','model','variant','body_style','fuel_type','seats','parking_size',
+    'price_new_min','price_new_max','price_used_min','price_used_max',
+    'boot_litres','insurance_group','real_mpg','real_range_miles','towing_kg',
+    'reliability','running_cost','notes','image_url'];
+  fields.forEach(function(f) {
+    var el = document.getElementById('f-' + f);
+    if (el && v[f] != null) el.value = v[f];
+  });
+
+  buildCheckboxGroup('cb-new_or_used', NEW_USED_OPTIONS, v.new_or_used || []);
+  buildCheckboxGroup('cb-best_for', TAG_OPTIONS, v.best_for || []);
+  buildCheckboxGroup('cb-avoid_for', TAG_OPTIONS, v.avoid_for || []);
+
+  if (v.image_url) {
+    var preview = document.getElementById('img-preview');
+    preview.src = v.image_url;
+    preview.classList.add('visible');
+  }
+
+  document.getElementById('vehicle-modal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('vehicle-modal').classList.remove('open');
+}
+
+function previewImage() {
+  var url = document.getElementById('f-image_url').value.trim();
+  var preview = document.getElementById('img-preview');
+  if (url) {
+    preview.src = url;
+    preview.classList.add('visible');
+    preview.onerror = function() { preview.classList.remove('visible'); };
+  } else {
+    preview.classList.remove('visible');
+    preview.src = '';
+  }
+}
+
+function buildVehicleFromForm() {
+  function num(id) { var v = parseInt(document.getElementById(id).value, 10); return isNaN(v) ? 0 : v; }
+  function str(id) { return document.getElementById(id).value.trim(); }
+
+  return {
+    make: str('f-make'),
+    model: str('f-model'),
+    variant: str('f-variant') || undefined,
+    body_style: str('f-body_style'),
+    fuel_type: str('f-fuel_type'),
+    seats: num('f-seats') || undefined,
+    parking_size: str('f-parking_size') || undefined,
+    price_new_min: num('f-price_new_min'),
+    price_new_max: num('f-price_new_max'),
+    price_used_min: num('f-price_used_min'),
+    price_used_max: num('f-price_used_max'),
+    boot_litres: num('f-boot_litres') || undefined,
+    insurance_group: num('f-insurance_group') || undefined,
+    real_mpg: num('f-real_mpg') || undefined,
+    real_range_miles: num('f-real_range_miles') || undefined,
+    towing_kg: num('f-towing_kg') || undefined,
+    reliability: str('f-reliability') || undefined,
+    running_cost: str('f-running_cost') || undefined,
+    notes: str('f-notes') || undefined,
+    image_url: str('f-image_url') || undefined,
+    new_or_used: getCheckedValues('cb-new_or_used'),
+    best_for: getCheckedValues('cb-best_for'),
+    avoid_for: getCheckedValues('cb-avoid_for'),
+  };
+}
+
+function saveVehicle() {
+  var v = buildVehicleFromForm();
+  if (!v.make || !v.model) { showToast('Make and model are required', 'error'); return; }
+  if (!v.body_style) { showToast('Body style is required', 'error'); return; }
+  if (!v.fuel_type) { showToast('Fuel type is required', 'error'); return; }
+
+  var id = document.getElementById('edit-id').value;
+  var isEdit = !!id;
+  var btn = document.getElementById('modal-save-btn');
+  btn.disabled = true;
+  document.getElementById('modal-save-label').textContent = 'Saving…';
+
+  var call = isEdit
+    ? api('PUT', null, { action: 'update', id: id, vehicle: v })
+    : api('POST', null, { action: 'add', vehicle: v });
+
+  call.then(function(d) {
+    closeModal();
+    showToast(isEdit ? 'Vehicle updated' : 'Vehicle added', 'success');
+    loadVehicles();
+  }).catch(function(e) {
+    showToast(e.message, 'error');
+  }).finally(function() {
+    btn.disabled = false;
+    document.getElementById('modal-save-label').textContent = isEdit ? 'Save Changes' : 'Add Vehicle';
+  });
+}
+
+function deleteVehicle(id, name) {
+  if (!confirm('Delete "' + name + '"? This cannot be undone.')) return;
+  api('DELETE', { action: 'delete', id: id })
+    .then(function() {
+      showToast('Vehicle deleted', 'success');
+      loadVehicles();
+    })
+    .catch(function(e) { showToast(e.message, 'error'); });
+}
+
+/* ── EXPORT ── */
+function exportVehicles() {
+  fetch('/api/admin?action=export', { headers: { 'X-Admin-Password': adminPassword } })
+    .then(function(r) { return r.blob(); })
+    .then(function(blob) {
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url;
+      a.download = 'vehicles.json';
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('vehicles.json downloaded', 'success');
+    })
+    .catch(function(e) { showToast('Export failed: ' + e.message, 'error'); });
+}
+
+/* ── TOAST ── */
+function showToast(msg, type) {
+  var container = document.getElementById('toast');
+  var el = document.createElement('div');
+  el.className = 'toast-item' + (type ? ' ' + type : '');
+  el.textContent = msg;
+  container.appendChild(el);
+  setTimeout(function() { el.remove(); }, 3500);
+}
+
+/* ── CLOSE MODAL ON OVERLAY CLICK ── */
+document.getElementById('vehicle-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeModal();
+});
+</script>
+</body>
+</html>

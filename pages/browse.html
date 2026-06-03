@@ -124,7 +124,7 @@ function renderGrid(vehicles) {
     var name = v.make + ' ' + v.model + (v.variant ? ' ' + v.variant : '');
     var bodyLabel = BODY_LABELS[v.body_style] || v.body_style;
     var fuelLabel = FUEL_LABELS[v.fuel_type] || v.fuel_type;
-    var img = getCarImage(name, bodyLabel, fuelLabel);
+    var img = getCarImage(name, bodyLabel, fuelLabel, v.image_url);
     var price = v.price_used_min
       ? '£' + Math.round(v.price_used_min / 1000) + 'k–£' + Math.round(v.price_used_max / 1000) + 'k used'
       : '';
@@ -172,7 +172,7 @@ function renderVehicleDetailContent(v) {
   var name      = v.make + ' ' + v.model + (v.variant ? ' ' + v.variant : '');
   var bodyLabel = BODY_LABELS[v.body_style] || v.body_style;
   var fuelLabel = FUEL_LABELS[v.fuel_type]  || v.fuel_type;
-  var img       = getCarImage(name, bodyLabel, fuelLabel);
+  var img       = getCarImage(name, bodyLabel, fuelLabel, v.image_url);
 
   var priceUsed = v.price_used_min
     ? '£' + Math.round(v.price_used_min / 1000) + ',000–£' + Math.round(v.price_used_max / 1000) + ',000 used'

@@ -216,7 +216,8 @@ const API = {
 /* ── HELPERS ───────────────────────────────────────────────────── */
 function delay(ms) { return new Promise(res => setTimeout(res, ms)); }
 
-function getCarImage(vehicle, category, fuelType) {
+function getCarImage(vehicle, category, fuelType, customUrl) {
+  if (customUrl) return customUrl;
   const v = `${vehicle} ${category} ${fuelType}`.toLowerCase();
   if (v.includes('electric') || v.includes('ev') || v.includes('tesla') || v.includes('ioniq') || v.includes('kia ev')) return 'https://images.unsplash.com/photo-1561580125-028ee3bd62eb?w=1200&q=80';
   if (v.includes('suv') || v.includes('crossover') || v.includes('rav4') || v.includes('qashqai') || v.includes('tucson') || v.includes('tiguan')) return 'https://images.unsplash.com/photo-1519641471654-76ce0107ad1b?w=1200&q=80';
@@ -1119,7 +1120,8 @@ function stopLoaderSteps() {
 
 /* ── RENDER RESULT ──────────────────────────────────────────────── */
 function showResult(r) {
-  var imgUrl     = getCarImage(r.vehicle, r.category, r.fuelType);
+  var _dbVehicle = findVehicleByName(r.vehicle);
+  var imgUrl     = getCarImage(r.vehicle, r.category, r.fuelType, _dbVehicle && _dbVehicle.image_url);
   var circ       = 2 * Math.PI * 34;
   var dash       = (r.matchScore / 100) * circ;
   var scoreColor = r.matchScore >= 85 ? '#22c55e' : r.matchScore >= 70 ? '#fbbf24' : '#ef4444';

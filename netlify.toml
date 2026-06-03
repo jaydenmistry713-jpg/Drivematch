@@ -16,3 +16,8 @@
   from = "/api/match"
   to = "/.netlify/functions/match"
   status = 200
+
+[[redirects]]
+  from = "/api/admin"
+  to = "/.netlify/functions/admin-api"
+  status = 200
