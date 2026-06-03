@@ -858,8 +858,8 @@ function renderTable(vehicles) {
       '<td class="td-price">' + priceStr + '</td>' +
       '<td>' + relBadge + '</td>' +
       '<td class="td-actions">' +
-        '<button class="btn btn-secondary btn-sm" onclick="openEditModal(' + JSON.stringify(v._id) + ')">Edit</button>' +
-        '<button class="btn btn-danger btn-sm" onclick="deleteVehicle(' + JSON.stringify(v._id) + ', ' + JSON.stringify(name) + ')">Delete</button>' +
+        '<button class="btn btn-secondary btn-sm" onclick="openEditModal(\'' + v._id + '\')">Edit</button>' +
+        '<button class="btn btn-danger btn-sm" onclick="deleteVehicle(\'' + v._id + '\')">Delete</button>' +
       '</td>' +
     '</tr>';
   }).join('');
@@ -1037,7 +1037,9 @@ function saveVehicle() {
   updateStats();
 }
 
-function deleteVehicle(id, name) {
+function deleteVehicle(id) {
+  var match = allVehicles.find(function(x) { return x._id === id; });
+  var name = match ? (match.make + ' ' + match.model) : 'this vehicle';
   if (!confirm('Delete "' + name + '"? This cannot be undone.')) return;
   allVehicles = allVehicles.filter(function(x) { return x._id !== id; });
   storageSave(allVehicles);
