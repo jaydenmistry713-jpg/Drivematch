@@ -860,7 +860,7 @@ function renderTable(vehicles) {
       '<td class="td-price">' + priceStr + '</td>' +
       '<td>' + relBadge + '</td>' +
       '<td class="td-actions">' +
-        '<button class="btn btn-secondary btn-sm" onclick="openEditModal(' + JSON.stringify(JSON.stringify(v)) + ')">Edit</button>' +
+        '<button class="btn btn-secondary btn-sm" onclick="openEditModal(' + JSON.stringify(v._id) + ')">Edit</button>' +
         '<button class="btn btn-danger btn-sm" onclick="deleteVehicle(' + JSON.stringify(v._id) + ', ' + JSON.stringify(name) + ')">Delete</button>' +
       '</td>' +
     '</tr>';
@@ -925,8 +925,9 @@ function openAddModal() {
   document.getElementById('vehicle-modal').classList.add('open');
 }
 
-function openEditModal(jsonStr) {
-  var v = JSON.parse(jsonStr);
+function openEditModal(id) {
+  var v = allVehicles.find(function(x) { return x._id === id; });
+  if (!v) { showToast('Vehicle not found', 'error'); return; }
   resetForm();
   document.getElementById('modal-title').textContent = 'Edit Vehicle';
   document.getElementById('modal-save-label').textContent = 'Save Changes';
