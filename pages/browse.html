@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Browse Cars — DriveMatch</title>
+  <meta name="description" content="Browse our database of 135 UK vehicles. Search by make, model, fuel type, or body style and see full specs, strengths, and similar alternatives." />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body style="padding-bottom:72px;">
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <h1 class="page-header-title">Browse Cars</h1>
+    <p class="page-header-sub">Search our database of 135 UK vehicles. Click any car to see full specs, strengths, and similar alternatives.</p>
+  </div>
+</div>
+
+<!-- SEARCH + CONTENT -->
+<section class="section" style="padding-top:48px;">
+  <div class="container">
+
+    <!-- Search -->
+    <div class="browse-search-wrap">
+      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 11A6 6 0 105 11a6 6 0 0012 0z"/>
+      </svg>
+      <input class="browse-search-input" id="browse-search" type="text" placeholder="Search make, model, or fuel type…" autocomplete="off" />
+    </div>
+
+    <p class="browse-count" id="browse-count"></p>
+
+    <!-- Grid view -->
+    <div id="browse-grid"></div>
+
+    <!-- Detail view -->
+    <div id="browse-detail" style="display:none;max-width:800px;margin:0 auto;">
+      <button class="browse-back" onclick="showBrowseGrid()">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+        </svg>
+        Back to results
+      </button>
+      <div id="browse-detail-content"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FLOATING MATCH CTA -->
+<div class="browse-cta-float">
+  <p class="browse-cta-text"><strong>Not sure which car is right for you?</strong> Get your free personalised match in 90 seconds.</p>
+  <a href="../index.html" class="btn btn-primary btn-sm">Find My Match</a>
+</div>
+
+<script src="../js/app.js"></script>
+<script>
+var TAG_LABELS = {
+  business: 'Business use',
+  city_only: 'City driving',
+  daily_commute: 'Daily commuting',
+  driving_enjoyment: 'Driving enjoyment',
+  family: 'Family use',
+  first_car: 'First car',
+  long_distance: 'Long distance',
+  low_running_costs: 'Low running costs',
+  off_road: 'Off-road capability',
+  practicality: 'Practicality',
+  prestige: 'Prestige & image',
+  reliability: 'Reliability',
+  towing: 'Towing',
+  weekend_leisure: 'Weekend leisure'
+};
+
+var BODY_LABELS = {
+  hatchback: 'Hatchback', saloon: 'Saloon', estate: 'Estate',
+  suv: 'SUV', coupe: 'Coupé', convertible: 'Convertible',
+  mpv: 'MPV', van: 'Van', pickup: 'Pickup'
+};
+
+var FUEL_LABELS = {
+  petrol: 'Petrol', diesel: 'Diesel', electric: 'Electric',
+  hybrid: 'Hybrid', phev: 'PHEV', mild_hybrid: 'Mild Hybrid'
+};
+
+var allVehicles = [];
+var filteredVehicles = [];
+
+document.addEventListener('DOMContentLoaded', function () {
+  loadVehicleDatabase().then(function (vehicles) {
+    allVehicles = vehicles;
+    filteredVehicles = vehicles.slice();
+    renderGrid(filteredVehicles);
+  });
+
+  document.getElementById('browse-search').addEventListener('input', function () {
+    var q = this.value.trim().toLowerCase();
+    filteredVehicles = q
+      ? allVehicles.filter(function (v) {
+          return [v.make, v.model, v.variant || '', v.body_style, v.fuel_type, v.notes || '']
+            .join(' ').toLowerCase().includes(q);
+        })
+      : allVehicles.slice();
+    renderGrid(filteredVehicles);
+  });
+});
+
+function renderGrid(vehicles) {
+  document.getElementById('browse-detail').style.display = 'none';
+  var grid = document.getElementById('browse-grid');
+  grid.style.display = '';
+  document.getElementById('browse-count').textContent =
+    vehicles.length + ' vehicle' + (vehicles.length !== 1 ? 's' : '') + ' found';
+
+  if (!vehicles.length) {
+    grid.className = '';
+    grid.innerHTML = '<p class="browse-empty">No vehicles matched your search.</p>';
+    return;
+  }
+
+  grid.className = 'browse-grid';
+  grid.innerHTML = vehicles.map(function (v, i) {
+    var name = v.make + ' ' + v.model + (v.variant ? ' ' + v.variant : '');
+    var bodyLabel = BODY_LABELS[v.body_style] || v.body_style;
+    var fuelLabel = FUEL_LABELS[v.fuel_type] || v.fuel_type;
+    var img = getCarImage(name, bodyLabel, fuelLabel);
+    var price = v.price_used_min
+      ? '£' + Math.round(v.price_used_min / 1000) + 'k–£' + Math.round(v.price_used_max / 1000) + 'k used'
+      : '';
+    var relLabel = v.reliability
+      ? v.reliability.charAt(0).toUpperCase() + v.reliability.slice(1).replace('_', ' ') + ' reliability'
+      : '';
+    var relColor = (v.reliability === 'excellent' || v.reliability === 'good') ? 'var(--green)' : 'var(--slate-400)';
+    return (
+      '<div class="browse-card" onclick="showVehicleDetail(' + i + ')">' +
+        '<div class="browse-card-img">' +
+          '<img src="' + img + '" alt="' + name.replace(/"/g, '&quot;') + '" loading="lazy" ' +
+               'onerror="this.src=\'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&q=70\'" />' +
+        '</div>' +
+        '<div class="browse-card-body">' +
+          '<div class="browse-card-name">' + name + '</div>' +
+          '<div class="browse-card-badges">' +
+            '<span class="browse-badge">' + bodyLabel + '</span>' +
+            '<span class="browse-badge browse-badge-fuel">' + fuelLabel + '</span>' +
+          '</div>' +
+          (price ? '<div class="browse-card-price">' + price + '</div>' : '') +
+          (relLabel ? '<div class="browse-card-rel" style="color:' + relColor + ';">' + relLabel + '</div>' : '') +
+        '</div>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+function showVehicleDetail(index) {
+  renderVehicleDetailContent(filteredVehicles[index]);
+}
+
+function showVehicleFromAll(index) {
+  renderVehicleDetailContent(allVehicles[index]);
+}
+
+function showBrowseGrid() {
+  document.getElementById('browse-detail').style.display = 'none';
+  document.getElementById('browse-grid').style.display = '';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderVehicleDetailContent(v) {
+  if (!v) return;
+
+  var name      = v.make + ' ' + v.model + (v.variant ? ' ' + v.variant : '');
+  var bodyLabel = BODY_LABELS[v.body_style] || v.body_style;
+  var fuelLabel = FUEL_LABELS[v.fuel_type]  || v.fuel_type;
+  var img       = getCarImage(name, bodyLabel, fuelLabel);
+
+  var priceUsed = v.price_used_min
+    ? '£' + Math.round(v.price_used_min / 1000) + ',000–£' + Math.round(v.price_used_max / 1000) + ',000 used'
+    : '';
+  var priceNew  = v.price_new_min
+    ? '£' + Math.round(v.price_new_min  / 1000) + ',000–£' + Math.round(v.price_new_max  / 1000) + ',000 new'
+    : '';
+  var priceStr  = [priceNew, priceUsed].filter(Boolean).join(' · ');
+
+  // Stats bar
+  var statItems = [];
+  if (v.insurance_group) statItems.push({ icon: '🛡', label: 'Insurance', value: 'Group ' + v.insurance_group });
+  if (v.boot_litres)     statItems.push({ icon: '📦', label: 'Boot', value: v.boot_litres + 'L' });
+  if (v.seats)           statItems.push({ icon: '👥', label: 'Seats', value: v.seats });
+  if (v.fuel_type === 'electric' && v.real_range_miles) {
+    statItems.push({ icon: '⚡', label: 'Real range', value: v.real_range_miles + ' mi' });
+  } else if (v.real_mpg) {
+    statItems.push({ icon: '⛽', label: 'Real MPG', value: v.real_mpg + ' mpg' });
+  }
+  if (v.towing_kg)    statItems.push({ icon: '🔗', label: 'Towing', value: v.towing_kg + 'kg' });
+  if (v.running_cost) statItems.push({ icon: '💰', label: 'Running cost', value: v.running_cost.replace(/_/g, ' ') });
+
+  var statsHTML = statItems.length
+    ? '<div class="result-stats-bar">' +
+        statItems.map(function (s) {
+          return '<div class="result-stat-item">' +
+            '<div class="result-stat-icon">' + s.icon + '</div>' +
+            '<div><div class="result-stat-label">' + s.label + '</div>' +
+                 '<div class="result-stat-value">' + s.value + '</div></div>' +
+          '</div>';
+        }).join('') +
+      '</div>'
+    : '';
+
+  // Strengths / less suited for
+  var strengthsHTML = (v.best_for || []).map(function (t) {
+    return '<li>' + (TAG_LABELS[t] || t) + '</li>';
+  }).join('');
+  var avoidHTML = (v.avoid_for || []).map(function (t) {
+    return '<li>' + (TAG_LABELS[t] || t) + '</li>';
+  }).join('');
+
+  var pcHTML = (strengthsHTML || avoidHTML)
+    ? '<div class="pros-cons">' +
+        (strengthsHTML
+          ? '<div>' +
+              '<div class="pros-cons-title">' +
+                '<div class="icon-dot" style="background:#ecfdf5;">' +
+                  '<svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#059669" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>' +
+                '</div>' +
+                '<span style="color:#065f46;">Strengths</span>' +
+              '</div>' +
+              '<ul class="pros-cons-list">' + strengthsHTML + '</ul>' +
+            '</div>'
+          : '') +
+        (avoidHTML
+          ? '<div>' +
+              '<div class="pros-cons-title">' +
+                '<div class="icon-dot" style="background:#fffbeb;">' +
+                  '<svg width="12" height="12" fill="none" viewBox="0 0 24 24" stroke="#d97706" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/></svg>' +
+                '</div>' +
+                '<span style="color:#92400e;">Less suited for</span>' +
+              '</div>' +
+              '<ul class="pros-cons-list cons-list">' + avoidHTML + '</ul>' +
+            '</div>'
+          : '') +
+      '</div>'
+    : '';
+
+  // Notes
+  var notesHTML = v.notes
+    ? '<div class="summary-block">' +
+        '<div class="summary-label">' +
+          '<svg width="14" height="14" fill="#1d4ed8" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>' +
+          'About this car' +
+        '</div>' +
+        '<p>' + v.notes + '</p>' +
+      '</div>'
+    : '';
+
+  // Similar vehicles
+  var similar = allVehicles.filter(function (o) {
+    var oName = o.make + ' ' + o.model + (o.variant ? ' ' + o.variant : '');
+    return oName !== name && (o.body_style === v.body_style || o.fuel_type === v.fuel_type);
+  }).slice(0, 3);
+
+  var similarHTML = similar.length
+    ? '<div class="alternatives" style="padding:24px 28px;">' +
+        '<div class="alternatives-title">Similar vehicles</div>' +
+        '<div class="alternatives-grid">' +
+          similar.map(function (sv) {
+            var svIdx  = allVehicles.indexOf(sv);
+            var svName = sv.make + ' ' + sv.model + (sv.variant ? ' ' + sv.variant : '');
+            return '<div class="alt-card alt-card-clickable" onclick="showVehicleFromAll(' + svIdx + ')">' +
+              '<div class="alt-name">' + svName + '</div>' +
+              '<div class="alt-reason">' + (BODY_LABELS[sv.body_style] || sv.body_style) + ' · ' + (FUEL_LABELS[sv.fuel_type] || sv.fuel_type) + '</div>' +
+              '<div class="alt-learn-more">View details →</div>' +
+            '</div>';
+          }).join('') +
+        '</div>' +
+      '</div>'
+    : '';
+
+  document.getElementById('browse-detail-content').innerHTML =
+    '<div class="card" style="padding:0;overflow:hidden;">' +
+      '<div class="result-hero">' +
+        '<img class="result-hero-img" src="' + img + '" alt="' + name.replace(/"/g, '&quot;') + '" ' +
+             'onerror="this.src=\'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=800&q=70\'" />' +
+        '<div class="result-hero-overlay"></div>' +
+        '<div class="result-hero-content">' +
+          '<div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;">' +
+            '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;">' + bodyLabel + '</span>' +
+            '<span style="background:rgba(255,255,255,.15);color:rgba(255,255,255,.9);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;">' + fuelLabel + '</span>' +
+          '</div>' +
+          '<h2 class="result-vehicle-name">' + name + '</h2>' +
+          (priceStr ? '<div class="result-price-range">' + priceStr + '</div>' : '') +
+        '</div>' +
+      '</div>' +
+      statsHTML +
+      pcHTML +
+      notesHTML +
+      similarHTML +
+    '</div>';
+
+  document.getElementById('browse-grid').style.display = 'none';
+  document.getElementById('browse-detail').style.display = 'block';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+</script>
+</body>
+</html>

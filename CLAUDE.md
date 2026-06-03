@@ -39,19 +39,21 @@ This is a **plain static website** — no frameworks, no build step, no npm on t
 
 ```
 drivematch/
-├── index.html                    # Homepage — hero, onboarding trigger, result display, modals
+├── index.html                    # Homepage — hero, onboarding overlay, how-it-works teaser
 ├── css/
-│   └── style.css                 # Complete design system — ~1,600 lines
+│   └── style.css                 # Complete design system — ~1,950 lines
 ├── js/
-│   └── app.js                    # All frontend logic — ~1,650 lines
+│   └── app.js                    # All frontend logic — ~1,700 lines
 ├── pages/
+│   ├── result.html               # Dedicated match result page — loader, result card, modals
+│   ├── browse.html               # Car database browser — search, grid, detail view
 │   ├── reviews.html              # Owner reviews — filter, paginate, submit
 │   ├── blog.html                 # Blog listing with category filters
 │   ├── post.html                 # Blog post reader (?slug= URL param)
 │   ├── about.html                # About page
 │   └── how-it-works.html         # How it works + FAQ accordion
 ├── data/
-│   └── vehicles.json             # Vehicle database — 123 vehicles
+│   └── vehicles.json             # Vehicle database — 135 vehicles
 ├── netlify/
 │   └── functions/
 │       └── match.js              # Serverless function — secure Claude API call
@@ -118,12 +120,14 @@ NOTIFICATION_EMAIL=jayden@drivematch.co.uk
 1. User clicks "Find My Match" on the homepage
 2. **Conversational onboarding overlay** opens — full screen, dark navy, one question at a time
 3. User answers 10 questions via pill buttons (auto-advances) and one free-text field
-4. On completion, overlay closes, loader appears, quiz answers POST to `/.netlify/functions/match`
-5. The function pre-filters `vehicles.json`, builds a prompt, calls Claude API
-6. Claude returns JSON — vehicle, score, pros, cons, summary, alternatives, stats
-7. Result renders on the page with hero image, stats bar, pros/cons, summary, alternatives
-8. User can click "Find this car for me" (lead capture) or "Notify when available" (waitlist)
-9. Both actions submit a Netlify Form silently in the background
+4. On completion, `obFinish()` stores quiz answers in `sessionStorage` (`dm_quiz`) and navigates to `pages/result.html`
+5. `result.html` reads quiz data from sessionStorage, calls `/.netlify/functions/match`, shows loader
+6. The function pre-filters `vehicles.json`, builds a prompt, calls Claude API
+7. Claude returns JSON — vehicle, score, pros, cons, summary, alternatives, stats
+8. Result renders on `result.html` with hero image, stats bar, pros/cons, summary, alternatives
+9. User can click "Find this car for me" (lead capture) or "Notify when available" (waitlist)
+10. Both actions submit a Netlify Form silently in the background
+11. "Start over" on the result page sets `sessionStorage.dm_open_quiz = 1` and navigates to `index.html`, which auto-opens the overlay on load
 
 ### The Netlify Function (`netlify/functions/match.js`)
 
@@ -271,7 +275,7 @@ const pages   = inPages ? '' : 'pages/';
 ```
 This is critical — without it, navigation breaks from `pages/` subdirectory.
 
-**Conversational Onboarding** — `OB_STEPS` array defines all 10 questions with icons, sub-hints, and option lists. `startOnboarding()`, `closeOnboarding()`, `renderObStep()`, `obAdvance()`, `obBack()`, `obSkip()`, `obTextContinue()`, `obFinish()`, `runMatchFromOnboarding()`.
+**Conversational Onboarding** — `OB_STEPS` array defines all 10 questions with icons, sub-hints, and option lists. `startOnboarding()` has a null guard — if `#onboarding-overlay` doesn't exist (e.g. on `result.html`), it returns immediately. `obFinish()` stores quiz answers in `sessionStorage` and navigates to `pages/result.html` rather than rendering inline. Functions: `startOnboarding()`, `closeOnboarding()`, `renderObStep()`, `obAdvance()`, `obBack()`, `obSkip()`, `obTextContinue()`, `obFinish()`.
 
 **Match Result Rendering (`showResult`)** — Builds the full result card HTML including: hero image with score ring, quick stats bar (insurance group, boot, seats, MPG/range, reliability, towing), pros/cons, summary, alternatives (clickable), low match panel (if score < 70%), CTAs. After rendering, calls `scheduleFindPrompt()` to show the find-car pop-up after 4 seconds.
 
@@ -286,9 +290,13 @@ This is critical — without it, navigation breaks from `pages/` subdirectory.
 Controls what's visible in the result area. Only three valid values:
 - `'loader'` — shows loader, hides result
 - `'result'` — shows result, hides loader
-- `'form'` — hides everything, re-opens onboarding overlay
+- `'form'` — if on `pages/result.html`, sets `dm_open_quiz` in sessionStorage and navigates to `../index.html`; otherwise hides everything and re-opens the onboarding overlay
 
-Used by `tryLowMatchSuggestion` and error handling.
+Used by `tryLowMatchSuggestion` and error handling. The `'loader'` and `'result'` states work on `result.html` (elements exist there). The `'form'` state always redirects to the homepage from the result page since the onboarding overlay only exists in `index.html`.
+
+### `resetQuiz()` — Navigation-aware
+
+Clears `currentMatch` and `currentQuizData`. If called from `pages/result.html`, sets `sessionStorage.dm_open_quiz = 1` and navigates to `../index.html` (which auto-opens the quiz on load). If called from the homepage, falls through to `showSection('form')`.
 
 ---
 
@@ -319,7 +327,7 @@ Used by `tryLowMatchSuggestion` and error handling.
 `--font-display` and `--font-body` both resolve to Plus Jakarta Sans. Headings are differentiated from body by weight (800 vs 400–600), not by typeface. Syne was the previous display font and has been removed entirely — do not re-add it.
 
 ### Key CSS sections (in order)
-Reset & base → Design tokens → Typography → Layout → Test mode banner → Navbar → Buttons (`.btn`, `.btn-primary`, `.btn-secondary`, `.btn-ghost`) → Badges → Cards → Hero → Trust bar → **Pain section** → Section → Quiz (legacy, unused) → Matching loader → Match result → Modal → Reviews → Blog → Page headers → About page → How it works → How it works steps grid → Footer → Pagination → Empty state → Spinner → Skeleton → Utility → Animations → Responsive breakpoints → Alt card clickable → Vehicle detail modal → Low match panel → Result stats bar → Conversational onboarding
+Reset & base → Design tokens → Typography → Layout → Test mode banner → Navbar → Buttons (`.btn`, `.btn-primary`, `.btn-secondary`, `.btn-ghost`) → Badges → Cards → Hero → Trust bar → **Pain section** → Section → Quiz (legacy, unused) → Matching loader → Match result → Modal → Reviews → Blog → Page headers → About page → How it works → How it works steps grid → Footer → Pagination → Empty state → Spinner → Skeleton → Utility → Animations → Responsive breakpoints → Alt card clickable → Vehicle detail modal → Low match panel → Result stats bar → Conversational onboarding → **Browse page**
 
 ### Responsive breakpoints
 ```css
@@ -353,7 +361,7 @@ The 10 steps in order, with their `id` field names (these map directly to the qu
 
 ## Netlify Forms
 
-Two hidden forms in `index.html` (detected by Netlify at deploy time):
+Two hidden forms in `pages/result.html` (detected by Netlify at deploy time):
 
 **`drivematch-match`** — Fires silently after every successful match. Fields: vehicle, match_score, category, fuel_type, price_range, all quiz answers, summary (truncated to 500 chars), submitted_at timestamp.
 
@@ -372,7 +380,9 @@ All pages in `pages/` share the same nav and footer injected by `injectShell()` 
 
 | Page | File | Key behaviour |
 |---|---|---|
-| Homepage | `index.html` | Hero → trust bar → pain section → result area → 4-step how-it-works teaser |
+| Homepage | `index.html` | Hero → trust bar → pain section → how-it-works teaser → browse nudge. No result rendering here. |
+| Match result | `pages/result.html` | Reads quiz data from `sessionStorage.dm_quiz`, calls API, renders result card + modals + Netlify forms |
+| Browse cars | `pages/browse.html` | Instant-filter search across all 135 vehicles; click card → detail view with specs, strengths, similar vehicles; floating "Find My Match" CTA |
 | Reviews | `pages/reviews.html` | Loads reviews from API, filter by star rating, paginate, submit new review |
 | Blog listing | `pages/blog.html` | Loads posts from API, filter by category |
 | Blog post | `pages/post.html` | Reads `?slug=` URL param, fetches post, renders markdown-like content |
@@ -458,9 +468,13 @@ The `netlify.toml` configuration:
 - **Navigation from `pages/` subdirectory** requires the `inPages` path detection in `injectShell()`. If this logic is removed or broken, all nav links will 404 when navigating from any `pages/*.html` file.
 - **Vehicle modal matching** uses partial name matching (`findVehicleByName`) — if Claude returns an alternative with a slightly different name than what's in `vehicles.json`, the modal will still open but show a "not in database" message rather than crashing.
 - **Netlify Forms on localhost** — will silently fail. This is correct and expected. The `netlifySubmitMatch` and `netlifySubmitNotify` functions are wrapped in try/catch and failures are intentionally silent.
-- **`resetQuiz()`** is defined twice in `app.js` — once in the onboarding section and once as a legacy stub. The second definition (lower in the file) overrides the first. The effective implementation is the second one which re-opens the onboarding overlay.
+- **`resetQuiz()`** is defined twice in `app.js` — the second definition (lower in the file) overrides the first. From `pages/result.html` it redirects to `../index.html` with `dm_open_quiz` set. From the homepage it calls `showSection('form')`.
+- **sessionStorage keys** — `dm_quiz` (quiz answers JSON, written by `obFinish()`, read and deleted by `result.html`), `dm_open_quiz` (flag to auto-open quiz on homepage load, set by `resetQuiz()` / `showSection('form')`), `dm_error` (error message to show as a toast on homepage, set if the API call on `result.html` fails).
+- **Onboarding overlay only exists in `index.html`** — `startOnboarding()` has a null guard (`if (!overlay) return`) so calling it from any other page is safe. The `#onboarding-overlay` element must not be added to other pages.
+- **Netlify Forms are in `pages/result.html`**, not `index.html`. Netlify detects them at deploy time by scanning all HTML files, so this is fine.
 - **Pain section scroll animation** — `.pain-quote` elements start at `opacity:0; transform:translateY(36px)` and get an `in-view` class added by an IntersectionObserver defined in an inline `<script>` tag at the bottom of `index.html` (after `app.js`). The observer fires at `threshold: 0.4` and disconnects after triggering so quotes stay visible. No stagger delay — the generous per-quote padding ensures natural one-at-a-time reveals.
 - **How it works grid** — the homepage teaser uses `.how-steps` which is `repeat(4, 1fr)` on desktop (4 steps), `repeat(2, 1fr)` at 900px, and `1fr` at 640px. The `pages/how-it-works.html` page has its own separate steps layout and is unaffected.
+- **Browse page detail view** — `renderVehicleDetailContent(v)` reuses existing result CSS classes (`.result-hero`, `.result-stats-bar`, `.pros-cons`, `.summary-block`, `.alt-card`). Strengths and weaknesses are derived from `best_for` / `avoid_for` tags in `vehicles.json` via `TAG_LABELS` mapping. No AI calls on the browse page. Similar vehicles are filtered from `allVehicles` by matching `body_style` or `fuel_type`.
 
 ---
 

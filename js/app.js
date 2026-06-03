@@ -529,6 +529,7 @@ function injectShell() {
         </a>
         <ul class="navbar-links">
           <li><a href="${root}index.html">Find a Vehicle</a></li>
+          <li><a href="${pages}browse.html">Browse Cars</a></li>
           <li><a href="${pages}reviews.html">Reviews</a></li>
           <li><a href="${pages}blog.html">Blog</a></li>
           <li><a href="${pages}about.html">About</a></li>
@@ -548,6 +549,7 @@ function injectShell() {
       <button class="nav-mobile-close" id="nav-mobile-close" aria-label="Close menu">&times;</button>
       <ul class="nav-mobile-links">
         <li><a href="${root}index.html">Find a Vehicle</a></li>
+        <li><a href="${pages}browse.html">Browse Cars</a></li>
         <li><a href="${pages}reviews.html">Reviews</a></li>
         <li><a href="${pages}blog.html">Blog</a></li>
         <li><a href="${pages}about.html">About</a></li>
@@ -596,6 +598,7 @@ function injectShell() {
           <h4>Product</h4>
           <ul class="footer-links">
             <li><a href="${root}index.html">Find a Vehicle</a></li>
+            <li><a href="${pages}browse.html">Browse Cars</a></li>
             <li><a href="${pages}reviews.html">Owner Reviews</a></li>
             <li><a href="${pages}blog.html">Blog</a></li>
             <li><a href="${pages}how-it-works.html">How It Works</a></li>
@@ -782,11 +785,13 @@ var loaderInterval = null;
 var loaderStep = 0;
 
 function startOnboarding() {
+  var overlay = document.getElementById('onboarding-overlay');
+  if (!overlay) return;
+
   obCurrentStep = 0;
   obAnswers = {};
   obTransitioning = false;
 
-  var overlay = document.getElementById('onboarding-overlay');
   overlay.style.display = 'flex';
   // Force reflow then fade in
   requestAnimationFrame(function() {
@@ -936,25 +941,11 @@ function obFinish() {
     extraNotes:  obAnswers.extraNotes  || '',
   };
 
-  // Close overlay
+  // Close overlay and navigate to the dedicated result page
   closeOnboarding();
 
-  // Show the result section and run match
-  var quizSection = document.getElementById('quiz');
-  quizSection.style.display = 'block';
-
-  var teaser = document.getElementById('how-teaser');
-  if (teaser) teaser.style.display = 'none';
-
-  // Scroll to result area
-  setTimeout(function() {
-    quizSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, 350);
-
-  // Fire the match
-  setTimeout(function() {
-    runMatchFromOnboarding(quizData);
-  }, 400);
+  sessionStorage.setItem('dm_quiz', JSON.stringify(quizData));
+  window.location.href = window.location.pathname.includes('/pages/') ? 'result.html' : 'pages/result.html';
 }
 
 async function runMatchFromOnboarding(quizData) {
@@ -1041,7 +1032,11 @@ function showSection(section) {
     if (loader) loader.style.display = 'none';
     if (result) result.style.display = 'block';
   } else if (section === 'form') {
-    // 'form' means go back to quiz — re-open onboarding
+    if (window.location.pathname.includes('/pages/result')) {
+      sessionStorage.setItem('dm_open_quiz', '1');
+      window.location.href = '../index.html';
+      return;
+    }
     quizSection.style.display = 'none';
     if (loader) loader.style.display = 'none';
     if (result) result.style.display = 'none';
@@ -1322,7 +1317,7 @@ function showResult(r) {
           '<svg width="15" height="15" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>' +
           'Start over' +
         '</button>' +
-        '<a href="pages/reviews.html" class="btn btn-ghost btn-sm">Read reviews</a>' +
+        '<a href="' + (window.location.pathname.includes('/pages/') ? 'reviews.html' : 'pages/reviews.html') + '" class="btn btn-ghost btn-sm">Read reviews</a>' +
       '</div>' +
     '</div>';
 
@@ -1537,6 +1532,11 @@ async function tryLowMatchSuggestion(patchStr) {
 function resetQuiz() {
   currentMatch = null;
   currentQuizData = null;
+  if (window.location.pathname.includes('/pages/result')) {
+    sessionStorage.setItem('dm_open_quiz', '1');
+    window.location.href = '../index.html';
+    return;
+  }
   showSection('form');
   var teaser = document.getElementById('how-teaser');
   if (teaser) teaser.style.display = '';

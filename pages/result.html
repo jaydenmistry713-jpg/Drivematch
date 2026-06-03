@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Match — DriveMatch</title>
+  <meta name="description" content="Your personalised vehicle match from DriveMatch." />
+  <link rel="stylesheet" href="../css/style.css" />
+</head>
+<body>
+
+<!-- RESULT SECTION -->
+<section class="section" id="quiz" style="display:none;">
+  <div class="container" style="max-width:800px;">
+    <div class="card loader-card" id="quiz-loader" style="display:none;">
+      <div class="loader-spinner">
+        <svg width="64" height="64" viewBox="0 0 64 64" fill="none">
+          <circle cx="32" cy="32" r="28" stroke="#e2e8f0" stroke-width="5"/>
+          <circle cx="32" cy="32" r="28" stroke="#1d4ed8" stroke-width="5" stroke-dasharray="44 132" stroke-linecap="round"/>
+        </svg>
+        <div class="loader-spinner-icon">⭐</div>
+      </div>
+      <h3 class="loader-title">Finding your ideal match...</h3>
+      <p class="loader-subtitle">Analysing your profile against hundreds of vehicles</p>
+      <ul class="loader-steps" id="loader-steps">
+        <li class="loader-step" data-step="0"><span class="loader-step-dot"></span>Mapping your requirements...</li>
+        <li class="loader-step" data-step="1"><span class="loader-step-dot"></span>Searching vehicle database...</li>
+        <li class="loader-step" data-step="2"><span class="loader-step-dot"></span>Calculating compatibility...</li>
+        <li class="loader-step" data-step="3"><span class="loader-step-dot"></span>Writing your personalised report...</li>
+      </ul>
+    </div>
+    <div class="card" id="quiz-result" style="display:none;"></div>
+  </div>
+</section>
+
+<!-- MODALS -->
+<div class="modal-overlay" id="modal-lead">
+  <div class="modal">
+    <div class="modal-header">
+      <div>
+        <h3>Find this car for me</h3>
+        <p id="modal-lead-subtitle">We'll source and check it on your behalf</p>
+      </div>
+      <button class="modal-close" onclick="closeModal('modal-lead')">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modal-lead-body">
+      <div class="match-summary-chip">
+        <div class="chip-icon">🚗</div>
+        <div>
+          <div class="chip-name" id="lead-vehicle-name">—</div>
+          <div class="chip-score" id="lead-score">—% compatibility match</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Your Name *</label>
+        <input class="form-input" id="lead-name" type="text" placeholder="e.g. James Thompson" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address *</label>
+        <input class="form-input" id="lead-email" type="email" placeholder="your@email.com" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number <span style="font-size:11px;color:var(--slate-400);font-weight:400;text-transform:none;">optional</span></label>
+        <input class="form-input" id="lead-phone" type="tel" placeholder="+44 7700 000000" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Preferred Contact</label>
+        <div class="contact-pref-grid">
+          <button class="pref-btn active" data-pref="email" onclick="selectPref(this)">📧 Email</button>
+          <button class="pref-btn" data-pref="phone" onclick="selectPref(this)">📞 Phone</button>
+          <button class="pref-btn" data-pref="whatsapp" onclick="selectPref(this)">💬 WhatsApp</button>
+        </div>
+      </div>
+      <div class="form-note">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" style="flex-shrink:0;color:var(--slate-400);margin-top:1px"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        We'll respond within 24 hours. Your details are never shared with third parties.
+      </div>
+      <button class="btn btn-primary btn-lg" style="width:100%;" onclick="submitLead()">Submit Enquiry</button>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modal-notify">
+  <div class="modal">
+    <div style="padding:24px 28px;border-bottom:1px solid var(--slate-100);display:flex;justify-content:space-between;align-items:flex-start;">
+      <div>
+        <h3 style="font-size:1.15rem;">Notify me when available</h3>
+        <p id="modal-notify-subtitle" style="font-size:13px;color:var(--slate-400);margin-top:4px;">We'll keep an eye out for you</p>
+      </div>
+      <button class="modal-close" style="color:var(--slate-400);" onclick="closeModal('modal-notify')">
+        <svg width="22" height="22" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <div class="modal-body" id="modal-notify-body">
+      <div class="form-group">
+        <label class="form-label">Your Name *</label>
+        <input class="form-input" id="notify-name" type="text" placeholder="e.g. Sarah" />
+      </div>
+      <div class="form-group">
+        <label class="form-label">Email Address *</label>
+        <input class="form-input" id="notify-email" type="email" placeholder="your@email.com" />
+      </div>
+      <p style="font-size:12px;color:var(--slate-400);margin-bottom:20px;line-height:1.65;">When we find a match within your profile, we'll reach out personally. No spam, ever.</p>
+      <button class="btn btn-primary btn-lg" style="width:100%;" onclick="submitNotify()">
+        <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+        Notify Me
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- NETLIFY FORMS (hidden — detected at deploy time) -->
+<form name="drivematch-match" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="drivematch-match" />
+  <input type="hidden" name="bot-field" />
+  <input type="hidden" name="vehicle" />
+  <input type="hidden" name="match_score" />
+  <input type="hidden" name="category" />
+  <input type="hidden" name="fuel_type" />
+  <input type="hidden" name="price_range" />
+  <input type="hidden" name="budget" />
+  <input type="hidden" name="primary_use" />
+  <input type="hidden" name="household" />
+  <input type="hidden" name="fuel_pref" />
+  <input type="hidden" name="mileage" />
+  <input type="hidden" name="priority" />
+  <input type="hidden" name="parking" />
+  <input type="hidden" name="condition" />
+  <input type="hidden" name="body_style" />
+  <input type="hidden" name="extra_notes" />
+  <input type="hidden" name="summary" />
+  <input type="hidden" name="submitted_at" />
+</form>
+
+<form name="drivematch-notify" data-netlify="true" netlify-honeypot="bot-field" hidden>
+  <input type="hidden" name="form-name" value="drivematch-notify" />
+  <input type="hidden" name="bot-field" />
+  <input type="hidden" name="name" />
+  <input type="hidden" name="email" />
+  <input type="hidden" name="vehicle" />
+  <input type="hidden" name="match_score" />
+  <input type="hidden" name="budget" />
+  <input type="hidden" name="primary_use" />
+  <input type="hidden" name="household" />
+  <input type="hidden" name="fuel_pref" />
+  <input type="hidden" name="priority" />
+  <input type="hidden" name="extra_notes" />
+  <input type="hidden" name="submitted_at" />
+</form>
+
+<script src="../js/app.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', async function () {
+  var quizRaw = sessionStorage.getItem('dm_quiz');
+  if (!quizRaw) {
+    window.location.href = '../index.html';
+    return;
+  }
+  var quizData = JSON.parse(quizRaw);
+  sessionStorage.removeItem('dm_quiz');
+
+  var quizSection = document.getElementById('quiz');
+  var loaderEl    = document.getElementById('quiz-loader');
+  var resultEl    = document.getElementById('quiz-result');
+
+  quizSection.style.display = 'block';
+  loaderEl.style.display    = 'block';
+  resultEl.style.display    = 'none';
+
+  startLoaderSteps();
+
+  try {
+    currentQuizData = quizData;
+    var result = await API.match(quizData);
+    currentMatch = result;
+    stopLoaderSteps();
+    showResult(result);
+    netlifySubmitMatch(quizData, result);
+  } catch (err) {
+    stopLoaderSteps();
+    sessionStorage.setItem('dm_error', err.message || 'Something went wrong. Please try again.');
+    window.location.href = '../index.html';
+  }
+});
+</script>
+</body>
+</html>
