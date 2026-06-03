@@ -1,7 +1,11 @@
-const { getStore } = require('@netlify/blobs');
 const crypto = require('crypto');
 
-// Bundle vehicles.json at build time (esbuild includes it via included_files)
+// Defensive import — Blobs may not be available in all environments
+let getStore = null;
+try {
+  getStore = require('@netlify/blobs').getStore;
+} catch (_) {}
+
 const vehicleDB = require('../../data/vehicles.json');
 const BUNDLED_VEHICLES = vehicleDB.vehicles || vehicleDB;
 const BUNDLED_HASH = crypto.createHash('sha1').update(JSON.stringify(BUNDLED_VEHICLES)).digest('hex');
@@ -13,17 +17,18 @@ const CORS = {
   'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
 };
 
-function ok(body, status = 200) {
-  return { statusCode: status, headers: CORS, body: JSON.stringify(body) };
+function ok(body, status) {
+  return { statusCode: status || 200, headers: CORS, body: JSON.stringify(body) };
 }
-function err(msg, status = 400) {
-  return { statusCode: status, headers: CORS, body: JSON.stringify({ error: msg }) };
+function fail(msg, status) {
+  return { statusCode: status || 400, headers: CORS, body: JSON.stringify({ error: msg }) };
 }
 
 function authorized(event) {
   const pw = (event.headers['x-admin-password'] || '').trim();
   const expected = (process.env.ADMIN_PASSWORD || '').trim();
-  return expected.length > 0 && pw === expected;
+  if (!expected) return false;
+  return pw === expected;
 }
 
 function generateId(v) {
@@ -32,19 +37,16 @@ function generateId(v) {
 }
 
 function addIds(vehicles) {
-  return vehicles.map(v => v._id ? v : { ...v, _id: generateId(v) });
-}
-
-async function getStore_() {
-  // getStore requires a siteID and token in local dev; in production they're injected automatically
-  return getStore('vehicles');
+  return vehicles.map(function(v) {
+    return v._id ? v : Object.assign({}, v, { _id: generateId(v) });
+  });
 }
 
 async function loadVehicles() {
-  const store = await getStore_();
-  const meta = await store.get('_meta', { type: 'json' }).catch(() => null);
+  if (!getStore) throw new Error('Netlify Blobs unavailable');
+  const store = getStore('vehicles');
+  const meta = await store.get('_meta', { type: 'json' }).catch(function() { return null; });
 
-  // Re-seed from bundled vehicles.json if the hash changed (new deploy) or first run
   if (!meta || meta.bundledHash !== BUNDLED_HASH) {
     const seeded = addIds(BUNDLED_VEHICLES);
     await store.set('vehicles', JSON.stringify(seeded));
@@ -52,7 +54,7 @@ async function loadVehicles() {
     return seeded;
   }
 
-  const raw = await store.get('vehicles', { type: 'text' }).catch(() => null);
+  const raw = await store.get('vehicles', { type: 'text' }).catch(function() { return null; });
   if (!raw) {
     const seeded = addIds(BUNDLED_VEHICLES);
     await store.set('vehicles', JSON.stringify(seeded));
@@ -62,88 +64,116 @@ async function loadVehicles() {
 }
 
 async function saveVehicles(vehicles) {
-  const store = await getStore_();
+  if (!getStore) throw new Error('Netlify Blobs unavailable');
+  const store = getStore('vehicles');
   await store.set('vehicles', JSON.stringify(vehicles));
 }
 
-exports.handler = async function (event) {
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, headers: CORS, body: '' };
-  }
+exports.handler = async function(event) {
+  // Wrap everything — a crash here returns a 502, so we must catch all errors
+  try {
+    if (event.httpMethod === 'OPTIONS') {
+      return { statusCode: 204, headers: CORS, body: '' };
+    }
 
-  // Auth check — every request except OPTIONS
-  if (!authorized(event)) {
-    return err('Unauthorized', 401);
-  }
+    if (!authorized(event)) {
+      return fail('Unauthorized', 401);
+    }
 
-  const method = event.httpMethod;
-  const params = event.queryStringParameters || {};
-  let body = {};
-  try { body = event.body ? JSON.parse(event.body) : {}; } catch (_) {}
+    const method = event.httpMethod;
+    const params = event.queryStringParameters || {};
+    let body = {};
+    try { body = event.body ? JSON.parse(event.body) : {}; } catch (_) {}
 
-  // GET /api/admin?action=list
-  if (method === 'GET' && params.action === 'list') {
-    const vehicles = await loadVehicles();
-    return ok({ vehicles, total: vehicles.length });
-  }
+    // GET ?action=list
+    if (method === 'GET' && params.action === 'list') {
+      let vehicles;
+      let blobsWorking = true;
+      try {
+        vehicles = await loadVehicles();
+      } catch (blobsErr) {
+        // Blobs unavailable — return bundled data with a warning flag
+        vehicles = addIds(BUNDLED_VEHICLES);
+        blobsWorking = false;
+      }
+      return ok({ vehicles: vehicles, total: vehicles.length, blobsWorking: blobsWorking });
+    }
 
-  // POST /api/admin  { action: 'add', vehicle: {...} }
-  if (method === 'POST' && body.action === 'add') {
-    const v = body.vehicle;
-    if (!v || !v.make || !v.model) return err('make and model are required');
-    const vehicles = await loadVehicles();
-    const newV = { ...v, _id: generateId(v) };
-    // Prevent duplicate _id collision (same make/model/variant)
-    if (vehicles.some(x => x._id === newV._id)) return err('A vehicle with this make/model/variant already exists');
-    vehicles.push(newV);
-    await saveVehicles(vehicles);
-    return ok({ vehicle: newV }, 201);
-  }
+    // GET ?action=export
+    if (method === 'GET' && params.action === 'export') {
+      let vehicles;
+      try {
+        vehicles = await loadVehicles();
+      } catch (_) {
+        vehicles = addIds(BUNDLED_VEHICLES);
+      }
+      const clean = vehicles.map(function(v) {
+        const out = Object.assign({}, v);
+        delete out._id;
+        return out;
+      });
+      return {
+        statusCode: 200,
+        headers: Object.assign({}, CORS, {
+          'Content-Type': 'application/json',
+          'Content-Disposition': 'attachment; filename="vehicles.json"',
+        }),
+        body: JSON.stringify({ vehicles: clean }, null, 2),
+      };
+    }
 
-  // PUT /api/admin  { action: 'update', id: '...', vehicle: {...} }
-  if (method === 'PUT' && body.action === 'update') {
-    const { id, vehicle: v } = body;
-    if (!id || !v) return err('id and vehicle are required');
-    const vehicles = await loadVehicles();
-    const idx = vehicles.findIndex(x => x._id === id);
-    if (idx === -1) return err('Vehicle not found', 404);
-    // Preserve _id even if client didn't send it
-    vehicles[idx] = { ...v, _id: id };
-    await saveVehicles(vehicles);
-    return ok({ vehicle: vehicles[idx] });
-  }
+    // Write operations require Blobs
+    if (!getStore) {
+      return fail('Persistence unavailable — Netlify Blobs not initialised. Check function logs and ensure NETLIFY_BLOBS_CONTEXT is set.', 503);
+    }
 
-  // DELETE /api/admin?action=delete&id=xxx
-  if (method === 'DELETE' && params.action === 'delete') {
-    const { id } = params;
-    if (!id) return err('id is required');
-    const vehicles = await loadVehicles();
-    const idx = vehicles.findIndex(x => x._id === id);
-    if (idx === -1) return err('Vehicle not found', 404);
-    vehicles.splice(idx, 1);
-    await saveVehicles(vehicles);
-    return ok({ deleted: id });
-  }
+    // POST { action: 'add', vehicle: {...} }
+    if (method === 'POST' && body.action === 'add') {
+      const v = body.vehicle;
+      if (!v || !v.make || !v.model) return fail('make and model are required');
+      const vehicles = await loadVehicles();
+      const newV = Object.assign({}, v, { _id: generateId(v) });
+      if (vehicles.some(function(x) { return x._id === newV._id; })) {
+        return fail('A vehicle with this make/model/variant already exists');
+      }
+      vehicles.push(newV);
+      await saveVehicles(vehicles);
+      return ok({ vehicle: newV }, 201);
+    }
 
-  // GET /api/admin?action=export  — returns full vehicles.json content for download
-  if (method === 'GET' && params.action === 'export') {
-    const vehicles = await loadVehicles();
-    // Strip _id before export so vehicles.json stays clean
-    const clean = vehicles.map(v => {
-      const { _id, ...rest } = v;
-      return rest;
-    });
-    const exportData = { vehicles: clean };
+    // PUT { action: 'update', id, vehicle: {...} }
+    if (method === 'PUT' && body.action === 'update') {
+      const id = body.id;
+      const v = body.vehicle;
+      if (!id || !v) return fail('id and vehicle are required');
+      const vehicles = await loadVehicles();
+      const idx = vehicles.findIndex(function(x) { return x._id === id; });
+      if (idx === -1) return fail('Vehicle not found', 404);
+      vehicles[idx] = Object.assign({}, v, { _id: id });
+      await saveVehicles(vehicles);
+      return ok({ vehicle: vehicles[idx] });
+    }
+
+    // DELETE ?action=delete&id=xxx
+    if (method === 'DELETE' && params.action === 'delete') {
+      const id = params.id;
+      if (!id) return fail('id is required');
+      const vehicles = await loadVehicles();
+      const idx = vehicles.findIndex(function(x) { return x._id === id; });
+      if (idx === -1) return fail('Vehicle not found', 404);
+      vehicles.splice(idx, 1);
+      await saveVehicles(vehicles);
+      return ok({ deleted: id });
+    }
+
+    return fail('Unknown action');
+
+  } catch (e) {
+    // Last-resort catch — return 500 with the error message instead of crashing to 502
     return {
-      statusCode: 200,
-      headers: {
-        ...CORS,
-        'Content-Type': 'application/json',
-        'Content-Disposition': 'attachment; filename="vehicles.json"',
-      },
-      body: JSON.stringify(exportData, null, 2),
+      statusCode: 500,
+      headers: CORS,
+      body: JSON.stringify({ error: 'Internal error: ' + (e.message || String(e)) }),
     };
   }
-
-  return err('Unknown action', 400);
 };
