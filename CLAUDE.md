@@ -23,15 +23,16 @@ This is a **plain static website** — no frameworks, no build step, no npm on t
 | Frontend | Plain HTML5, CSS3, Vanilla JavaScript |
 | Styling | Single CSS file with CSS custom properties |
 | AI matching | Anthropic Claude API (`claude-sonnet-4-5`) |
-| Serverless function | Netlify Functions (Node.js) |
+| Serverless functions | Netlify Functions (Node.js) |
 | Vehicle database | Local JSON file (`data/vehicles.json`) |
+| Admin persistence | Netlify Blobs (`@netlify/blobs`) |
 | Form capture | Netlify Forms (hidden HTML forms) |
 | Email notifications | Resend (configured in function, optional) |
 | Local development | Netlify CLI (`netlify dev`) |
 | Hosting | Netlify (static site + functions) |
 | Fonts | Google Fonts — Plus Jakarta Sans, Geist Mono |
 
-**There is no database, no backend server, no React, no Next.js, no TypeScript.** Everything is vanilla.
+**There is no backend server, no React, no Next.js, no TypeScript.** Everything is vanilla.
 
 ---
 
@@ -40,6 +41,8 @@ This is a **plain static website** — no frameworks, no build step, no npm on t
 ```
 drivematch/
 ├── index.html                    # Homepage — hero, onboarding overlay, how-it-works teaser
+├── admin/
+│   └── index.html                # Password-protected vehicle management dashboard
 ├── css/
 │   └── style.css                 # Complete design system — ~1,950 lines
 ├── js/
@@ -56,9 +59,10 @@ drivematch/
 │   └── vehicles.json             # Vehicle database — 135 vehicles
 ├── netlify/
 │   └── functions/
-│       └── match.js              # Serverless function — secure Claude API call
+│       ├── match.js              # Serverless function — secure Claude API call
+│       └── admin-api.js          # Serverless function — vehicle CRUD, Netlify Blobs
 ├── netlify.toml                  # Netlify config — publish dir, functions dir, redirects
-├── package.json                  # One dependency: @anthropic-ai/sdk
+├── package.json                  # Dependencies: @anthropic-ai/sdk, @netlify/blobs
 ├── .env                          # Local env vars — ANTHROPIC_API_KEY (never commit)
 └── .gitignore                    # Excludes .env, node_modules
 ```
@@ -73,7 +77,7 @@ drivematch/
 # Navigate to project folder
 cd path/to/drivematch
 
-# Install the one dependency (only needed once per machine)
+# Install dependencies (only needed once per machine)
 npm install
 
 # Install Netlify CLI globally (only needed once per machine)
@@ -88,6 +92,7 @@ Then open `http://localhost:8888`. The Netlify CLI:
 - Runs Netlify Functions locally at `/.netlify/functions/`
 - Injects `.env` variables into the function environment
 - Proxies `/api/match` to `/.netlify/functions/match`
+- Proxies `/api/admin` to `/.netlify/functions/admin-api`
 
 **Netlify Forms do not work locally.** They only work on the live Netlify deployment. Silent failures on localhost are expected and correct.
 
@@ -98,6 +103,7 @@ Then open `http://localhost:8888`. The Netlify CLI:
 | Variable | Where it lives | Purpose |
 |---|---|---|
 | `ANTHROPIC_API_KEY` | `.env` (local) / Netlify dashboard (live) | Claude API authentication |
+| `ADMIN_PASSWORD` | `.env` (local) / Netlify dashboard (live) | Admin dashboard password |
 | `RESEND_API_KEY` | `.env` / Netlify dashboard | Email notifications (optional) |
 | `RESEND_FROM_EMAIL` | `.env` / Netlify dashboard | From address for emails |
 | `NOTIFICATION_EMAIL` | `.env` / Netlify dashboard | Jayden's email for lead alerts |
@@ -105,12 +111,13 @@ Then open `http://localhost:8888`. The Netlify CLI:
 The `.env` file format:
 ```
 ANTHROPIC_API_KEY=sk-ant-...
+ADMIN_PASSWORD=your-secure-password-here
 RESEND_API_KEY=re_...
 RESEND_FROM_EMAIL=hello@drivematch.co.uk
 NOTIFICATION_EMAIL=jayden@drivematch.co.uk
 ```
 
-**Never put the API key in any JS file that the browser can access.** The key only ever lives in `netlify/functions/match.js` via `process.env.ANTHROPIC_API_KEY`.
+**Never put the API key in any JS file that the browser can access.** The key only ever lives in `netlify/functions/match.js` via `process.env.ANTHROPIC_API_KEY`. Similarly, `ADMIN_PASSWORD` only ever lives in `netlify/functions/admin-api.js` via `process.env.ADMIN_PASSWORD`.
 
 ---
 
@@ -131,7 +138,7 @@ NOTIFICATION_EMAIL=jayden@drivematch.co.uk
 
 ### The Netlify Function (`netlify/functions/match.js`)
 
-This is the only server-side code. It runs securely — the browser never touches the Claude API directly.
+This is the only server-side code for matching. It runs securely — the browser never touches the Claude API directly.
 
 **Flow inside the function:**
 1. Receives quiz answers as JSON via POST
@@ -217,9 +224,12 @@ Petrol: 46 | Electric: 28 | Mild hybrid: 24 | Diesel: 15 | PHEV: 11 | Hybrid: 11
   "insurance_group": 23,
   "real_mpg": 47,
   "real_range_miles": 0,
+  "image_url": "https://...",
   "notes": "Self-charging hybrid, no plugging in required. Class-leading reliability."
 }
 ```
+
+`image_url` is optional. If present, it overrides the auto-generated Unsplash fallback image in both the match result and the browse page. Set via the admin dashboard.
 
 ### Valid field values
 
@@ -235,13 +245,57 @@ Petrol: 46 | Electric: 28 | Mild hybrid: 24 | Diesel: 15 | PHEV: 11 | Hybrid: 11
 
 **`best_for` / `avoid_for` tags:** `business` | `city_only` | `daily_commute` | `driving_enjoyment` | `family` | `first_car` | `long_distance` | `low_running_costs` | `off_road` | `practicality` | `prestige` | `reliability` | `towing` | `weekend_leisure`
 
-**Adding a new vehicle:** Copy any existing entry, paste before the final `]` of the `vehicles` array, add a comma after the previous entry's closing `}`, update all fields. Validate at jsonlint.com before testing.
+**Adding a new vehicle:** Copy any existing entry, paste before the final `]` of the `vehicles` array, add a comma after the previous entry's closing `}`, update all fields. Validate at jsonlint.com before testing. Or use the admin dashboard.
+
+---
+
+## Admin Dashboard (`admin/index.html`)
+
+A password-protected vehicle management UI accessible at `/admin/`. Not linked from the main nav — access directly by URL.
+
+### Authentication
+- Login form sends the password with every API request as the `X-Admin-Password` HTTP header
+- Password is checked server-side in `admin-api.js` against `process.env.ADMIN_PASSWORD`
+- The password is never stored client-side beyond the session variable `adminPassword` (in-memory only, cleared on page close)
+- **Must set `ADMIN_PASSWORD` in Netlify environment variables before the dashboard will work**
+
+### Features
+- **Stats bar** — live count of total vehicles, electric vehicles, SUVs
+- **Searchable table** — filter by make, model, or fuel type; shows thumbnail, body/fuel badges, used price, reliability
+- **Add vehicle** — opens a modal with all fields: image URL (with live preview), identity, type, pricing, performance, attributes, best for / avoid for / new or used checkboxes, notes
+- **Edit vehicle** — same modal pre-filled with existing values
+- **Delete vehicle** — confirmation dialog before deleting
+- **Export vehicles.json** — downloads the current Blobs state as a clean `vehicles.json` (no `_id` fields) for committing to the repo
+
+### Backend (`netlify/functions/admin-api.js`)
+
+Handles all CRUD via Netlify Blobs. Every endpoint requires the `X-Admin-Password` header.
+
+| Method | Query | Body | Action |
+|---|---|---|---|
+| `GET` | `action=list` | — | Return all vehicles |
+| `POST` | — | `{ action: 'add', vehicle: {...} }` | Add new vehicle |
+| `PUT` | — | `{ action: 'update', id, vehicle: {...} }` | Update vehicle by `_id` |
+| `DELETE` | `action=delete&id=xxx` | — | Delete vehicle by `_id` |
+| `GET` | `action=export` | — | Download vehicles.json |
+
+### Bidirectional Sync with vehicles.json
+
+The admin uses Netlify Blobs as the runtime store. Sync works in both directions:
+
+**vehicles.json → Blobs (auto):** On every new deploy, `admin-api.js` computes a SHA1 hash of the bundled vehicles array. If the stored hash differs from the bundled one (i.e. you committed a change to `vehicles.json`), Blobs are automatically re-seeded from the file on the next API request. No manual step needed.
+
+**Blobs → vehicles.json (manual):** Use the Export button in the dashboard to download the current Blobs state as `vehicles.json`, then commit it to the repo. This keeps `vehicles.json` in sync after dashboard edits.
+
+### `_id` field
+
+Each vehicle in Blobs has a `_id` field: `MD5(make|model|variant).slice(0, 12)`. This is stable and deterministic — the same make/model/variant always gets the same ID. It is stripped during export so `vehicles.json` stays clean.
 
 ---
 
 ## Frontend Architecture (`js/app.js`)
 
-The entire frontend is one JavaScript file (~1,650 lines). It is split into logical sections:
+The entire frontend is one JavaScript file (~1,700 lines). It is split into logical sections:
 
 ### Global State
 ```js
@@ -261,7 +315,9 @@ let vehicleDatabase = null;     // Cached vehicles.json content
 
 **API Wrapper** — `API.match()`, `API.getReviews()`, `API.postReview()`, `API.helpful()`, `API.submitLead()`, `API.submitNotify()`, `API.getBlogPosts()`, `API.getBlogPost()`. Each method checks `TEST_MODE` first.
 
-**Utilities** — `delay()`, `getCarImage()`, `getAvatarColor()`, `formatDate()`, `getCatLabel()`, `toast()`, `setActiveNav()`
+**Utilities** — `delay()`, `getCarImage(vehicle, category, fuelType, customUrl)`, `getAvatarColor()`, `formatDate()`, `getCatLabel()`, `toast()`, `setActiveNav()`
+
+`getCarImage()` accepts an optional fourth argument `customUrl`. If provided, it is returned immediately (used for `image_url` set in the admin). Falls back to Unsplash keyword matching otherwise.
 
 **Vehicle Modal** — `loadVehicleDatabase()`, `findVehicleByName()`, `openVehicleModal()`, `renderVehicleModal()`, `closeVehicleModal()`. Fetches `data/vehicles.json` once, caches it, powers the "Also consider" click-to-learn-more modals.
 
@@ -277,7 +333,7 @@ This is critical — without it, navigation breaks from `pages/` subdirectory.
 
 **Conversational Onboarding** — `OB_STEPS` array defines all 10 questions with icons, sub-hints, and option lists. `startOnboarding()` has a null guard — if `#onboarding-overlay` doesn't exist (e.g. on `result.html`), it returns immediately. `obFinish()` stores quiz answers in `sessionStorage` and navigates to `pages/result.html` rather than rendering inline. Functions: `startOnboarding()`, `closeOnboarding()`, `renderObStep()`, `obAdvance()`, `obBack()`, `obSkip()`, `obTextContinue()`, `obFinish()`.
 
-**Match Result Rendering (`showResult`)** — Builds the full result card HTML including: hero image with score ring, quick stats bar (insurance group, boot, seats, MPG/range, reliability, towing), pros/cons, summary, alternatives (clickable), low match panel (if score < 70%), CTAs. After rendering, calls `scheduleFindPrompt()` to show the find-car pop-up after 4 seconds.
+**Match Result Rendering (`showResult`)** — Builds the full result card HTML including: hero image with score ring, quick stats bar (insurance group, boot, seats, MPG/range, reliability, towing), pros/cons, summary, alternatives (clickable), low match panel (if score < 70%), CTAs. Calls `findVehicleByName(r.vehicle)` to look up `image_url` from the local database before calling `getCarImage()`. After rendering, calls `scheduleFindPrompt()` to show the find-car pop-up after 4 seconds.
 
 **Find Car Prompt** — `scheduleFindPrompt(vehicle)`, `findPromptAccept()`, `dismissFindPrompt()`. A fixed bottom banner that slides up 4 seconds after the result renders. Copy: "Should I find your [Vehicle] for you?" with a "Yes, find it for me" CTA that opens the lead modal. Dismissed by × button, by opening the lead modal, or when a new result loads. State managed by `_findPromptTimer`. Styled via `.find-prompt` / `.fp-visible` in `style.css`.
 
@@ -382,12 +438,13 @@ All pages in `pages/` share the same nav and footer injected by `injectShell()` 
 |---|---|---|
 | Homepage | `index.html` | Hero → trust bar → pain section → how-it-works teaser → browse nudge. No result rendering here. |
 | Match result | `pages/result.html` | Reads quiz data from `sessionStorage.dm_quiz`, calls API, renders result card + modals + Netlify forms |
-| Browse cars | `pages/browse.html` | Instant-filter search across all 135 vehicles; click card → detail view with specs, strengths, similar vehicles; floating "Find My Match" CTA |
+| Browse cars | `pages/browse.html` | Instant-filter search across all 135 vehicles; click card → detail view with specs, strengths, similar vehicles; floating "Find My Match" CTA; uses `image_url` if set |
 | Reviews | `pages/reviews.html` | Loads reviews from API, filter by star rating, paginate, submit new review |
 | Blog listing | `pages/blog.html` | Loads posts from API, filter by category |
 | Blog post | `pages/post.html` | Reads `?slug=` URL param, fetches post, renders markdown-like content |
 | About | `pages/about.html` | Static content |
 | How it works | `pages/how-it-works.html` | Steps + FAQ `<details>` accordion |
+| Admin | `admin/index.html` | Vehicle management dashboard — not in nav, access directly at `/admin/` |
 
 ---
 
@@ -401,7 +458,12 @@ All pages in `pages/` share the same nav and footer injected by `injectShell()` 
 5. Add the page to the nav links array inside `injectShell()` in `app.js`
 
 ### Adding a vehicle to the database
-Edit `data/vehicles.json`. Copy an existing vehicle object, update all fields, ensure the JSON is valid (jsonlint.com). The `_instructions` section at the top of the file lists all valid field values.
+Two options:
+- **Via admin dashboard** (`/admin/`) — fill in the form, click Add Vehicle. Changes are live immediately in Blobs. Export and commit `vehicles.json` afterwards to keep the file in sync.
+- **Directly in `vehicles.json`** — copy an existing entry, update all fields, validate at jsonlint.com. On next deploy, the changed file hash triggers an automatic Blobs re-seed.
+
+### Adding an image to a vehicle
+In the admin dashboard, edit the vehicle and paste an image URL into the Image field. The URL is saved as `image_url` in Blobs and takes priority over the Unsplash auto-image in both the result page and browse page. Export and commit `vehicles.json` to persist the change.
 
 ### Modifying quiz questions
 Edit the `OB_STEPS` array in `app.js`. Each step has: `id` (maps to quiz data field), `eyebrow`, `question`, `sub`, `type` (`pills` or `text`), `options` (array of `{label, icon}` for pills). If adding a new field ID, also add it to `obFinish()` where `quizData` is assembled, and update `netlify/functions/match.js` if the field should affect pre-filtering.
@@ -432,8 +494,9 @@ Set to `true` to use mock data for all API calls — no Claude credits consumed,
 
 ### Live Site
 - **Production URL:** https://drivematch-700.netlify.app
+- **Admin URL:** https://drivematch-700.netlify.app/admin/
 - **Netlify project:** `drivematch-700`
-- **Admin dashboard:** https://app.netlify.com/projects/drivematch-700
+- **Netlify admin:** https://app.netlify.com/projects/drivematch-700
 - **Function logs:** https://app.netlify.com/projects/drivematch-700/logs/functions
 
 The site is linked locally — run `netlify deploy --prod` from the project root to push updates.
@@ -444,8 +507,8 @@ netlify deploy --prod
 ```
 
 After deploying:
-1. Environment variables are already set in the Netlify dashboard
-2. `ANTHROPIC_API_KEY` is configured (required — do not remove)
+1. `ANTHROPIC_API_KEY` is configured (required — do not remove)
+2. `ADMIN_PASSWORD` must be set before the admin dashboard will work — add it in Netlify Dashboard → Site → Environment Variables, then redeploy
 3. `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `NOTIFICATION_EMAIL` are not set (email notifications not in use at MVP)
 
 The `netlify.toml` configuration:
@@ -454,9 +517,17 @@ The `netlify.toml` configuration:
   publish = "."
   functions = "netlify/functions"
 
+[functions]
+  included_files = ["data/**"]
+
 [[redirects]]
   from = "/api/match"
   to = "/.netlify/functions/match"
+  status = 200
+
+[[redirects]]
+  from = "/api/admin"
+  to = "/.netlify/functions/admin-api"
   status = 200
 ```
 
@@ -475,6 +546,9 @@ The `netlify.toml` configuration:
 - **Pain section scroll animation** — `.pain-quote` elements start at `opacity:0; transform:translateY(36px)` and get an `in-view` class added by an IntersectionObserver defined in an inline `<script>` tag at the bottom of `index.html` (after `app.js`). The observer fires at `threshold: 0.4` and disconnects after triggering so quotes stay visible. No stagger delay — the generous per-quote padding ensures natural one-at-a-time reveals.
 - **How it works grid** — the homepage teaser uses `.how-steps` which is `repeat(4, 1fr)` on desktop (4 steps), `repeat(2, 1fr)` at 900px, and `1fr` at 640px. The `pages/how-it-works.html` page has its own separate steps layout and is unaffected.
 - **Browse page detail view** — `renderVehicleDetailContent(v)` reuses existing result CSS classes (`.result-hero`, `.result-stats-bar`, `.pros-cons`, `.summary-block`, `.alt-card`). Strengths and weaknesses are derived from `best_for` / `avoid_for` tags in `vehicles.json` via `TAG_LABELS` mapping. No AI calls on the browse page. Similar vehicles are filtered from `allVehicles` by matching `body_style` or `fuel_type`.
+- **Admin Blobs on local dev** — `netlify dev` injects Blobs context automatically, so the admin dashboard works locally. The first request after `netlify dev` starts will seed Blobs from `vehicles.json`.
+- **Admin `_id` collision** — `generateId()` is deterministic. If two vehicles have the same make, model, and variant, they will get the same `_id`. The API rejects a duplicate add with a 400 error. Ensure variants are unique within a make/model.
+- **Export then commit workflow** — after making edits via the admin dashboard, use Export to download `vehicles.json` and commit it. This keeps the file (which is bundled at deploy time by esbuild for the match function) in sync with the Blobs state. If you skip this step, `vehicles.json` and Blobs will diverge until the next time you edit `vehicles.json` directly and deploy.
 
 ---
 
