@@ -1,4 +1,4 @@
-# DriveMatch — Claude Code Project Context
+﻿# DriveMatch — Claude Code Project Context
 
 ## What is DriveMatch?
 
@@ -25,7 +25,7 @@ This is a **plain static website** — no frameworks, no build step, no npm on t
 | AI matching | Anthropic Claude API (`claude-sonnet-4-5`) |
 | Serverless functions | Netlify Functions (Node.js) |
 | Vehicle database | Local JSON file (`data/vehicles.json`) |
-| Admin persistence | Netlify Blobs (`@netlify/blobs`) |
+| Admin persistence | `localStorage` (browser) — edits stored client-side |
 | Form capture | Netlify Forms (hidden HTML forms) |
 | Email notifications | Resend (configured in function, optional) |
 | Local development | Netlify CLI (`netlify dev`) |
@@ -60,9 +60,9 @@ drivematch/
 ├── netlify/
 │   └── functions/
 │       ├── match.js              # Serverless function — secure Claude API call
-│       └── admin-api.js          # Serverless function — vehicle CRUD, Netlify Blobs
+│       └── admin-api.js          # Serverless function — auth + bundled vehicle list (read-only)
 ├── netlify.toml                  # Netlify config — publish dir, functions dir, redirects
-├── package.json                  # Dependencies: @anthropic-ai/sdk, @netlify/blobs
+├── package.json                  # Dependencies: @anthropic-ai/sdk only
 ├── .env                          # Local env vars — ANTHROPIC_API_KEY (never commit)
 └── .gitignore                    # Excludes .env, node_modules
 ```
@@ -262,34 +262,50 @@ A password-protected vehicle management UI accessible at `/admin/`. Not linked f
 ### Features
 - **Stats bar** — live count of total vehicles, electric vehicles, SUVs
 - **Searchable table** — filter by make, model, or fuel type; shows thumbnail, body/fuel badges, used price, reliability
-- **Add vehicle** — opens a modal with all fields: image URL (with live preview), identity, type, pricing, performance, attributes, best for / avoid for / new or used checkboxes, notes
+- **Add vehicle** — opens a modal with all fields: image upload/URL, identity, type, pricing, performance, attributes, best for / avoid for / new or used checkboxes, notes
 - **Edit vehicle** — same modal pre-filled with existing values
 - **Delete vehicle** — confirmation dialog before deleting
-- **Export vehicles.json** — downloads the current Blobs state as a clean `vehicles.json` (no `_id` fields) for committing to the repo
+- **Export vehicles.json** — downloads current localStorage state as a clean `vehicles.json` (no `_id` fields) for committing to the repo
+- **Reset from file** — clears localStorage and reloads from the bundled `vehicles.json` (use after committing a direct file edit)
+
+### Image upload
+
+The vehicle modal has two ways to set an image:
+
+1. **Upload** — click or drag-and-drop a photo. The Canvas API resizes it to 900px max width at JPEG 0.78 quality and stores the result as a base64 data URL in `image_url`. No external service needed.
+2. **URL** — paste any direct image URL instead. Saved as-is to `image_url`.
+
+Either way, `image_url` takes priority over the Unsplash auto-image in both the result page and browse page.
+
+**Storage note:** Base64 images are large. Each ~900px JPEG is typically 80–200 KB encoded. `localStorage` has a 5–10 MB limit per origin; a few dozen image uploads will approach this. For vehicles that already have public image URLs, prefer the URL option to save space.
 
 ### Backend (`netlify/functions/admin-api.js`)
 
-Handles all CRUD via Netlify Blobs. Every endpoint requires the `X-Admin-Password` header.
+The function is **read-only** — it only handles authentication and returns the bundled `vehicles.json`. All CRUD (add, edit, delete) happens entirely client-side in the browser.
 
-| Method | Query | Body | Action |
-|---|---|---|---|
-| `GET` | `action=list` | — | Return all vehicles |
-| `POST` | — | `{ action: 'add', vehicle: {...} }` | Add new vehicle |
-| `PUT` | — | `{ action: 'update', id, vehicle: {...} }` | Update vehicle by `_id` |
-| `DELETE` | `action=delete&id=xxx` | — | Delete vehicle by `_id` |
-| `GET` | `action=export` | — | Download vehicles.json |
+| Method | Action |
+|---|---|
+| `OPTIONS` | CORS preflight |
+| `GET` | Verify auth (`X-Admin-Password` header) and return bundled vehicles with `_id` fields |
 
-### Bidirectional Sync with vehicles.json
+### Persistence architecture
 
-The admin uses Netlify Blobs as the runtime store. Sync works in both directions:
+All vehicle edits are stored in **`localStorage`** under the key `dm_admin_vehicles_v1`.
 
-**vehicles.json → Blobs (auto):** On every new deploy, `admin-api.js` computes a SHA1 hash of the bundled vehicles array. If the stored hash differs from the bundled one (i.e. you committed a change to `vehicles.json`), Blobs are automatically re-seeded from the file on the next API request. No manual step needed.
+- **On login:** the function is called to verify the password. If localStorage has saved data, it is used immediately. If not, the bundled API response seeds the initial state.
+- **Add / Edit / Delete:** updates `allVehicles` in memory and writes to localStorage — no network call.
+- **Reset from file:** clears `dm_admin_vehicles_v1` and reloads from the API (bundled `vehicles.json`). Use this after committing a direct file edit.
+- **Export:** pure client-side Blob download — strips `_id` fields, downloads as `vehicles.json`. Commit this file to keep the repo in sync.
 
-**Blobs → vehicles.json (manual):** Use the Export button in the dashboard to download the current Blobs state as `vehicles.json`, then commit it to the repo. This keeps `vehicles.json` in sync after dashboard edits.
+### Sync workflow
+
+**vehicles.json → admin:** commit the file, then in the dashboard click **Reset from file**. localStorage is cleared and the new bundled data loads.
+
+**Admin → vehicles.json:** click **Export**, save the downloaded file as `data/vehicles.json`, commit and push.
 
 ### `_id` field
 
-Each vehicle in Blobs has a `_id` field: `MD5(make|model|variant).slice(0, 12)`. This is stable and deterministic — the same make/model/variant always gets the same ID. It is stripped during export so `vehicles.json` stays clean.
+Each vehicle gets a deterministic `_id` computed client-side as a simple hash of `make|model|variant`. It is used as the edit/delete key and stripped during Export so `vehicles.json` stays clean.
 
 ---
 
@@ -459,11 +475,15 @@ All pages in `pages/` share the same nav and footer injected by `injectShell()` 
 
 ### Adding a vehicle to the database
 Two options:
-- **Via admin dashboard** (`/admin/`) — fill in the form, click Add Vehicle. Changes are live immediately in Blobs. Export and commit `vehicles.json` afterwards to keep the file in sync.
-- **Directly in `vehicles.json`** — copy an existing entry, update all fields, validate at jsonlint.com. On next deploy, the changed file hash triggers an automatic Blobs re-seed.
+- **Via admin dashboard** (`/admin/`) — fill in the form, click Add Vehicle. Changes are saved to localStorage immediately. Export and commit `vehicles.json` afterwards to keep the repo in sync.
+- **Directly in `vehicles.json`** — copy an existing entry, update all fields, validate at jsonlint.com. Then click **Reset from file** in the dashboard to load the new data into localStorage.
 
 ### Adding an image to a vehicle
-In the admin dashboard, edit the vehicle and paste an image URL into the Image field. The URL is saved as `image_url` in Blobs and takes priority over the Unsplash auto-image in both the result page and browse page. Export and commit `vehicles.json` to persist the change.
+In the admin dashboard, edit the vehicle and either:
+- **Upload** a photo (drag-and-drop or click) — compressed to 900px JPEG via Canvas API and stored as a base64 data URL in `image_url`.
+- **Paste a URL** into the URL field — stored as-is in `image_url`.
+
+The `image_url` value takes priority over the Unsplash auto-image in both the result page and browse page. Export and commit `vehicles.json` to persist the change.
 
 ### Modifying quiz questions
 Edit the `OB_STEPS` array in `app.js`. Each step has: `id` (maps to quiz data field), `eyebrow`, `question`, `sub`, `type` (`pills` or `text`), `options` (array of `{label, icon}` for pills). If adding a new field ID, also add it to `obFinish()` where `quizData` is assembled, and update `netlify/functions/match.js` if the field should affect pre-filtering.
@@ -546,9 +566,10 @@ The `netlify.toml` configuration:
 - **Pain section scroll animation** — `.pain-quote` elements start at `opacity:0; transform:translateY(36px)` and get an `in-view` class added by an IntersectionObserver defined in an inline `<script>` tag at the bottom of `index.html` (after `app.js`). The observer fires at `threshold: 0.4` and disconnects after triggering so quotes stay visible. No stagger delay — the generous per-quote padding ensures natural one-at-a-time reveals.
 - **How it works grid** — the homepage teaser uses `.how-steps` which is `repeat(4, 1fr)` on desktop (4 steps), `repeat(2, 1fr)` at 900px, and `1fr` at 640px. The `pages/how-it-works.html` page has its own separate steps layout and is unaffected.
 - **Browse page detail view** — `renderVehicleDetailContent(v)` reuses existing result CSS classes (`.result-hero`, `.result-stats-bar`, `.pros-cons`, `.summary-block`, `.alt-card`). Strengths and weaknesses are derived from `best_for` / `avoid_for` tags in `vehicles.json` via `TAG_LABELS` mapping. No AI calls on the browse page. Similar vehicles are filtered from `allVehicles` by matching `body_style` or `fuel_type`.
-- **Admin Blobs on local dev** — `netlify dev` injects Blobs context automatically, so the admin dashboard works locally. The first request after `netlify dev` starts will seed Blobs from `vehicles.json`.
-- **Admin `_id` collision** — `generateId()` is deterministic. If two vehicles have the same make, model, and variant, they will get the same `_id`. The API rejects a duplicate add with a 400 error. Ensure variants are unique within a make/model.
-- **Export then commit workflow** — after making edits via the admin dashboard, use Export to download `vehicles.json` and commit it. This keeps the file (which is bundled at deploy time by esbuild for the match function) in sync with the Blobs state. If you skip this step, `vehicles.json` and Blobs will diverge until the next time you edit `vehicles.json` directly and deploy.
+- **Admin localStorage scope** — `dm_admin_vehicles_v1` is stored per browser origin (`localhost:8888` vs `drivematch-700.netlify.app` are separate stores). Edits made locally don't appear on the live site. Always Export → commit → push to propagate changes.
+- **Admin `_id` collision** — `_id` is a deterministic hash of `make|model|variant`. Two vehicles with identical make, model, and variant get the same ID. The UI will silently overwrite on edit. Ensure variants are unique within a make/model.
+- **Admin image storage limit** — base64 images stored in localStorage count toward the 5–10 MB per-origin quota. If `localStorage.setItem` throws a `QuotaExceededError`, the save will silently fail. Prefer URL-based images for vehicles that have publicly hosted photos.
+- **Export then commit workflow** — after making edits via the admin dashboard, use Export to download `vehicles.json` and commit it. This keeps the file (which is bundled at deploy time by esbuild for the match function) in sync with the admin state. If you skip this step, `vehicles.json` and localStorage will diverge.
 
 ---
 
