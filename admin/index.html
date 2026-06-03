@@ -441,6 +441,10 @@
         <input class="toolbar-search" id="table-search" type="text" placeholder="Search make, model, or fuel…" oninput="filterTable()" />
       </div>
       <div class="toolbar-right">
+        <button class="btn btn-secondary" onclick="resetFromFile()" title="Discard local edits and reload from vehicles.json">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
+          Reset from file
+        </button>
         <button class="btn btn-secondary" onclick="exportVehicles()">
           <svg width="14" height="14" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
           Export vehicles.json
@@ -451,6 +455,7 @@
         </button>
       </div>
     </div>
+    <div id="storage-banner" style="font-size:12px;color:var(--slate-400);margin-bottom:14px;"></div>
 
     <div class="table-wrap" id="table-wrap">
       <div class="table-loading">
@@ -674,9 +679,20 @@
 <div id="toast"></div>
 
 <script>
-var adminPassword = '';
-var allVehicles   = [];
+var adminPassword    = '';
+var allVehicles      = [];
 var filteredVehicles = [];
+var STORAGE_KEY      = 'dm_admin_vehicles_v1';
+
+function storageLoad() {
+  try { var d = localStorage.getItem(STORAGE_KEY); return d ? JSON.parse(d) : null; } catch(_) { return null; }
+}
+function storageSave(vehicles) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(vehicles)); } catch(_) {}
+}
+function storageClear() {
+  try { localStorage.removeItem(STORAGE_KEY); } catch(_) {}
+}
 
 var TAG_OPTIONS = [
   { value: 'business',         label: 'Business use' },
@@ -718,7 +734,7 @@ function doLogin() {
   btn.innerHTML = '<span class="spinner"></span>';
   btn.disabled = true;
 
-  fetch('/api/admin?action=list', { headers: { 'X-Admin-Password': pw } })
+  fetch('/api/admin', { headers: { 'X-Admin-Password': pw } })
     .then(function(r) {
       var status = r.status;
       return r.json().catch(function() { return null; }).then(function(d) {
@@ -733,11 +749,17 @@ function doLogin() {
         document.getElementById('login-screen').style.display = 'none';
         document.getElementById('app').style.display = 'block';
         document.getElementById('login-error').style.display = 'none';
-        loadVehicles(res.data);
+        // Use localStorage if it has saved edits, otherwise use bundled data from API
+        var saved = storageLoad();
+        if (saved && saved.length) {
+          loadVehicles(saved, true);
+        } else {
+          loadVehicles(res.data.vehicles, false);
+        }
       } else if (res.status === 401) {
         showLoginError('Incorrect password. Try again.');
       } else {
-        var msg = (res.data && res.data.error) ? res.data.error : 'Server error (' + res.status + ') — check Netlify function logs.';
+        var msg = (res.data && res.data.error) ? res.data.error : 'Server error (' + res.status + ').';
         showLoginError(msg);
       }
     })
@@ -766,54 +788,30 @@ function doLogout() {
   document.getElementById('login-password').value = '';
 }
 
-/* ── API ── */
-function api(method, params, body) {
-  var url = '/api/admin' + (params ? '?' + new URLSearchParams(params).toString() : '');
-  var opts = {
-    method: method,
-    headers: { 'Content-Type': 'application/json', 'X-Admin-Password': adminPassword },
-  };
-  if (body) opts.body = JSON.stringify(body);
-  return fetch(url, opts).then(function(r) {
-    return r.json().then(function(d) {
-      if (!r.ok) throw new Error(d.error || 'Request failed');
-      return d;
-    });
-  });
+function resetFromFile() {
+  if (!confirm('This will discard all unsaved local edits and reload from the latest deployed vehicles.json. Continue?')) return;
+  storageClear();
+  fetch('/api/admin', { headers: { 'X-Admin-Password': adminPassword } })
+    .then(function(r) { return r.json(); })
+    .then(function(d) {
+      loadVehicles(d.vehicles, false);
+      showToast('Reloaded from vehicles.json', 'success');
+    })
+    .catch(function() { showToast('Failed to reload', 'error'); });
 }
 
 /* ── LOAD & RENDER ── */
-function handleBlobsWarning(blobsWorking) {
-  var existing = document.getElementById('blobs-warning');
-  if (existing) existing.remove();
-  if (blobsWorking === false) {
-    var banner = document.createElement('div');
-    banner.id = 'blobs-warning';
-    banner.style.cssText = 'background:#fffbeb;border-bottom:1px solid #fde68a;color:#92400e;padding:10px 24px;font-size:13px;display:flex;align-items:center;gap:8px;';
-    banner.innerHTML = '<strong>⚠ Read-only mode:</strong> Netlify Blobs is not available — edits cannot be saved. Use Export to download the current data.';
-    document.getElementById('app').insertBefore(banner, document.querySelector('.admin-main'));
+function loadVehicles(vehicles, fromStorage) {
+  allVehicles = vehicles;
+  if (!fromStorage) storageSave(allVehicles);
+  var banner = document.getElementById('storage-banner');
+  if (banner) {
+    banner.textContent = fromStorage
+      ? '✏ Showing your saved edits. Export to download as vehicles.json.'
+      : '✓ Loaded from vehicles.json. Edits are saved in your browser.';
   }
-}
-
-function loadVehicles(preloaded) {
-  if (preloaded) {
-    allVehicles = preloaded.vehicles;
-    handleBlobsWarning(preloaded.blobsWorking);
-    renderTable(allVehicles);
-    updateStats();
-    return;
-  }
-  document.getElementById('table-wrap').innerHTML =
-    '<div class="table-loading"><div class="table-loading-spinner"></div>Loading vehicles…</div>';
-
-  api('GET', { action: 'list' })
-    .then(function(d) {
-      allVehicles = d.vehicles;
-      handleBlobsWarning(d.blobsWorking);
-      filterTable();
-      updateStats();
-    })
-    .catch(function(e) { showToast(e.message, 'error'); });
+  filterTable();
+  updateStats();
 }
 
 function updateStats() {
@@ -1003,6 +1001,14 @@ function buildVehicleFromForm() {
   };
 }
 
+function generateId(v) {
+  // Simple deterministic ID from make|model|variant
+  var key = (v.make + '|' + v.model + '|' + (v.variant || '')).toLowerCase();
+  var hash = 0;
+  for (var i = 0; i < key.length; i++) { hash = ((hash << 5) - hash) + key.charCodeAt(i); hash |= 0; }
+  return Math.abs(hash).toString(16).padStart(8, '0').slice(0, 12);
+}
+
 function saveVehicle() {
   var v = buildVehicleFromForm();
   if (!v.make || !v.model) { showToast('Make and model are required', 'error'); return; }
@@ -1011,50 +1017,51 @@ function saveVehicle() {
 
   var id = document.getElementById('edit-id').value;
   var isEdit = !!id;
-  var btn = document.getElementById('modal-save-btn');
-  btn.disabled = true;
-  document.getElementById('modal-save-label').textContent = 'Saving…';
 
-  var call = isEdit
-    ? api('PUT', null, { action: 'update', id: id, vehicle: v })
-    : api('POST', null, { action: 'add', vehicle: v });
+  if (isEdit) {
+    var idx = allVehicles.findIndex(function(x) { return x._id === id; });
+    if (idx === -1) { showToast('Vehicle not found', 'error'); return; }
+    allVehicles[idx] = Object.assign({}, v, { _id: id });
+  } else {
+    var newId = generateId(v);
+    if (allVehicles.some(function(x) { return x._id === newId; })) {
+      showToast('A vehicle with this make/model/variant already exists', 'error'); return;
+    }
+    allVehicles.push(Object.assign({}, v, { _id: newId }));
+  }
 
-  call.then(function(d) {
-    closeModal();
-    showToast(isEdit ? 'Vehicle updated' : 'Vehicle added', 'success');
-    loadVehicles();
-  }).catch(function(e) {
-    showToast(e.message, 'error');
-  }).finally(function() {
-    btn.disabled = false;
-    document.getElementById('modal-save-label').textContent = isEdit ? 'Save Changes' : 'Add Vehicle';
-  });
+  storageSave(allVehicles);
+  closeModal();
+  showToast(isEdit ? 'Vehicle updated' : 'Vehicle added', 'success');
+  filterTable();
+  updateStats();
 }
 
 function deleteVehicle(id, name) {
   if (!confirm('Delete "' + name + '"? This cannot be undone.')) return;
-  api('DELETE', { action: 'delete', id: id })
-    .then(function() {
-      showToast('Vehicle deleted', 'success');
-      loadVehicles();
-    })
-    .catch(function(e) { showToast(e.message, 'error'); });
+  allVehicles = allVehicles.filter(function(x) { return x._id !== id; });
+  storageSave(allVehicles);
+  showToast('Vehicle deleted', 'success');
+  filterTable();
+  updateStats();
 }
 
 /* ── EXPORT ── */
 function exportVehicles() {
-  fetch('/api/admin?action=export', { headers: { 'X-Admin-Password': adminPassword } })
-    .then(function(r) { return r.blob(); })
-    .then(function(blob) {
-      var url = URL.createObjectURL(blob);
-      var a = document.createElement('a');
-      a.href = url;
-      a.download = 'vehicles.json';
-      a.click();
-      URL.revokeObjectURL(url);
-      showToast('vehicles.json downloaded', 'success');
-    })
-    .catch(function(e) { showToast('Export failed: ' + e.message, 'error'); });
+  var clean = allVehicles.map(function(v) {
+    var out = Object.assign({}, v);
+    delete out._id;
+    return out;
+  });
+  var json = JSON.stringify({ vehicles: clean }, null, 2);
+  var blob = new Blob([json], { type: 'application/json' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = 'vehicles.json';
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('vehicles.json downloaded — commit it to make changes permanent', 'success');
 }
 
 /* ── TOAST ── */

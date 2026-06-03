@@ -4,7 +4,6 @@
   "description": "DriveMatch — AI-powered vehicle matching",
   "private": true,
   "dependencies": {
-    "@anthropic-ai/sdk": "^0.20.0",
-    "@netlify/blobs": "^8.1.0"
+    "@anthropic-ai/sdk": "^0.20.0"
   }
 }
